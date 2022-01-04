@@ -26,9 +26,13 @@ const capitalized = (string) => string[0].toUpperCase() + string.slice(1).toLowe
 // ℹ️ Sets the view engine to handlebars
 app.locals.title = `${capitalized(projectName)} created with IronLauncher`;
 
-// 👇 Start handling routes here
+// Handling routes
 const index = require("./routes/index");
+const auth = require("./routes/auth.routes");
+
+// Register the routes
 app.use("/", index);
+app.use("/", auth);
 
 // ❗ To handle errors. Routes that don't exist or errors that you handle in specific routes
 require("./error-handling")(app);

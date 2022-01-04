@@ -1,6 +1,6 @@
-const session = require('express-session');
-const MongoStore = require('connect-mongo')(session);
-const mongoose = require('mongoose');
+const session = require("express-session");
+const MongoStore = require("connect-mongo");
+const mongoose = require("mongoose");
 
 module.exports = (app) => {
     app.use(session({
@@ -9,9 +9,9 @@ module.exports = (app) => {
         saveUninitialized:false,
         cookie:{
             httpOnly:true,
-            maxAge:1000*60*60*24*7
+            maxAge:1000*60*60*24*7 // 1 week in milliseconds
         },
-        store: new MongoStore.create({
+        store: MongoStore.create({
             mongoUrl: process.env.MONGODB_URI || 'mongodb://localhost/foodhack'
         })
     }));
