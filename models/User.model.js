@@ -5,6 +5,7 @@ const userSchema = new Schema(
     username: {
       type: String,
       unique: [true, "Username already exists"],
+      required: [true, "Username is required"]
     },
     password: {
       type: String,
@@ -12,6 +13,7 @@ const userSchema = new Schema(
     },
     email: {
       type: String,
+      unique: [true, "Email already exists"],
     },
     firstName: {
       type: String,
@@ -19,7 +21,7 @@ const userSchema = new Schema(
     lastName: {
       type: String,
     },
-    profilePicture: {
+    profilePic: {
       type: String,
       default: "https://res.cloudinary.com/davidcastillog/image/upload/v1641310729/foodhack/chef_k0lq89.png",
     },
