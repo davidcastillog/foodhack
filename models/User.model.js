@@ -1,20 +1,76 @@
 const { Schema, model } = require("mongoose");
 
-// TODO: Please make sure you edit the user model to whatever makes sense in this case
 const userSchema = new Schema(
   {
     username: {
       type: String,
-      // unique: true -> Ideally, should be unique, but its up to you
+      unique: [true, "Username already exists"],
     },
-    password: String,
+    password: {
+      type: String,
+      required: [true, "Password is required"],
+    },
+    email: {
+      type: String,
+    },
+    firstName: {
+      type: String,
+    },
+    lastName: {
+      type: String,
+    },
+    profilePicture: {
+      type: String,
+      default: "https://res.cloudinary.com/davidcastillog/image/upload/v1641310729/foodhack/chef_k0lq89.png",
+    },
+    bio: {
+      type: String,
+      default: "",
+    },
+    _recipes:
+      [
+        {
+          type: Schema.Types.ObjectId,
+          ref: "Recipe",
+        },  // This is an array of recipe ids
+      ],
+    _favorites:
+      [
+        {
+          type: Schema.Types.ObjectId,
+          ref: "Recipe",
+        },  // This is an array of favorites recipe ids
+      ],
+    _reviews:
+      [
+        {
+          type: Schema.Types.ObjectId,
+          ref: "Review",
+        },  // This is an array of review ids
+      ],
+    _following:
+      [
+        {
+          type: Schema.Types.ObjectId,
+          ref: "User",
+        },  // This is an array of user ids this user is following
+      ],
+    _followers:
+      [
+        {
+          type: Schema.Types.ObjectId,
+          ref: "User",
+        },  // This is an array of user ids followers of this user
+      ],
+    isAdmin: {
+      type: Boolean,
+      default: false,
+    },
   },
   {
-    // this second object adds extra properties: `createdAt` and `updatedAt`
     timestamps: true,
   }
 );
 
 const User = model("User", userSchema);
-
 module.exports = User;
