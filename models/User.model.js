@@ -5,11 +5,21 @@ const userSchema = new Schema(
     username: {
       type: String,
       unique: [true, "Username already exists"],
-      required: [true, "Username is required"]
+      required: [true, "Username is required"],
+      trim: true,
+      minlength: [3, "Username must be at least 3 characters long"],
+      maxlength: [20, "Username must be at most 20 characters long"],
+      validate: {
+        validator: (username) => {
+          return /^[a-zA-Z0-9]+$/.test(username);
+        },
+        message: "Username can only contain letters and numbers"
+      }
     },
     password: {
       type: String,
       required: [true, "Password is required"],
+      minlength: [6, "Password must be at least 6 characters long"],
     },
     email: {
       type: String,
@@ -17,9 +27,25 @@ const userSchema = new Schema(
     },
     firstName: {
       type: String,
+      min: [2, "First name must be at least 2 characters"],
+      max: [50, "First name must be at most 50 characters"],
+      validation: {
+        validator: (firstName) => {
+          return /^[a-zA-Z0-9 ]+$/.test(firstName);
+        },
+        message: "First name must contain only letters, numbers, and spaces"
+      }
     },
     lastName: {
       type: String,
+      min: [2, "Last name must be at least 2 characters"],
+      max: [50, "Last name must be at most 50 characters"],
+      validation: {
+        validator: (lastName) => {
+          return /^[a-zA-Z0-9 ]+$/.test(lastName);
+        },
+        message: "Last name must contain only letters, numbers, and spaces"
+      }
     },
     profilePic: {
       type: String,
@@ -27,7 +53,9 @@ const userSchema = new Schema(
     },
     bio: {
       type: String,
-      default: "",
+      min: [2, "Bio must be at least 2 characters"],
+      max: [250, "Bio must be at most 250 characters"],
+      default: ""
     },
     _recipes:
       [

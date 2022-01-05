@@ -15,10 +15,20 @@ const reviewSchema = new Schema(
         title: {
             type: String,
             required: [true, "Title is required"],
+            min: [3, "Title must be at least 3 characters"],
+            max: [50, "Title must be at most 50 characters"],
+            validate: {
+                validator: (title) => {
+                    return /^[a-zA-Z0-9 ]+$/.test(title);
+                },
+                message: "Title must contain only letters, numbers, and spaces"
+            }
         },
         comment: {
             type: String,
             required: [true, "Comment is required"],
+            min: [3, "Comment must be at least 3 characters"],
+            max: [2000, "Comment must be at most 2000 characters"],
         },
         _user: {
             type: Schema.Types.ObjectId,

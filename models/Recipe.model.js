@@ -5,9 +5,19 @@ const RecipeSchema = new Schema(
         name: {
             type: String,
             required: [true, "Name is required"],
+            min: [3, "Name must be at least 3 characters"],
+            max: [50, "Name must be at most 50 characters"],
+            validate: {
+                validator: (name) => {
+                    return /^[a-zA-Z0-9 ]+$/.test(name);
+                },
+                message: "Name must contain only letters, numbers, and spaces"
+            }
         },
         description: {
             type: String,
+            min: [3, "Description must be at least 3 characters"],
+            max: [2000, "Description must be at most 2000 characters"],
             required: [true, "Description is required"],
         },
         ingredients:
@@ -30,11 +40,19 @@ const RecipeSchema = new Schema(
             ],
         cookTime: {
             type: Number,
-            required: [true, "Cook time is required"],
+            validate: {
+                validator: Number.isInteger,
+                message: "Cook time must be an integer number (Ex. 1, 2, 3, etc.)"
+            }
         },
         prepTime: {
             type: Number,
             required: [true, "Prep time is required"],
+            min: [1, "Prep time must be at least 1"],
+            validate: {
+                validator: Number.isInteger,
+                message: "Prep time must be an integer number (Ex. 1, 2, 3, etc.)"
+            }
         },
         totalTime: {
             type: Number,
@@ -43,11 +61,28 @@ const RecipeSchema = new Schema(
         servings: {
             type: Number,
             required: [true, "Servings is required"],
+            min: [1, "Servings must be at least 1"],
+            validate: {
+                validator: Number.isInteger,
+                message: "Servings must be an integer number (Ex. 1, 2, 3, etc.)"
+            }
+        },
+        countryOfOrigin: {
+            type: String,
+            min: [3, "Country of origin must be at least 3 characters"],
+            max: [50, "Country of origin must be at most 50 characters"],
+            default: "",
         },
         tags:
             [
                 {
                     type: String,
+                    validate: {
+                        validator: (value) => {
+                            return /^[a-zA-Z0-9_.-]*$/.test(value);
+                        },
+                        message: "Tags must be alphanumeric (Ex. 'vegan', 'gluten-free', etc.)"
+                    },
                     required: [true, "Tags are required"],
                 },
             ],

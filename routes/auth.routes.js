@@ -49,7 +49,7 @@ router.post("/signup", async (req, res, next) => {
         req.session.user = user;
 
         // Redirect to home page
-        res.redirect("/home");
+        res.redirect("/");
 
     } catch (error) {
         if (error instanceof mongoose.Error.ValidationError) {
@@ -96,7 +96,7 @@ router.post("/login", async (req, res, next) => {
         req.session.user = user;
 
         // Redirect to home page
-        res.redirect("/home");
+        res.redirect("/");
 
     } catch (error) {
         next(error);
