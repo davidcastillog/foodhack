@@ -1,0 +1,23 @@
+<form action="/login" method="post">
+
+    <div class="uk-margin">
+        <div class="uk-inline">
+            <span class="uk-form-icon" uk-icon="icon: user"></span>
+            <input class="uk-input" type="text" name="username" placeholder="Username">
+        </div>
+    </div>
+
+    <div class="uk-margin">
+        <div class="uk-inline">
+            <span class="uk-form-icon" uk-icon="icon: lock"></span>
+            <input class="uk-input" type="password" name="password" placeholder="******">
+        </div>
+    </div>
+    <div class="uk-margin">
+          <button class="uk-button uk-button-primary">Log in</button>
+    </div>
+</form>
+
+{{#if errorMessage}}
+<p>{{errorMessage}}</p>
+{{/if}}

@@ -15,19 +15,19 @@ router.post("/signup", async (req, res, next) => {
 
         // Check if user already exists
         if (findUsername) {
-             res.render("/auth/signup", { errorMessage: "Username already exists" });
+             res.render("auth/signup", { errorMessage: "Username already exists" });
              return;
         }
 
         // Validate empty fields
         if (!username || !password) {
-            res.render("auth/signup", { errorMessage: "Please fill out all required fields (username and password" });
+            res.render("auth/signup", { errorMessage: "Please fill out all required fields (username and password)" });
             return;
         }
         // Validate password length (min 6 characters)
         const regex = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/;
         if (!regex.test(password)) {
-            res.render("/auth/signup", { errorMessage: "Password must be at least 6 characters and contain at least one uppercase letter, one lower case letter, one number"});
+            res.render("auth/signup", { errorMessage: "Password must be at least 6 characters and contain at least one uppercase letter, one lower case letter, one number"});
             return;
         }
 
@@ -52,7 +52,13 @@ router.post("/signup", async (req, res, next) => {
         res.redirect("/home");
 
     } catch (error) {
-        next(error);
+        if (error instanceof mongoose.Error.ValidationError) {
+            res.render("auth/signup", { errorMessage: error.message });
+        } else if (error.code === 11000) {
+            res.status(500).render("auth/signup", { errorMessage: "Username already exists" });
+        } else {
+            next(error);
+        }
     }
 });
 
@@ -68,7 +74,7 @@ router.post("/login", async (req, res, next) => {
 
         // Validate empty fields
         if (!username || !password) {
-            res.render("auth/login", { errorMessage: "Please fill out all required fields (username and password" });
+            res.render("auth/login", { errorMessage: "Please fill out all required fields (username and password)" });
             return;
         }
 
@@ -110,10 +116,7 @@ router.get("/profile", (req, res, next) => {
     res.render("auth/profile");
 });
 
-// POST profile page
-router.post("/profile", (req, res, next) => {
-    res.render("auth/profile");
-});
+
 
 // GET edit profile page
 router.get("/edit-profile", (req, res, next) => {
