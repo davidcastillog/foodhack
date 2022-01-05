@@ -7,7 +7,7 @@ const userSchema = new Schema(
       unique: [true, "Username already exists"],
       required: [true, "Username is required"],
       trim: true,
-      minlength: [3, "Username must be at least 3 characters long"],
+      minlength: [1, "Username must be at least 1 characters long"],
       maxlength: [20, "Username must be at most 20 characters long"],
       validate: {
         validator: (username) => {
@@ -19,11 +19,10 @@ const userSchema = new Schema(
     password: {
       type: String,
       required: [true, "Password is required"],
-      minlength: [6, "Password must be at least 6 characters long"],
     },
     email: {
       type: String,
-      unique: [true, "Email already exists"],
+      unique: [true, "Email already exists"]
     },
     firstName: {
       type: String,

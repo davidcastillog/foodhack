@@ -35,7 +35,8 @@ const RecipeSchema = new Schema(
             [
                 {
                     type: String,
-                    default: "https://res.cloudinary.com/davidcastillog/image/upload/v1641310320/foodhack/recipes_wykajc.png"
+                    default: "https://res.cloudinary.com/davidcastillog/image/upload/v1641310320/foodhack/recipes_wykajc.png",
+                    minlength: 1,
                 },
             ],
         cookTime: {
@@ -72,6 +73,11 @@ const RecipeSchema = new Schema(
             min: [3, "Country of origin must be at least 3 characters"],
             max: [50, "Country of origin must be at most 50 characters"],
             default: "",
+        },
+        mealType: {
+            type: String,
+            required: [true, "Meal type is required"],
+            enum: ["Breakfast", "Lunch", "Dinner", "Dessert", "Salad"],
         },
         tags:
             [

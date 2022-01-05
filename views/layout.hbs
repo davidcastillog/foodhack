@@ -11,6 +11,46 @@
    </head>
 
    <body>
+      <nav class="uk-navbar-container uk-navbar-transparent" uk-navbar>
+         <div class="nav-overlay uk-navbar-left">
+            <a class="uk-navbar-item uk-logo" href="/"><img src="https://res.cloudinary.com/davidcastillog/image/upload/v1641414958/foodhack/foodhacklogo_nmwkfj.png" alt="Food Hack Logo" width="75em"> </a>
+            <ul class="uk-navbar-nav">
+                  <li class="uk-active"><a href="/">HOME</a></li>
+                  <li><a href="#">MOST POPULAR</a></li>
+                  <li><a href="#">RANDOM RECIPE</a></li>
+                  <li>
+                     <a href="#">CATEGORIES</a>
+                     <div class="uk-navbar-dropdown">
+                        <ul class="uk-nav uk-navbar-dropdown-nav">
+                              <li class="uk-active"><p>Meal Type</p></li>
+                              <li><a href="#">Breakfast</a></li>
+                              <li><a href="#">Lunch</a></li>
+                              <li><a href="#">Dinner</a></li>
+                              <li><a href="#">Dessert</a></li>
+                              <li><a href="#">Salad</a></li>
+                        </ul>
+                     </div>
+                  </li>
+            </ul>
+         </div>
+
+         <div class="nav-overlay uk-navbar-right">
+            <ul class="uk-navbar-nav">
+                  <li><a href="/signup">Sign Up</a></li>
+                  <li><a href="/login">Login</a></li>
+            </ul>
+            <a class="uk-navbar-toggle" uk-search-icon uk-toggle="target: .nav-overlay; animation: uk-animation-fade" href="#"> SEARCH </a>
+         </div>
+
+         <div class="nav-overlay uk-navbar-left uk-flex-1" hidden>
+            <div class="uk-navbar-item uk-width-expand">
+                  <form class="uk-search uk-search-navbar uk-width-1-1">
+                     <input class="uk-search-input" type="search" placeholder="Search" autofocus>
+                  </form>
+            </div>
+            <a class="uk-navbar-toggle" uk-close uk-toggle="target: .nav-overlay; animation: uk-animation-fade" href="#"></a>
+         </div>
+      </nav>
 
       {{{body}}}
       <script src="https://cdn.jsdelivr.net/npm/uikit@3.9.4/dist/js/uikit.min.js"></script>
