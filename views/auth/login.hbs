@@ -1,24 +1,24 @@
-<video class="uk-background-fixed uk-background-center-center" src="https://res.cloudinary.com/davidcastillog/video/upload/v1641416739/foodhack/pexels-mario-schafer-7818021_1_wpqsrf.mp4" loop muted playsinline uk-video="autoplay: inview"></video>
+<video class="uk-background-center-center" src="https://res.cloudinary.com/davidcastillog/video/upload/v1641416739/foodhack/pexels-mario-schafer-7818021_1_wpqsrf.mp4" loop muted playsinline uk-video="autoplay: inview"></video>
 <form class="uk-position-center" action="/login" method="post">
-
     <div class="uk-margin">
         <div class="uk-inline">
             <span class="uk-form-icon" uk-icon="icon: user"></span>
-            <input class="uk-input" type="text" name="username" placeholder="Username">
+            <input class="uk-input" type="text" name="username" placeholder="Username" required>
         </div>
     </div>
 
     <div class="uk-margin">
         <div class="uk-inline">
             <span class="uk-form-icon" uk-icon="icon: lock"></span>
-            <input class="uk-input" type="password" name="password" placeholder="******">
+            <input class="uk-input" type="password" name="password" placeholder="******" required>
         </div>
     </div>
     <div class="uk-margin">
-          <button class="uk-button uk-button-danger">Log in</button>
+          <button class="uk-button uk-button-danger uk-align-center">Log in</button>
+    </div>
+    <div class="uk-alert-danger">
+    {{#if errorMessage}}
+    <p uk-alert>{{errorMessage}}</p>
+    {{/if}}
     </div>
 </form>
-
-{{#if errorMessage}}
-<p>{{errorMessage}}</p>
-{{/if}}
