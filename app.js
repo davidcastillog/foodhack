@@ -29,14 +29,14 @@ app.locals.title = `${capitalized(projectName)}`;
 // Handling routes
 const index = require("./routes/index");
 const auth = require("./routes/auth.routes");
-// const recipe = require("./routes/recipe.routes");
+const recipe = require("./routes/recipe.routes");
 // const review = require("./routes/review.routes");
 // const user = require("./routes/user.routes");
 
 // Register the routes
 app.use("/", index);
 app.use("/", auth);
-// app.use("/recipe", recipe);
+app.use("/recipe", recipe);
 // app.use("/review", review);
 // app.use("/user", user);
 
