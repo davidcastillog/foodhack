@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const User = require("../models/User.model");
 const bcrypt = require("bcryptjs");
+const mongoose = require("mongoose");
 
 // GET signup page
 router.get("/signup", (req, res, next) => {

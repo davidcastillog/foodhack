@@ -1,50 +1,67 @@
 const router = require("express").Router();
 const User = require("../models/User.model");
 const Recipe = require("../models/Recipe.model");
+const Upload = require("../helpers/multer")
 
-// Create a new recipe
+// Create a new recipe and save it to user's recipes
+router.get("/create", (req, res,next) => {
+    res.render("recipe/create-recipe");
+});
 
-router.get("/create", async (req, res, next) => {
+router.post("/create", Upload.array("image"), async (req, res, next) => {
     try {
-        const user = await User.findById(req.user._id);
-        res.render("recipe/create-recipe", { user });
+        const { name, ingredients, instructions, cookTime, prepTime, totalTime, servings, mealType,...rest } = req.body;
+        const user = await req.session.user._id
+        console.log(user)
+        const recipe = await Recipe.create({
+            name,
+            ingredients,
+            instructions,
+            cookTime,
+            prepTime,
+            totalTime,
+            servings,
+            mealType,
+            _user: user,
+        });
+        res.redirect("/");
     } catch (error) {
         next(error);
     }
 });
 
-router.post("/create", async (req, res, next) => {
-    try {
-        const user = await User.findById(req.user._id);
-        const newRecipe = new Recipe(req.body);
-        newRecipe.user = user;
-        await newRecipe.save();
-        res.redirect("/recipe");
-    } catch (error) {
-        next(error);
-    }
-});
 
-// Edit a recipe
-
+// Edit a recipe a user is author of and is logged in
 router.get("/edit/:id", async (req, res, next) => {
     try {
         const recipe = await Recipe.findById(req.params.id);
+        if (!recipe) {
+            res.redirect("/");
+        }
+        if (recipe._user.toString() !== req.session.user._id.toString()) {
+            res.redirect("/");
+        }
         res.render("recipe/edit-recipe", { recipe });
     } catch (error) {
         next(error);
     }
 });
 
-router.post("/edit/:id", async (req, res, next) => {
+router.post("/:id/edit", Upload.array("image"), async (req, res, next) => {
     try {
+        const { name, ingredients, instructions, cookTime, prepTime, totalTime, servings, ...rest } = req.body;
+        const images = req.files.map(file => file.path);
         const recipe = await Recipe.findById(req.params.id);
-        recipe.title = req.body.title;
-        recipe.description = req.body.description;
-        recipe.ingredients = req.body.ingredients;
-        recipe.directions = req.body.directions;
+        recipe.name = name;
+        recipe.ingredients = ingredients;
+        recipe.instructions = instructions;
+        recipe.images = images;
+        recipe.cookTime = cookTime;
+        recipe.prepTime = prepTime;
+        recipe.totalTime = totalTime;
+        recipe.servings = servings;
         await recipe.save();
-        res.redirect("/recipe");
+        res.redirect(`/recipe/${req.params.id}`);
     } catch (error) {
         next(error);
     }
@@ -93,3 +110,5 @@ router.get("/user/:id", async (req, res, next) => {
         next(error);
     }
 });
+
+module.exports = router;

@@ -1,0 +1,61 @@
+<h3 class="uk-padding-small">Create Recipe</h3>
+<form class="uk-form-horizontal uk-margin-small uk-padding-small" action="/recipe/create" method="POST">
+    <div class="uk-margin">
+        <label class="uk-form-label" for="form-horizontal-text">Name</label>
+        <div class="uk-form-controls">
+            <input class="uk-input uk-form-width-large" name="name" type="text" placeholder="Name" minlength="3" maxlength="50">
+        </div>
+    </div>
+
+    <div class="uk-margin">
+        <label class="uk-form-label" for="form-horizontal-text">Ingredients</label>
+        <textarea class="uk-textarea uk-form-width-large" name="ingredients" rows="3" placeholder="Ingredients"></textarea>
+    </div>
+
+    <div class="uk-margin">
+        <label class="uk-form-label" for="form-horizontal-text">Instructions</label>
+        <textarea class="uk-textarea uk-form-width-large" name="instructions" rows="7" placeholder="Instructions"></textarea>
+    </div>
+
+    <div class="uk-margin">
+    <label class="uk-form-label" for="form-stacked-text">Cook Time (min)</label>
+    <input class="uk-input uk-form-width-small" type="number" name="cookTime" placeholder="Ex. 10" min="0" max="300">
+    </div>
+
+    <div class="uk-margin">
+    <label class="uk-form-label" for="form-stacked-text">Preparation Time (min)</label>
+    <input class="uk-input uk-form-width-small" type="number" name="prepTime" placeholder="Ex. 20" min="0" max="300">
+    </div>
+
+    <div class="uk-margin">
+    <label class="uk-form-label" for="form-stacked-text">Total Time (min) </label>
+    <input class="uk-input uk-form-width-small" type="number" name="totalTime" placeholder="Ex. 20" min="1" max="300">
+    </div>
+
+    <div class="uk-margin">
+    <label class="uk-form-label" for="form-stacked-text">Servings</label>
+    <input class="uk-input uk-form-width-small" type="number" name="servings" placeholder="Ex. 2" min="1" max="12">
+    </div>
+
+    <div class="uk-margin">
+        <label class="uk-form-label" for="form-horizontal-select">Meal Type</label>
+        <div class="uk-form-controls">
+            <select class="uk-select uk-form-width-medium" name="mealType">
+                <option>Breakfast</option>
+                <option>Lunch</option>
+                <option>Dinner</option>
+                <option>Dessert</option>
+                <option>Salad</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="uk-margin" uk-margin>
+    <label class="uk-form-label" for="form-stacked-text">Image</label>
+    <div uk-form-custom="target: true">
+        <input type="file">
+        <input class="uk-input uk-form-width-medium" type="text" placeholder="Select images" disabled>
+    </div>
+    </div>
+    <button class="uk-button uk-button-danger uk-align-center">Create</button>
+</form>

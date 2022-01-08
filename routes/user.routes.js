@@ -39,3 +39,5 @@ router.post("/edit-profile", async (req, res, next) => {
         next(error);
     }
 });
+
+module.exports = router;
