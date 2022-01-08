@@ -104,29 +104,15 @@ router.post("/login", async (req, res, next) => {
     }
 });
 
-// GET logout page
-router.get("/logout", (req, res, next) => {
-    req.session.destroy();
-    res.redirect("/login");
-});
-
-// PROFILE PAGE ROUTES
-
-// GET profile page
-router.get("/profile", (req, res, next) => {
-    res.render("auth/profile");
-});
-
-
-
-// GET edit profile page
-router.get("/edit-profile", (req, res, next) => {
-    res.render("auth/edit-profile");
-});
-
-// POST edit profile page
-router.post("/edit-profile", (req, res, next) => {
-    res.render("auth/edit-profile");
+// GET logout page async
+router.get("/logout", async (req, res, next) => {
+    try {
+        // Remove user from session
+        req.session.destroy();
+    } catch (error) {
+        next(error);
+    }
+    res.redirect("/");
 });
 
 module.exports = router;

@@ -14,12 +14,6 @@ const RecipeSchema = new Schema(
                 message: "Name must contain only letters, numbers, and spaces"
             }
         },
-        description: {
-            type: String,
-            min: [3, "Description must be at least 3 characters"],
-            max: [2000, "Description must be at most 2000 characters"],
-            required: [true, "Description is required"],
-        },
         ingredients:
             [
                 {
@@ -29,6 +23,8 @@ const RecipeSchema = new Schema(
             ],
         instructions: {
             type: String,
+            min: [3, "Instructions must be at least 3 characters"],
+            max: [2000, "Instructions must be at most 2000 characters"],
             required: [true, "Instructions are required"],
         },
         images:
