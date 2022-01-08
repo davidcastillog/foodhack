@@ -8,11 +8,11 @@ router.get("/create", (req, res,next) => {
     res.render("recipe/create-recipe");
 });
 
-router.post("/create", Upload.array("image"), async (req, res, next) => {
+router.post("/create", Upload.array("images"), async (req, res, next) => {
     try {
-        const { name, ingredients, instructions, cookTime, prepTime, totalTime, servings, mealType,...rest } = req.body;
+        const { name, ingredients, instructions, cookTime, prepTime, totalTime, servings, mealType, countryOfOrigin, tags,...rest } = req.body;
         const user = await req.session.user._id
-        console.log(user)
+        const images = req.files.map(file=> file.path)
         const recipe = await Recipe.create({
             name,
             ingredients,
@@ -22,6 +22,9 @@ router.post("/create", Upload.array("image"), async (req, res, next) => {
             totalTime,
             servings,
             mealType,
+            countryOfOrigin,
+            images,
+            tags,
             _user: user,
         });
         res.redirect("/");
@@ -29,7 +32,6 @@ router.post("/create", Upload.array("image"), async (req, res, next) => {
         next(error);
     }
 });
-
 
 // Edit a recipe a user is author of and is logged in
 router.get("/edit/:id", async (req, res, next) => {
@@ -47,19 +49,27 @@ router.get("/edit/:id", async (req, res, next) => {
     }
 });
 
-router.post("/:id/edit", Upload.array("image"), async (req, res, next) => {
+router.post("/edit/:id", Upload.array("images"), async (req, res, next) => {
     try {
-        const { name, ingredients, instructions, cookTime, prepTime, totalTime, servings, ...rest } = req.body;
-        const images = req.files.map(file => file.path);
+        const { name, ingredients, instructions, cookTime, prepTime, totalTime, servings, mealType, countryOfOrigin, tags,...rest } = req.body;
         const recipe = await Recipe.findById(req.params.id);
+        let images
+        if (req.files) {
+            images = req.files.map(file => file.path);
+        } else {
+            images = recipe.images
+        }
         recipe.name = name;
         recipe.ingredients = ingredients;
         recipe.instructions = instructions;
-        recipe.images = images;
         recipe.cookTime = cookTime;
         recipe.prepTime = prepTime;
         recipe.totalTime = totalTime;
         recipe.servings = servings;
+        recipe.mealType = mealType;
+        recipe.images = images;
+        recipe.countryOfOrigin = countryOfOrigin;
+        recipe.tags = tags;
         await recipe.save();
         res.redirect(`/recipe/${req.params.id}`);
     } catch (error) {
@@ -67,7 +77,7 @@ router.post("/:id/edit", Upload.array("image"), async (req, res, next) => {
     }
 });
 
-// Delete a recipe user is author of and is logged in as
+// Delete a recipe user is author of and is logged in as findByIdAndDelete
 router.get("/delete/:id", async (req, res, next) => {
     try {
         const recipe = await Recipe.findById(req.params.id);
@@ -81,7 +91,7 @@ router.get("/delete/:id", async (req, res, next) => {
 });
 
 // View all recipes
-router.get("/", async (req, res, next) => {
+router.get("/recipe-list", async (req, res, next) => {
     try {
         const recipes = await Recipe.find({});
         res.render("recipe/recipe-list", { recipes });
@@ -104,7 +114,7 @@ router.get("/:id", async (req, res, next) => {
 router.get("/user/:id", async (req, res, next) => {
     try {
         const user = await User.findById(req.params.id);
-        const recipes = await Recipe.find({ user: user._id });
+        const recipes = await Recipe.find({ user: user });
         res.render("user/recipe-list", { recipes, user });
     } catch (error) {
         next(error);

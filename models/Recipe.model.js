@@ -15,12 +15,10 @@ const RecipeSchema = new Schema(
             }
         },
         ingredients:
-            [
                 {
                     type: String,
                     required: [true, "Ingredients is required"],
                 },
-            ],
         instructions: {
             type: String,
             min: [3, "Instructions must be at least 3 characters"],
