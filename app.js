@@ -31,14 +31,14 @@ const index = require("./routes/index");
 const auth = require("./routes/auth.routes");
 const recipe = require("./routes/recipe.routes");
 const user = require("./routes/user.routes");
-// const review = require("./routes/review.routes");
+const review = require("./routes/review.routes");
 
 // Register the routes
 app.use("/", index);
 app.use("/", auth);
 app.use("/recipe", recipe);
 app.use("/user", user);
-// app.use("/review", review);
+app.use("/review", review);
 
 // ❗ To handle errors. Routes that don't exist or errors that you handle in specific routes
 require("./error-handling")(app);

@@ -37,8 +37,13 @@
 
             <div class="nav-overlay uk-navbar-right">
                <ul class="uk-navbar-nav">
+                  {{#if user}}
+                     <li><a href="/user/profile">{{user.username}}</a></li>
+                     <li><a href="/logout">Logout</a></li>
+                  {{else}}
                      <li><a href="/signup">Sign Up</a></li>
                      <li><a href="/login">Login</a></li>
+                  {{/if}}
                </ul>
                <a class="uk-navbar-toggle" uk-search-icon uk-toggle="target: .nav-overlay; animation: uk-animation-fade" href="#"> SEARCH </a>
             </div>
