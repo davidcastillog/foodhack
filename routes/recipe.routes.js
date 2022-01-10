@@ -3,9 +3,17 @@ const User = require("../models/User.model");
 const Recipe = require("../models/Recipe.model");
 const Upload = require("../helpers/multer")
 
-// Create a new recipe and save it to user's recipes
-router.get("/create", (req, res,next) => {
-    res.render("recipe/create-recipe");
+// Check user is logged in and Create a new recipe and save it to user's recipes
+router.get("/create", async (req, res,next) => {
+    try {
+        const user = await User.findById(req.session.user._id);
+        if (!user) {
+            res.redirect("/login");
+        }
+        res.render("recipe/create-recipe", { user });
+    } catch (error) {
+        next(error);
+    }
 });
 
 router.post("/create", Upload.array("images"), async (req, res, next) => {
@@ -13,6 +21,9 @@ router.post("/create", Upload.array("images"), async (req, res, next) => {
         const { name, ingredients, instructions, cookTime, prepTime, totalTime, servings, mealType, countryOfOrigin, tags,...rest } = req.body;
         const user = await req.session.user._id
         const images = req.files.map(file=> file.path)
+        if(!user) {
+            res.redirect("/login");
+        }
         const recipe = await Recipe.create({
             name,
             ingredients,

@@ -4,26 +4,35 @@ const Recipe = require("../models/Recipe.model");
 const Review = require("../models/Review.model");
 
 // Create a new review for a recipe and update Average Rating
-router.get("/create", (req, res, next) => {
-    res.render("review/create-review");
+router.get("/:id/create", async (req, res, next) => {
+    try {
+        const recipe = await Recipe.findById(req.params.id);
+        if (!recipe) {
+            res.redirect("/");
+        }
+        res.render("review/create-review", { recipe });
+    } catch (error) {
+        next(error);
+    }
 });
 
-router.post("/:id/review", async (req, res, next) => {
+router.post("/:id/create", async (req, res, next) => {
     try {
-        const { rating, title, comment } = req.body;
+        const { title, comment, rating, ...rest  } = req.body;
         const recipe = await Recipe.findById(req.params.id);
         const user = await User.findById(req.session.user._id);
+        if (!recipe) {
+            res.redirect("/");
+        }
         const review = await Review.create({
-            rating,
             title,
             comment,
+            rating,
             _recipe: recipe,
             _user: user,
         });
-        recipe.reviews.push(review);
-        recipe.averageRating =
-            (recipe.averageRating * recipe.reviews.length + rating) /
-            (recipe.reviews.length + 1);
+        recipe._reviews.push(review);
+        recipe.averageRating = ((recipe.averageRating + review.rating) / (recipe._reviews.length)).toFixed(2);
         await recipe.save();
         res.redirect(`/recipe/${recipe._id}`);
     } catch (error) {
@@ -31,8 +40,8 @@ router.post("/:id/review", async (req, res, next) => {
     }
 });
 
-// Delete a review a user is author of and is logged in
-router.get("/delete/:id", async (req, res, next) => {
+// Edit a review a user is author of and is logged in and Update Average Rating
+router.get("/:id/edit", async (req, res, next) => {
     try {
         const review = await Review.findById(req.params.id);
         if (!review) {
@@ -41,10 +50,29 @@ router.get("/delete/:id", async (req, res, next) => {
         if (review._user.toString() !== req.session.user._id.toString()) {
             res.redirect("/");
         }
+        res.render("review/edit-review", { review });
+    } catch (error) {
+        next(error);
+    }
+});
+
+router.post("/:id/edit", async (req, res, next) => {
+    try {
+        const { title, comment, rating, ...rest  } = req.body;
+        const review = await Review.findById(req.params.id);
         const recipe = await Recipe.findById(review._recipe);
-        recipe.reviews.pull(review._id);
-        recipe.save();
-        review.remove();
+        if (!review) {
+            res.redirect("/");
+        }
+        if (review._user.toString() !== req.session.user._id.toString()) {
+            res.redirect("/");
+        }
+        review.title = title;
+        review.comment = comment;
+        review.rating = rating;
+        await review.save();
+        recipe.averageRating = ((recipe.averageRating - review.rating) + rating) / (recipe._reviews.length);
+        await recipe.save();
         res.redirect(`/recipe/${recipe._id}`);
     } catch (error) {
         next(error);

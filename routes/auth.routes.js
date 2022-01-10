@@ -3,9 +3,17 @@ const User = require("../models/User.model");
 const bcrypt = require("bcryptjs");
 const mongoose = require("mongoose");
 
-// GET signup page
-router.get("/signup", (req, res, next) => {
-    res.render("auth/signup");
+// GET signup page if not logged in and redirect to profile if logged in
+router.get("/signup", async (req, res, next) => {
+    try {
+        if (req.session.user) {
+            res.redirect("/profile");
+        } else {
+            res.render("auth/signup");
+        }
+    } catch (error) {
+        next(error);
+    }
 });
 
 // POST signup page
@@ -49,8 +57,8 @@ router.post("/signup", async (req, res, next) => {
         // Log user in
         req.session.user = user;
 
-        // Redirect to home page
-        res.redirect("/");
+        // Redirect to profile page
+        res.redirect("/profile");
 
     } catch (error) {
         if (error instanceof mongoose.Error.ValidationError) {
@@ -63,9 +71,13 @@ router.post("/signup", async (req, res, next) => {
     }
 });
 
-// GET login page
+// GET login page if user is logged in redirect to profile page
 router.get("/login", (req, res, next) => {
-    res.render("auth/login");
+    if (req.session.user) {
+        res.redirect("/profile");
+    } else {
+        res.render("auth/login");
+    }
 });
 
 // POST login page validations and login user if credentials are correct
@@ -96,15 +108,15 @@ router.post("/login", async (req, res, next) => {
         // If credentials are correct, store user in session
         req.session.user = user;
 
-        // Redirect to home page
-        res.redirect("/");
+        // Redirect to profile page
+        res.redirect("/profile");
 
     } catch (error) {
         next(error);
     }
 });
 
-// GET logout page async
+// GET logout page
 router.get("/logout", async (req, res, next) => {
     try {
         // Remove user from session
@@ -112,7 +124,7 @@ router.get("/logout", async (req, res, next) => {
     } catch (error) {
         next(error);
     }
-    res.redirect("/");
+    res.redirect("/login");
 });
 
 module.exports = router;

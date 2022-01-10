@@ -1,0 +1,39 @@
+<h3 class="uk-padding-small">Edit Review</h3>
+<div class="uk-padding-small">
+<p>Recipe: {{_recipe.name}}</p>
+<p>Recipe Creator: {{_recipe._user}}</p>
+<p>Recipe Rating: {{_recipe._user}}</p>
+
+</div>
+<form class="uk-form-horizontal uk-padding-small" action="/review/{{recipe._id}}/edit/" method="POST">
+    <div class="uk-margin">
+        <label class="uk-form-label" for="form-horizontal-text">Edit Title</label>
+        <div class="uk-form-controls">
+            <input class="uk-input" name="title" type="text" placeholder="Title" value="{{review.title}}">
+        </div>
+    </div>
+
+    <div class="uk-margin">
+        <label class="uk-form-label" for="form-horizontal-text">Edit Comment:</label>
+        <div class="uk-form-controls">
+        <textarea class="uk-textarea" name="comment" rows="4" placeholder="Comment">{{review.comment}}</textarea>
+        </div>
+    </div>
+
+    <div class="uk-margin">
+        <label class="uk-form-label" for="form-horizontal-select">Edit Rating:</label>
+        <div class="uk-form-controls">
+            <select class="uk-select" name="rating">
+                <option value="{{review.rating}}">{{review.rating}}</option>
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5</option>
+            </select>
+        </div>
+    </div>
+
+    <button class="uk-button uk-button-danger uk-align-center">Send Review</button>
+
+</form>
