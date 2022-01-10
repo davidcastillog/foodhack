@@ -313,4 +313,12 @@
         </div>
     </div>
     <button class="uk-button uk-button-danger uk-align-center">Create</button>
+
+    <div class="uk-alert-danger">
+    {{#if errorMessage}}
+    <p uk-alert>{{errorMessage}}</p>
+    {{/if}}
+    </div>
+
 </form>
+

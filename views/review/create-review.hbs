@@ -2,7 +2,7 @@
 <div class="uk-padding-small">
 <p>Recipe: {{recipe.name}}</p>
 <p>Recipe Creator: {{recipe._user}}</p>
-<p>Recipe Rating: {{recipe.rating}}</p>
+<p>Recipe Rating: {{recipe.averageRating}} / 5</p>
 </div>
 <form class="uk-form-horizontal uk-padding-small" action="/review/{{recipe._id}}/create/" method="POST">
     <div class="uk-margin">

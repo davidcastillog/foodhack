@@ -4,7 +4,7 @@ const Recipe = require("../models/Recipe.model");
 const Review = require("../models/Review.model");
 
 // Create a new review for a recipe and update Average Rating
-router.get("/:id/create", async (req, res, next) => {
+router.get("/create/:id", async (req, res, next) => {
     try {
         const recipe = await Recipe.findById(req.params.id);
         if (!recipe) {
@@ -16,7 +16,7 @@ router.get("/:id/create", async (req, res, next) => {
     }
 });
 
-router.post("/:id/create", async (req, res, next) => {
+router.post("/create/:id/", async (req, res, next) => {
     try {
         const { title, comment, rating, ...rest  } = req.body;
         const recipe = await Recipe.findById(req.params.id);
@@ -41,22 +41,24 @@ router.post("/:id/create", async (req, res, next) => {
 });
 
 // Edit a review a user is author of and is logged in and Update Average Rating
-router.get("/:id/edit", async (req, res, next) => {
+router.get("/edit/:id", async (req, res, next) => {
     try {
         const review = await Review.findById(req.params.id);
         if (!review) {
             res.redirect("/");
         }
-        if (review._user.toString() !== req.session.user._id.toString()) {
+        if (req.session.user._id.toString() !== review._user._id.toString()) {
             res.redirect("/");
         }
-        res.render("review/edit-review", { review });
+        const recipe = await Recipe.findById(review._recipe._id);
+        const user = await User.findById(req.session.user._id);
+        res.render("review/edit-review", { review, recipe, user });
     } catch (error) {
         next(error);
     }
 });
 
-router.post("/:id/edit", async (req, res, next) => {
+router.post("/edit/:id", async (req, res, next) => {
     try {
         const { title, comment, rating, ...rest  } = req.body;
         const review = await Review.findById(req.params.id);
@@ -70,6 +72,7 @@ router.post("/:id/edit", async (req, res, next) => {
         review.title = title;
         review.comment = comment;
         review.rating = rating;
+        recipe.name = name;
         await review.save();
         recipe.averageRating = ((recipe.averageRating - review.rating) + rating) / (recipe._reviews.length);
         await recipe.save();
