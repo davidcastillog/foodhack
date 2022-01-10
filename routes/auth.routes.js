@@ -7,7 +7,7 @@ const mongoose = require("mongoose");
 router.get("/signup", async (req, res, next) => {
     try {
         if (req.session.user) {
-            res.redirect("/profile");
+            res.redirect("/user/profile");
         } else {
             res.render("auth/signup");
         }
@@ -58,7 +58,7 @@ router.post("/signup", async (req, res, next) => {
         req.session.user = user;
 
         // Redirect to profile page
-        res.redirect("/profile");
+        res.redirect("/user/profile");
 
     } catch (error) {
         if (error instanceof mongoose.Error.ValidationError) {
@@ -74,7 +74,7 @@ router.post("/signup", async (req, res, next) => {
 // GET login page if user is logged in redirect to profile page
 router.get("/login", (req, res, next) => {
     if (req.session.user) {
-        res.redirect("/profile");
+        res.redirect("/user/profile");
     } else {
         res.render("auth/login");
     }
@@ -109,22 +109,21 @@ router.post("/login", async (req, res, next) => {
         req.session.user = user;
 
         // Redirect to profile page
-        res.redirect("/profile");
+        res.redirect("/user/profile");
 
     } catch (error) {
         next(error);
     }
 });
 
-// GET logout page
+// GET logout page and redirect to login page
 router.get("/logout", async (req, res, next) => {
     try {
-        // Remove user from session
         req.session.destroy();
+        res.redirect("/login");
     } catch (error) {
         next(error);
     }
-    res.redirect("/login");
 });
 
 module.exports = router;

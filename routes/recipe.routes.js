@@ -8,7 +8,7 @@ router.get("/create", async (req, res,next) => {
     try {
         const user = await User.findById(req.session.user._id);
         if (!user) {
-            res.redirect("/login");
+            res.redirect("login");
         }
         res.render("recipe/create-recipe", { user });
     } catch (error) {
