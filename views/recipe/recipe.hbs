@@ -1,40 +1,32 @@
 
    <div class="uk-container-large uk-padding-large"> 
-       
+       {{!-- Recipe name --}}
        <h3>{{recipe.name}}</h3>
+       {{!-- Star rating --}}
        <div class="uk-container-large">
            {{recipe.averageRating}}
            <span uk-icon="star"></span>
            <span uk-icon="star"></span>
            <span uk-icon="star"></span>
            <span uk-icon="star"></span>
-           <span uk-icon="star"></span>
-
-           
+           <span uk-icon="star"></span>    
        </div>
-
-       
+        {{!-- Images --}}
         <div class="uk-container-small uk-padding-small"> 
             <div class="uk-position-relative uk-visible-toggle uk-light" tabindex="-1" uk-slideshow>
 
             <ul class="uk-slideshow-items">
                 {{#each recipe.images}}
-                    
                         <li>
                             <img src= {{this}} alt="" uk-cover>
                         </li>
-                {{/each}}
-                
-                
+                {{/each}}    
             </ul>
-
             <a class="uk-position-center-left uk-position-small uk-hidden-hover" href="#" uk-slidenav-previous uk-slideshow-item="previous"></a>
             <a class="uk-position-center-right uk-position-small uk-hidden-hover" href="#" uk-slidenav-next uk-slideshow-item="next"></a>
-
             </div>
         </div>
-            
-        
+          {{!-- Recipe stuff --}}
         <div class="uk-container-large">
             <h4>Ingredients:</h4>
             <ul class="uk-list uk-list-disc uk-list-muted">
@@ -44,36 +36,36 @@
             </ul>
             </div>
         
-         <div class="uk-container-large">
+        <div class="uk-container-large">
          <h4>Instructions : {{recipe.instructions}}</h4>
-         
-         </div>
+        </div>
         
         <div class="uk-container-large">
           <h4>Cook time : {{recipe.cookTime}}</h4> 
-          
-          </div>
+        </div>
+        
         <div class="uk-container-large">
           <h4>Prep time : {{recipe.cookTime}}</h4>
-          
-          </div>
-
-          <h4>Total time : {{recipe.totalTime}}</h4> 
-
-
-          <h4>Servings : {{recipe.servings}}</h4>
-
-          <h4>Meal type : {{recipe.mealType}}</h4>
-
-          <h4>Country of Origin : {{recipe.countryOfOrigin}}</h4>
-
-          <h4>Tags : {{recipe.tags}}</h5>
-
-        
         </div>
-            
 
+        <div class="uk-container-large">
+          <h4>Total time : {{recipe.totalTime}}</h4> 
+        </div>
 
+        <div class="uk-container-large">
+          <h4>Servings : {{recipe.servings}}</h4>
+        </div>
+
+        <div class="uk-container-large">
+          <h4>Meal type : {{recipe.mealType}}</h4>
+        </div>
+
+        <div class="uk-container-large">
+          <h4>Country of Origin : {{recipe.countryOfOrigin}}</h4>
+        </div>
+
+        <div class="uk-container-large">
+          <h4>Tags : {{recipe.tags}}</h5>
         </div>
     </div>
 
