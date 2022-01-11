@@ -115,6 +115,7 @@ router.get("/recipe-list", async (req, res, next) => {
 router.get("/:id", async (req, res, next) => {
     try {
         const recipe = await Recipe.findById(req.params.id);
+        
         res.render("recipe/recipe", { recipe });
     } catch (error) {
         next(error);

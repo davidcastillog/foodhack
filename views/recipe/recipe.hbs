@@ -1,10 +1,10 @@
-  <form action="uk-form-horizontal uk-margin-small uk-padding-small" enctype="multipart/form-data" action="/recipe/{{recipe.id}}" method="GET">
+  <form action="uk-form-horizontal uk-margin-small uk-padding-small" enctype="multipart/form-data" action="/recipe/{{recipe.id}}" method="POST">
    <div class="uk-container-large uk-padding-large"> 
        {{!-- Recipe name --}}
        <h3>{{recipe.name}}</h3>      
        {{!-- Star rating --}}
        <div class="uk-container-large">
-           {{recipe.averageRating}}
+           {{recipe.averageRating}} 
            <span uk-icon="star"></span>
            <span uk-icon="star"></span>
            <span uk-icon="star"></span>
@@ -28,12 +28,7 @@
         </div>
           {{!-- Recipe stuff --}}
         <div class="uk-container-large">
-            <h4>Ingredients:</h4>
-            <ul class="uk-list uk-list-disc uk-list-muted">
-                {{#each recipe.ingredients}}
-                <li>{{this}}</li>
-                {{/each}}
-            </ul>
+            <h4>Ingredients : {{recipe.ingredients}}</h4>
             </div>
         
         <div class="uk-container-large">
