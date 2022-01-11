@@ -1,7 +1,7 @@
-
+  <form action="uk-form-horizontal uk-margin-small uk-padding-small" enctype="multipart/form-data" action="/recipe/{{recipe.id}}" method="GET">
    <div class="uk-container-large uk-padding-large"> 
        {{!-- Recipe name --}}
-       <h3>{{recipe.name}}</h3>
+       <h3>{{recipe.name}}</h3>      
        {{!-- Star rating --}}
        <div class="uk-container-large">
            {{recipe.averageRating}}
@@ -68,6 +68,7 @@
           <h4>Tags : {{recipe.tags}}</h5>
         </div>
     </div>
+    </form>
 
 
 
