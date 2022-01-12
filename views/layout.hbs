@@ -17,8 +17,9 @@
                <a class="uk-navbar-item uk-logo" href="/"><img src="https://res.cloudinary.com/davidcastillog/image/upload/v1641421921/foodhack/foodhacklog_ipfada.png" alt="Food Hack Logo" width="120em"> </a>
                <ul class="uk-navbar-nav">
                      <li class="uk-active"><a href="/">HOME</a></li>
-                     <li><a href="#">MOST POPULAR</a></li>
-                     <li><a href="#">RANDOM RECIPE</a></li>
+                     <li><a href="/recipe/create">Create a Recipe</a></li>
+                     <li><a href="#">Most Popular</a></li>
+                     <li><a href="/recipe/random">RANDOM RECIPE</a></li>
                      <li>
                         <a href="#">CATEGORIES</a>
                         <div class="uk-navbar-dropdown">
@@ -39,6 +40,14 @@
                <ul class="uk-navbar-nav">
                   {{#if user}}
                      <li><a href="/user/profile">{{user.username}}</a></li>
+                           <div class="uk-navbar-dropdown">
+                           <ul class="uk-nav uk-navbar-dropdown-nav">
+                                 <li><a href="/user/edit/">Edit Profile</a></li>
+                                 <li><a href="/user/change-password">Change Password</a></li>
+                                 <li><a href="/recipe/user/{{user._id}}">My Recipes</a></li>
+                                 <li><a href="/review/user/{{user._id}}">My Reviews</a></li>
+                           </ul>
+                        </div>
                      <li><a href="/logout">Logout</a></li>
                   {{else}}
                      <li><a href="/signup">Sign Up</a></li>

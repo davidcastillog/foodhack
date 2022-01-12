@@ -2,15 +2,17 @@ const router = require("express").Router();
 const User = require("../models/User.model");
 const Recipe = require("../models/Recipe.model");
 const Review = require("../models/Review.model");
+const {isLoggedOut} = require("../utils/auth")
 
 // Create a new review for a recipe and update Average Rating
-router.get("/create/:id", async (req, res, next) => {
+router.get("/create/:id", isLoggedOut, async (req, res, next) => {
     try {
         const recipe = await Recipe.findById(req.params.id);
         if (!recipe) {
             res.redirect("/");
         }
-        res.render("review/create-review", { recipe });
+        const user = await User.findById(req.session.user._id);
+        res.render("review/create-review", { recipe, user });
     } catch (error) {
         next(error);
     }
@@ -20,7 +22,6 @@ router.post("/create/:id/", async (req, res, next) => {
     try {
         const { title, comment, rating, ...rest  } = req.body;
         const recipe = await Recipe.findById(req.params.id);
-        const user = await User.findById(req.session.user._id);
         if (!recipe) {
             res.redirect("/");
         }
@@ -41,7 +42,7 @@ router.post("/create/:id/", async (req, res, next) => {
 });
 
 // Edit a review a user is author of and is logged in and Update Average Rating
-router.get("/edit/:id", async (req, res, next) => {
+router.get("/edit/:id", isLoggedOut, async (req, res, next) => {
     try {
         const review = await Review.findById(req.params.id);
         if (!review) {
@@ -72,11 +73,41 @@ router.post("/edit/:id", async (req, res, next) => {
         review.title = title;
         review.comment = comment;
         review.rating = rating;
-        recipe.name = name;
         await review.save();
         recipe.averageRating = ((recipe.averageRating - review.rating) + rating) / (recipe._reviews.length);
         await recipe.save();
         res.redirect(`/recipe/${recipe._id}`);
+    } catch (error) {
+        next(error);
+    }
+});
+
+// Delete a review a user is author of and is logged in and Update Average Rating
+router.get("/delete/:id", isLoggedOut, async (req, res, next) => {
+    try {
+        const review = await Review.findById(req.params.id);
+        if (!review) {
+            res.redirect("/");
+        }
+        if (req.session.user._id.toString() !== review._user._id.toString()) {
+            res.redirect("/");
+        }
+        const recipe = await Recipe.findById(review._recipe._id);
+        recipe.averageRating = ((recipe.averageRating - review.rating) / (recipe._reviews.length)).toFixed(2);
+        await recipe.save();
+        await review.remove();
+        res.redirect(`/recipe/${recipe._id}`);
+    } catch (error) {
+        next(error);
+    }
+});
+
+// View all reviews made by a user
+router.get("/user/:id", async (req, res, next) => {
+    try {
+        const user = await User.findById(req.params.id);
+        const reviews = await Review.find({ user: user });
+        res.render("user/reviews", { reviews, user });
     } catch (error) {
         next(error);
     }

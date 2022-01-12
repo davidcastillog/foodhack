@@ -1,7 +1,7 @@
 <h3 class="uk-padding-small">New Review</h3>
 <div class="uk-padding-small">
 <p>Recipe: {{recipe.name}}</p>
-<p>Recipe Creator: {{recipe._user}}</p>
+<p>Recipe Creator: {{user.username}}</p>
 <p>Recipe Rating: {{recipe.averageRating}} / 5</p>
 </div>
 <form class="uk-form-horizontal uk-padding-small" action="/review/{{recipe._id}}/create/" method="POST">
