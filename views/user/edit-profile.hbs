@@ -1,0 +1,48 @@
+<form class="uk-form-horizontal uk-margin-small uk-padding-small" enctype="multipart/form-data" action="/user/edit" method="POST">
+<div class="uk-card uk-card-default uk-width-1-2@m">
+    <div class="uk-card-header">
+        <div class="uk-grid-small uk-flex-middle" uk-grid>
+            <div class="uk-width-auto">
+                <img class="uk-border-circle" width="40" height="40" src="{{user.profilePic}}">
+            </div>
+            <div class="uk-width-expand">
+                <h3 class="uk-card-title uk-margin-remove-bottom">{{user.username}}</h3>
+            </div>
+        </div>
+    </div>
+    <div class="uk-card-body">
+        <div>
+            <label class="uk-form-label" for="form-horizontal-text">Edit Profile Pic:</label>
+            <div class="uk-width-auto">
+                <img class="uk-border-circle" width="40" height="40" src="{{user.profilePic}}">
+            <div class="js-upload" uk-form-custom>
+                <input type="file" name="profilePic">
+                <span></span>
+                <button class="uk-button uk-button-default" type="button" tabindex="-1">Select</button>
+            </div>
+            </div>
+        </div>
+        <div class="uk-margin">
+            <label class="uk-form-label" for="form-horizontal-text">Username:</label>
+            <input class="uk-input uk-form-width-medium" name="username" type="text" value="{{user.username}}">
+        </div>
+        <div class="uk-margin">
+            <label class="uk-form-label" for="form-horizontal-text">Email:</label>
+            <input class="uk-input uk-form-width-medium" name="email" type="text" value="{{user.email}}">
+        </div>
+        <div class="uk-margin">
+            <label class="uk-form-label" for="form-horizontal-text">Firstname:</label>
+            <input class="uk-input uk-form-width-medium" name="firstName" type="text" value="{{user.firstName}}">
+        </div>
+        <div class="uk-margin">
+            <label class="uk-form-label" for="form-horizontal-text">Lastname:</label>
+            <input class="uk-input uk-form-width-medium" name="lastName" type="text" value="{{user.lastName}}">
+        </div>
+        <div class="uk-margin">
+            <label class="uk-form-label" for="form-horizontal-text">Bio:</label>
+            <textarea class="uk-textarea uk-form-width-large" name="bio" rows="7" placeholder="Bio">{{user.bio}}</textarea>
+        </div>
+    </div>
+</div>
+    <button class="uk-button uk-button-danger uk-align-center">Save Profile</button>
+</form>

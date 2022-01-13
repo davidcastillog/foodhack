@@ -2,14 +2,12 @@ const router = require("express").Router();
 const User = require("../models/User.model");
 const Recipe = require("../models/Recipe.model");
 const Upload = require("../helpers/multer")
+const {isLoggedOut} = require("../utils/auth")
 
 // Check user is logged in and Create a new recipe and save it to user's recipes
-router.get("/create", async (req, res,next) => {
+router.get("/create", isLoggedOut, async (req, res,next) => {
     try {
         const user = await User.findById(req.session.user._id);
-        if (!user) {
-            res.redirect("login");
-        }
         res.render("recipe/create-recipe", { user });
     } catch (error) {
         next(error);
@@ -45,7 +43,7 @@ router.post("/create", Upload.array("images"), async (req, res, next) => {
 });
 
 // Edit a recipe a user is author of and is logged in
-router.get("/edit/:id", async (req, res, next) => {
+router.get("/edit/:id", isLoggedOut, async (req, res, next) => {
     try {
         const recipe = await Recipe.findById(req.params.id);
         if (!recipe) {
@@ -89,7 +87,7 @@ router.post("/edit/:id", Upload.array("images"), async (req, res, next) => {
 });
 
 // Delete a recipe user is author of and is logged in as findByIdAndDelete
-router.get("/delete/:id", async (req, res, next) => {
+router.get("/delete/:id", isLoggedOut, async (req, res, next) => {
     try {
         const recipe = await Recipe.findById(req.params.id);
         if (recipe.user.toString() === req.user._id.toString()) {
@@ -111,23 +109,35 @@ router.get("/recipe-list", async (req, res, next) => {
     }
 });
 
-// View a recipe
+// View a recipe and its reviews
 router.get("/:id", async (req, res, next) => {
     try {
         const recipe = await Recipe.findById(req.params.id);
-        
-        res.render("recipe/recipe", { recipe });
+        const reviews = await Review.find({ recipe: req.params.id });
+        res.render("recipe/recipe", { recipe, reviews });
     } catch (error) {
         next(error);
     }
 });
 
-// View all recipes from a user
+// View all recipes from a user and its reviews
 router.get("/user/:id", async (req, res, next) => {
     try {
         const user = await User.findById(req.params.id);
-        const recipes = await Recipe.find({ user: user });
-        res.render("user/recipe-list", { recipes, user });
+        const recipes = await Recipe.find({ _user: req.params.id });
+        const reviews = await Review.find({ _user: req.params.id });
+        res.render("recipe/user-recipes", { user, recipes, reviews });
+    } catch (error) {
+        next(error);
+    }
+});
+
+// Get a random recipe
+router.get("/random", async (req, res, next) => {
+    try {
+        const recipes = await Recipe.find({});
+        const randomRecipe = recipes[Math.floor(Math.random() * recipes.length)];
+        res.redirect(`/recipe/${randomRecipe._id}`);
     } catch (error) {
         next(error);
     }
