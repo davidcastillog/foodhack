@@ -1,0 +1,15 @@
+{{#each reviews}}
+<div class="uk-align-center">
+<ul class="uk-list">
+    <label><p class="uk-text-danger uk-text-bold">Recipe:</p>{{_recipe.name}}</label>
+    <label class="uk-text-danger uk-text-bold">My Review:</label>
+    <label>Titulo: {{title}}</label>
+    <label>Rating: {{rating}} stars</label>
+    <label>Comentario: {{comment}}</label>
+    <div>
+    <a class="uk-button uk-button-danger" href="/review/edit/{{_id}}">Edit</a>
+    <a class="uk-button uk-button-danger" href="/review/delete/{{_id}}">Delete</a>
+    </div>
+</ul>
+</div>
+{{/each}}

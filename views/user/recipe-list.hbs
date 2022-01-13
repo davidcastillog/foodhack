@@ -1,13 +1,26 @@
+<div class="uk-align-center">
 {{#each recipes}}
-    <div>
-        <ul class="uk-list uk-list-large uk-list-divider">
+    <div class="uk-padding-small">
+        <ul class="uk-list uk-list-large uk-list-divider uk-margin-small-top">
             <li>
-            <label class="uk-form-label" for="form-horizontal-text">Recipe:</label>
-            <p>{{name}}</p>
-            <label class="uk-form-label" for="form-horizontal-text">Rating: {{averageRating}}</label>
-            <label class="uk-form-label" for="form-horizontal-text">Reviews: {{_reviews.length}}</label>
-            <a class="uk-button uk-button-danger" href="/recipe/edit/{{_id}}">Edit</a>
+                <div class="uk-width-auto">
+                    <img class="uk-border-circle" width="100" height="100" src="{{images}}">
+                </div>
+                <div class="uk-margin-small-top">
+                    <label class="uk-form-label" for="form-horizontal-text">Recipe: {{name}}</label>
+                </div>
+                <div>
+                    <label class="uk-form-label" for="form-horizontal-text">Rating: {{averageRating}} / 5</label>
+                </div>
+                <div>
+                    <label class="uk-form-label" for="form-horizontal-text">Reviews: {{_reviews.length}}</label>
+                </div>
+                <div class="uk-margin-small-top">
+                    <a class="uk-button uk-button-danger" href="/recipe/edit/{{_id}}">Edit</a>
+                    <a class="uk-button uk-button-danger" href="/recipe/delete/{{_id}}">Delete</a>
+                </div>
             </li>
         </ul>
     </div>
 {{/each}}
+</div>

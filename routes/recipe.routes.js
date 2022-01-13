@@ -113,14 +113,20 @@ router.get("/recipe-list", async (req, res, next) => {
     }
 });
 
-// view all recipes. Search by name
-router.get("/recipe-list/:name", async (req, res, next) => {
+// Search recipes by name, ingredients, tags, country of origin
+router.get("/search", async (req, res, next) => {
     try {
-        const recipes = await Recipe.find({});
-        const reviews = await Review.find({});
-        const search = req.params.name;
-        const filteredRecipes = recipes.filter(recipe => recipe.name.toLowerCase().includes(search.toLowerCase()));
-        res.render("recipe/recipe-list", { recipes: filteredRecipes, reviews });
+        const user = await User.findById(req.session.user._id);
+        const { search } = req.query;
+        const recipes = await Recipe.find({
+            $or: [
+                { name: { $regex: search, $options: "i" } },
+                { ingredients: { $regex: search, $options: "i" } },
+                { tags: { $regex: search, $options: "i" } },
+                { countryOfOrigin: { $regex: search, $options: "i" } },
+            ],
+        });
+        res.render("recipe/recipe-list", { user, recipes });
     } catch (error) {
         next(error);
     }
@@ -168,8 +174,9 @@ router.get("/top10", async (req, res, next) => {
     try {
         const recipes = await Recipe.find({});
         const reviews = await Review.find({});
+        const user = await User.findById(req.session.user._id);
         const top10 = recipes.sort((a, b) => b.averageRating - a.averageRating).slice(0, 10);
-        res.render("recipe/recipe-list", { recipes: top10, reviews });
+        res.render("recipe/recipe-list", { recipes: top10, reviews, user });
     } catch (error) {
         next(error);
     }

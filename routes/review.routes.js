@@ -103,14 +103,17 @@ router.get("/delete/:id", isLoggedOut, async (req, res, next) => {
     }
 });
 
-// View all reviews made by a user
-router.get("/user/:id", async (req, res, next) => {
+// View all reviews a user author of and is logged in and if no reviews are found redirect to user profile
+router.get("/user/:id", isLoggedOut, async (req, res, next) => {
     try {
         const user = await User.findById(req.params.id);
         if (!user) {
-            res.redirect("/");
+            res.redirect("/login");
         }
-        const reviews = await Review.find({ _user: user._id });
+        const reviews = await Review.find({ _user: user._id }).populate("_recipe");
+        if (reviews.length === 0) {
+            res.redirect("/user/profile");
+        }
         res.render("user/reviews", { reviews, user });
     } catch (error) {
         next(error);
