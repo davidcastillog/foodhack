@@ -29,9 +29,8 @@ const RecipeSchema = new Schema(
             [
                 {
                     type: String,
-                    default: "https://res.cloudinary.com/davidcastillog/image/upload/v1641310320/foodhack/recipes_wykajc.png",
-                    minlength: 1,
-                },
+                    required: [true, "Image is required"],
+                }
             ],
         cookTime: {
             type: Number,

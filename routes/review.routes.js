@@ -104,9 +104,9 @@ router.get("/delete/:id", isLoggedOut, async (req, res, next) => {
 });
 
 // View all reviews made by a user
-router.get("/user/:username", async (req, res, next) => {
+router.get("/user/:id", async (req, res, next) => {
     try {
-        const user = await User.findOne({ username: req.params.username });
+        const user = await User.findById(req.params.id);
         if (!user) {
             res.redirect("/");
         }
