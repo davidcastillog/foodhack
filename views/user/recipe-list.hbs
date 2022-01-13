@@ -1,7 +1,13 @@
 {{#each recipes}}
     <div>
         <ul class="uk-list uk-list-large uk-list-divider">
-            <li>{{name}}</li>
+            <li>
+            <label class="uk-form-label" for="form-horizontal-text">Recipe:</label>
+            <p>{{name}}</p>
+            <label class="uk-form-label" for="form-horizontal-text">Rating: {{averageRating}}</label>
+            <label class="uk-form-label" for="form-horizontal-text">Reviews: {{_reviews.length}}</label>
+            <a class="uk-button uk-button-danger" href="/recipe/edit/{{_id}}">Edit</a>
+            </li>
         </ul>
     </div>
 {{/each}}

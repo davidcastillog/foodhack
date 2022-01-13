@@ -22,6 +22,7 @@ router.post("/create/:id/", async (req, res, next) => {
     try {
         const { title, comment, rating, ...rest  } = req.body;
         const recipe = await Recipe.findById(req.params.id);
+        const user = await User.findById(req.session.user._id);
         if (!recipe) {
             res.redirect("/");
         }
@@ -103,10 +104,13 @@ router.get("/delete/:id", isLoggedOut, async (req, res, next) => {
 });
 
 // View all reviews made by a user
-router.get("/user/:id", async (req, res, next) => {
+router.get("/user/:username", async (req, res, next) => {
     try {
-        const user = await User.findById(req.params.id);
-        const reviews = await Review.find({ user: user });
+        const user = await User.findOne({ username: req.params.username });
+        if (!user) {
+            res.redirect("/");
+        }
+        const reviews = await Review.find({ _user: user._id });
         res.render("user/reviews", { reviews, user });
     } catch (error) {
         next(error);

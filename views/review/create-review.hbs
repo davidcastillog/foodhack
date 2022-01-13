@@ -4,7 +4,7 @@
 <p>Recipe Creator: {{user.username}}</p>
 <p>Recipe Rating: {{recipe.averageRating}} / 5</p>
 </div>
-<form class="uk-form-horizontal uk-padding-small" action="/review/{{recipe._id}}/create/" method="POST">
+<form class="uk-form-horizontal uk-padding-small" action="/review/create/{{recipe._id}}/" method="POST">
     <div class="uk-margin">
         <label class="uk-form-label" for="form-horizontal-text">Title</label>
         <div class="uk-form-controls">

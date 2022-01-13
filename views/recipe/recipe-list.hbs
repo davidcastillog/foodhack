@@ -1,0 +1,16 @@
+{{#each recipes}}
+<div class="uk-card uk-card-default uk-width-1-2@m">
+    <div class="uk-card-header">
+        <div class="uk-grid-small uk-flex-middle" uk-grid>
+            <div class="uk-width-auto">
+                <img class="uk-border-circle" width="40" height="40" src="{{images}}">
+            </div>
+            <div class="uk-width-expand">
+                <h3 class="uk-card-title uk-margin-remove-bottom">{{name}}</h3>
+                <a href="/recipe/{{_id}}" class="uk-button uk-button-text uk-align-right">View</a>
+            </div>
+        </div>
+    </div>
+
+</div>
+{{/each}}

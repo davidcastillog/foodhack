@@ -1,15 +1,14 @@
 const router = require("express").Router();
 const User = require("../models/User.model");
 const Upload = require("../helpers/multer");
+const Review = require("../models/Review.model");
+const Recipe = require("../models/Recipe.model");
 const bcrypt = require("bcryptjs");
 
 // GET profile page from user if logged in and redirect to login if not logged in
 router.get("/profile", async (req, res, next) => {
     try {
         const user = await User.findById(req.session.user._id);
-        if (!user) {
-            res.redirect("/login");
-        }
         res.render("user/profile", { user });
     } catch (error) {
         next(error);
