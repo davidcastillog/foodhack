@@ -37,7 +37,7 @@ router.post("/create", Upload.array("images"), async (req, res, next) => {
             tags,
             _user: user,
         });
-        res.redirect("/");
+        res.redirect("/recipe/" + recipe._id);
     } catch (error) {
         next(error);
     }
@@ -132,13 +132,12 @@ router.get("/search", async (req, res, next) => {
     }
 });
 
-// View all recipes by mealType
-router.get("/recipe-list/:mealType", async (req, res, next) => {
+// Filter recipes by mealType field of Recipe model
+router.get("/type/:mealType", async (req, res, next) => {
     try {
-        const recipes = await Recipe.find();
-        const reviews = await Review.find();
-        const filteredRecipes = recipes.filter(recipe => recipe.mealType.toLowerCase());
-        res.render("recipe/recipe-list", { recipes: filteredRecipes, reviews });
+        const recipes = await Recipe.find({ mealType: req.params.mealType });
+        const user = await User.findById(req.session.user._id);
+        res.render("recipe/recipe-list", { recipes, user });
     } catch (error) {
         next(error);
     }

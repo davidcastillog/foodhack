@@ -71,12 +71,17 @@ router.post("/signup", async (req, res, next) => {
     }
 });
 
-// GET login page if user is logged in redirect to profile page
-router.get("/login", (req, res, next) => {
-    if (req.session.user) {
-        res.redirect("/user/profile");
-    } else {
-        res.render("auth/login");
+// GET login page if user is logged in redirect to profile page async (await)
+router.get("/login", async (req, res, next) => {
+    try {
+        const user = await req.session.user;
+        if (user) {
+            res.redirect(`/user/${user.username}`);
+        } else {
+            res.render("auth/login");
+        }
+    } catch (error) {
+        next(error);
     }
 });
 
@@ -99,7 +104,7 @@ router.post("/login", async (req, res, next) => {
         }
 
         // Check if password is correct (compare hashed password with input password)
-        const passwordMatch = bcrypt.compareSync(password, user.password);
+        const passwordMatch = await bcrypt.compareSync(password, user.password);
         if (!passwordMatch) {
             res.render("auth/login", { errorMessage: "Incorrect password" });
             return;
@@ -109,7 +114,7 @@ router.post("/login", async (req, res, next) => {
         req.session.user = user;
 
         // Redirect to profile page
-        res.redirect("/user/profile");
+        res.redirect(`/user/${user.username}`);
 
     } catch (error) {
         next(error);
@@ -120,6 +125,17 @@ router.post("/login", async (req, res, next) => {
 router.get("/logout", async (req, res, next) => {
     try {
         req.session.destroy();
+        req.session = null;
+        res.redirect("/login");
+    } catch (error) {
+        next(error);
+    }
+});
+
+router.post("/logout", async (req, res, next) => {
+    try {
+        req.session.destroy();
+        req.session = null;
         res.redirect("/login");
     } catch (error) {
         next(error);

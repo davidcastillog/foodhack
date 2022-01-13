@@ -114,7 +114,6 @@ router.get("/:username", async (req, res, next) => {
     try {
         const user = await User.findOne({ username: req.params.username });
         let isOwner = req.session.user.username === user.username ? true : false
-        console.log(isOwner, req.session.user._id, user._id)
         res.render("user/profile", { user, isOwner });
     } catch (error) {
         next(error);
