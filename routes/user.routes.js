@@ -37,8 +37,8 @@ router.post("/edit", Upload.single("profilePic"), async (req, res, next) => {
         const { username, email, firstName, lastName, bio,...rest } = req.body;
         const user = await User.findById(req.session.user._id);
         let profilePic
-        if (req.files) {
-            profilePic = req.files.profilePic.path;
+        if (req.file) {
+            profilePic = req.file.path;
         } else {
             profilePic = user.profilePic
         }
