@@ -1,9 +1,23 @@
-{{#each recipe}}
-<h1>{{name}}</h1>
-<p>{{ingredients}}</p>
-<p>{{instructions}}</p>
-<p>{{images}}</p>
-<p>{{cookTime}}</p>
-<p>{{prepTime}}</p>
-<p>{{servings}}</p>
-{{/each}}
+<div class="uk-container">
+    <div>
+        {{#each recipe}}
+        <h1>{{name}}</h1>
+            <div class="uk-overflow-hidden">
+                <img src="{{images.[0]}}" width="300" height="300" uk-scrollspy="cls: uk-animation-kenburns; repeat: true">
+            </div>
+                {{ingredients}}
+                {{instructions}}
+                {{cookTime}}
+                {{prepTime}}
+                {{totalTime}}
+                {{servings}}
+                {{countryOfOrigin}}
+                {{mealType}}
+                {{_reviews.length}}
+                {{averageRating}}
+            <div>
+                <a class="uk-text-decoration-none" href="/review/create/{{_id}}" uk-icon="icon: file-edit">Review</a>
+            </div>
+        {{/each}}
+    </div>
+</div>

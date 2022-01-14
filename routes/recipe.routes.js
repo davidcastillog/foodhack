@@ -5,7 +5,7 @@ const Review = require("../models/Review.model");
 const Upload = require("../helpers/multer")
 const {isLoggedOut} = require("../utils/auth")
 
-// Check user is logged in and Create a new recipe and save it to user's recipes
+// Create a new recipe
 router.get("/create", isLoggedOut, async (req, res,next) => {
     try {
         const user = await User.findById(req.session.user._id);
@@ -18,7 +18,7 @@ router.get("/create", isLoggedOut, async (req, res,next) => {
 router.post("/create", Upload.array("images"), async (req, res, next) => {
     try {
         const { name, ingredients, instructions, cookTime, prepTime, totalTime, servings, mealType, countryOfOrigin, tags,...rest } = req.body;
-        const user = await req.session.user._id
+        const user = await User.findById(req.session.user._id);
         const images = req.files.map(file=> file.path)
         if(!user) {
             res.redirect("/login");
@@ -37,6 +37,9 @@ router.post("/create", Upload.array("images"), async (req, res, next) => {
             tags,
             _user: user,
         });
+        // Push recipe to user's recipes
+        user._recipes.push(recipe);
+        await user.save();
         res.redirect("/recipe/" + recipe._id);
     } catch (error) {
         next(error);
@@ -92,10 +95,18 @@ router.post("/edit/:id", Upload.array("images"), async (req, res, next) => {
 router.get("/delete/:id", isLoggedOut, async (req, res, next) => {
     try {
         const recipe = await Recipe.findById(req.params.id);
-        if (recipe.user.toString() === req.user._id.toString()) {
-            await recipe.remove();
+        if (!recipe) {
+            res.redirect("/");
         }
-        res.redirect("recipe/recipe-list");
+        if (recipe._user.toString() !== req.session.user._id.toString()) {
+            res.redirect("/");
+        }
+        await recipe.remove();
+        // Remove recipe from user's recipes
+        const user = await User.findById(req.session.user._id);
+        user._recipes.pull(recipe);
+        await user.save();
+        res.redirect(`/recipe/user/${req.session.user._id}`);
     } catch (error) {
         next(error);
     }
@@ -184,10 +195,10 @@ router.get("/top10", async (req, res, next) => {
 // View a recipe and its reviews
 router.get("/:id", async (req, res, next) => {
     try {
-        const user = await User.findById(req.session.user._id);
         const recipe = await Recipe.findById(req.params.id);
         const reviews = await Review.find({ _recipe: req.params.id });
-        res.render("recipe/recipe", { user, recipe, reviews });
+        const user = await User.findById(req.session.user._id);
+        res.render("recipe/recipe", { recipe, reviews, user });
     } catch (error) {
         next(error);
     }

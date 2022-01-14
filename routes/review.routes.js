@@ -33,50 +33,14 @@ router.post("/create/:id/", async (req, res, next) => {
             _recipe: recipe,
             _user: user,
         });
+        // Push review to recipe's reviews
         recipe._reviews.push(review);
+        // Update average rating
         recipe.averageRating = ((recipe.averageRating + review.rating) / (recipe._reviews.length)).toFixed(2);
         await recipe.save();
-        res.redirect(`/recipe/${recipe._id}`);
-    } catch (error) {
-        next(error);
-    }
-});
-
-// Edit a review a user is author of and is logged in and Update Average Rating
-router.get("/edit/:id", isLoggedOut, async (req, res, next) => {
-    try {
-        const review = await Review.findById(req.params.id);
-        if (!review) {
-            res.redirect("/");
-        }
-        if (req.session.user._id.toString() !== review._user._id.toString()) {
-            res.redirect("/");
-        }
-        const recipe = await Recipe.findById(review._recipe._id);
-        const user = await User.findById(req.session.user._id);
-        res.render("review/edit-review", { review, recipe, user });
-    } catch (error) {
-        next(error);
-    }
-});
-
-router.post("/edit/:id", async (req, res, next) => {
-    try {
-        const { title, comment, rating, ...rest  } = req.body;
-        const review = await Review.findById(req.params.id);
-        const recipe = await Recipe.findById(review._recipe);
-        if (!review) {
-            res.redirect("/");
-        }
-        if (review._user.toString() !== req.session.user._id.toString()) {
-            res.redirect("/");
-        }
-        review.title = title;
-        review.comment = comment;
-        review.rating = rating;
-        await review.save();
-        recipe.averageRating = ((recipe.averageRating - review.rating) + rating) / (recipe._reviews.length);
-        await recipe.save();
+        // Push review to user's reviews
+        user._reviews.push(review);
+        await user.save();
         res.redirect(`/recipe/${recipe._id}`);
     } catch (error) {
         next(error);
@@ -90,11 +54,19 @@ router.get("/delete/:id", isLoggedOut, async (req, res, next) => {
         if (!review) {
             res.redirect("/");
         }
-        if (req.session.user._id.toString() !== review._user._id.toString()) {
+        if (review._user._id.toString() !== req.session.user._id.toString()) {
             res.redirect("/");
         }
         const recipe = await Recipe.findById(review._recipe._id);
-        recipe.averageRating = ((recipe.averageRating - review.rating) / (recipe._reviews.length)).toFixed(2);
+
+        // Update Average Rating of recipe
+        if (recipe.averageRating > 0) {
+            recipe.averageRating = ((recipe.averageRating - review.rating) / (recipe._reviews.length)).toFixed(2);
+        } else {
+            recipe.averageRating = 0;
+        }
+        // Delete the review from the recipe array
+        recipe._reviews.splice(recipe._reviews.indexOf(review._id), 1);
         await recipe.save();
         await review.remove();
         res.redirect(`/recipe/${recipe._id}`);
@@ -103,7 +75,7 @@ router.get("/delete/:id", isLoggedOut, async (req, res, next) => {
     }
 });
 
-// View all reviews a user author of and is logged in and if no reviews are found redirect to user profile
+// View all reviews a user author of and is logged in
 router.get("/user/:id", isLoggedOut, async (req, res, next) => {
     try {
         const user = await User.findById(req.params.id);
