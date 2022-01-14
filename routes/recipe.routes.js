@@ -192,11 +192,11 @@ router.get("/top10", async (req, res, next) => {
     }
 });
 
-// View a recipe and its reviews
+// View a recipe its reviews and its author
 router.get("/:id", async (req, res, next) => {
     try {
-        const recipe = await Recipe.findById(req.params.id);
-        const reviews = await Review.find({ _recipe: req.params.id });
+        const recipe = await Recipe.findById(req.params.id).populate("_user");
+        const reviews = await Review.find({ _recipe: req.params.id }).populate("_user");
         const user = await User.findById(req.session.user._id);
         res.render("recipe/recipe", { recipe, reviews, user });
     } catch (error) {

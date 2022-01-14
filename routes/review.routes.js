@@ -59,9 +59,9 @@ router.get("/delete/:id", isLoggedOut, async (req, res, next) => {
         }
         const recipe = await Recipe.findById(review._recipe._id);
 
-        // Update Average Rating of recipe
+        // Update Average Rating of recipe after deleting review
         if (recipe.averageRating > 0) {
-            recipe.averageRating = ((recipe.averageRating - review.rating) / (recipe._reviews.length)).toFixed(2);
+            recipe.averageRating = (((recipe.averageRating * recipe._reviews.length) - review.rating)).toFixed(2);
         } else {
             recipe.averageRating = 0;
         }
