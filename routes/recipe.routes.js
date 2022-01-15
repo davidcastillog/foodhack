@@ -124,16 +124,16 @@ router.get("/recipe-list", async (req, res, next) => {
     }
 });
 
-// Search recipes by name, ingredients, tags, country of origin
-router.get("/search", async (req, res, next) => {
+// Search recipes by name, ingredients, meal type and country of origin
+router.post("/search", async (req, res, next) => {
     try {
+        const { search } = req.body;
         const user = await User.findById(req.session.user._id);
-        const { search } = req.query;
         const recipes = await Recipe.find({
             $or: [
                 { name: { $regex: search, $options: "i" } },
                 { ingredients: { $regex: search, $options: "i" } },
-                { tags: { $regex: search, $options: "i" } },
+                { mealType: { $regex: search, $options: "i" } },
                 { countryOfOrigin: { $regex: search, $options: "i" } },
             ],
         });
@@ -143,12 +143,20 @@ router.get("/search", async (req, res, next) => {
     }
 });
 
-// Filter recipes by mealType field of Recipe model
-router.get("/type/:mealType", async (req, res, next) => {
+// View all recipes filtered by name, ingredients, meal type and country of origin
+router.get("/search/:query", async (req, res, next) => {
     try {
-        const recipes = await Recipe.find({ mealType: req.params.mealType });
         const user = await User.findById(req.session.user._id);
-        res.render("recipe/recipe-list", { recipes, user });
+        const recipes = await Recipe.find({
+            $or: [
+                { name: { $regex: req.params.query, $options: "i" } },
+                { ingredients: { $regex: req.params.query, $options: "i" } },
+                { mealType: { $regex: req.params.query, $options: "i" } },
+                { countryOfOrigin: { $regex: req.params.query, $options: "i" } },
+            ],
+        });
+        const reviews = await Review.find({});
+        res.render("recipe/recipe-list", { user, recipes, reviews });
     } catch (error) {
         next(error);
     }

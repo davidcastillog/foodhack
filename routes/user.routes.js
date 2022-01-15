@@ -48,7 +48,7 @@ router.post("/edit", Upload.single("profilePic"), async (req, res, next) => {
         user.bio = bio;
         user.profilePic = profilePic;
         await user.save();
-        res.redirect('/user/profile');
+        res.redirect(`/user/${user.username}`);
     } catch (error) {
         next(error);
     }
@@ -109,21 +109,13 @@ router.post("/change-password", async (req, res, next) => {
     }
 });
 
-// Get Profile page by username and populate user's recipes
-router.get("/:username", async (req, res, next) => {
-    try {
-        const user = await User.findOne({ username: req.params.username }).populate("_recipes");
-        let isOwner = req.session.user.username === user.username ? true : false
-        res.render("user/profile", { user, isOwner });
-    } catch (error) {
-        next(error);
-    }
-});
-
 // List all favorite recipes of a user
 router.get("/:username/favorites", async (req, res, next) => {
     try {
         const user = await User.findOne({ username: req.params.username }).populate("_favorites");
+        if (!user) {
+            res.redirect("/login");
+        }
         res.render("user/favorites", { user });
     } catch (error) {
         next(error);
@@ -135,7 +127,12 @@ router.get("/:username/favorites/:recipeId", async (req, res, next) => {
     try {
         const user = await User.findOne({ username: req.params.username });
         const recipe = await Recipe.findById(req.params.recipeId);
-
+        if (!user) {
+            res.redirect("/login");
+        }
+        if (user._id.toString() !== req.session.user._id.toString()) {
+            res.redirect("/");
+        }
         // if is already favorite redirect to favorites page
         if (user._favorites.includes(recipe._id)) {
             res.redirect(`/user/${user.username}/favorites`);
@@ -154,9 +151,26 @@ router.get("/favorites/:recipeId/remove", async (req, res, next) => {
     try {
         const user = await User.findOne({ username: req.session.user.username });
         const recipe = await Recipe.findById(req.params.recipeId);
+        if (!user) {
+            res.redirect("/login");
+        }
+        if (user._id.toString() !== req.session.user._id.toString()) {
+            res.redirect("/");
+        }
         user._favorites.pull(recipe);
         await user.save();
         res.redirect(`/user/${user.username}/favorites`);
+    } catch (error) {
+        next(error);
+    }
+});
+
+// Get Profile page by username and populate user's recipes
+router.get("/:username", async (req, res, next) => {
+    try {
+        const user = await User.findOne({ username: req.params.username }).populate("_recipes");
+        let isOwner = req.session.user.username === user.username ? true : false
+        res.render("user/profile", { user, isOwner });
     } catch (error) {
         next(error);
     }

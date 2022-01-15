@@ -84,7 +84,7 @@ router.get("/user/:id", isLoggedOut, async (req, res, next) => {
         }
         const reviews = await Review.find({ _user: user._id }).populate("_recipe");
         if (reviews.length === 0) {
-            res.redirect("/user/profile");
+            res.redirect(`/user/${user.username}`);
         }
         res.render("user/reviews", { reviews, user });
     } catch (error) {

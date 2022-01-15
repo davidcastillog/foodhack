@@ -1,6 +1,6 @@
 <div class="uk-container uk-container-xsmall uk-align-center">
     <div class="uk-align-center">
-    <h3 class="uk-text-danger">My Recipes</h3>
+    <h3 class="uk-text-danger">{{user.username}}'s Recipes</h3>
     </div>
     {{#each recipes}}
     <div class="uk-grid-small uk-child-width-expand@s uk-text-center" uk-grid>
@@ -28,6 +28,9 @@
                                 </div>
                             </li>
                         </ul>
+    {{#if errorMessage}}
+    <p uk-alert>{{errorMessage}}</p>
+    {{/if}}
                     </div>
                 </div>
             </div>
