@@ -1,18 +1,26 @@
+<h1>Recipes</h1>
 
-
-<form class="uk-form-horizontal uk-margin-small uk-padding-small uk-search uk-search-default" enctype="multipart/form-data" action="/recipe/recipe-list" method="POST">
-
-<div class="uk-container-large">
-    <h3>Recipes</h3>
-    
-        
-    <input class="uk-search-input" type="search" placeholder="Search {{recipe.name}}">
-  
-<div class="uk-card uk-card-default uk-grid-collapse uk-child-width-1-2@s uk-margin" uk-grid>
-   
+<section>
+    <div class="card-container">
+    {{#each recipes}}
+    <div class="uk-card-small uk-card-default uk-grid-collapse uk-child-width-1-2@s uk-margin" uk-grid>
     <div class="uk-card-media-left uk-cover-container">
-         {{#each recipe}} 
-        <img src="{{this}}" alt="" uk-cover>
+        <div class="uk-position-relative uk-visible-toggle uk-light" tabindex="-1" uk-slideshow>
+
+    <ul class="uk-slideshow-items">
+        {{#each this.images}}
+        <li>
+            <img src={{this}} alt="" uk-cover>
+        </li>
+        {{/each}}
+    </ul>
+
+    <a class="uk-position-center-left uk-position-small uk-hidden-hover" href="#" uk-slidenav-previous uk-slideshow-item="previous"></a>
+    <a class="uk-position-center-right uk-position-small uk-hidden-hover" href="#" uk-slidenav-next uk-slideshow-item="next"></a>
+
+    </div>
+
+        
         <canvas width="600" height="400"></canvas>
     </div>
     <div>
@@ -20,10 +28,8 @@
             <h3 class="uk-card-title">{{this.name}}</h3>
             <p>{{this.instructions}}</p>
         </div>
-    {{/each}}
     </div>
-    
-   
 </div>
-</div> 
-</form>
+{{/each}}
+</div>
+</section>

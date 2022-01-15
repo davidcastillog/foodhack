@@ -11,3 +11,9 @@ h1 {
   color: 15px;
 }
 
+.card-container {
+  display: flex;
+  flex-direction: column;
+  justify-content:first baseline;
+  height: 200px;
+}
