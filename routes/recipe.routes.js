@@ -17,7 +17,7 @@ router.get("/create", isLoggedOut, async (req, res,next) => {
 
 router.post("/create", Upload.array("images"), async (req, res, next) => {
     try {
-        const { name, ingredients, instructions, cookTime, prepTime, totalTime, servings, mealType, countryOfOrigin, tags,...rest } = req.body;
+        const { name, ingredients, instructions, cookTime, prepTime, totalTime, servings, mealType, cuisineType, tags,...rest } = req.body;
         const user = await User.findById(req.session.user._id);
         const images = req.files.map(file=> file.path)
         if(!user) {
@@ -32,7 +32,7 @@ router.post("/create", Upload.array("images"), async (req, res, next) => {
             totalTime,
             servings,
             mealType,
-            countryOfOrigin,
+            cuisineType,
             images,
             tags,
             _user: user,
@@ -65,7 +65,7 @@ router.get("/edit/:id", isLoggedOut, async (req, res, next) => {
 
 router.post("/edit/:id", Upload.array("images"), async (req, res, next) => {
     try {
-        const { name, ingredients, instructions, cookTime, prepTime, totalTime, servings, mealType, countryOfOrigin, tags,...rest } = req.body;
+        const { name, ingredients, instructions, cookTime, prepTime, totalTime, servings, mealType, cuisineType, tags,...rest } = req.body;
         const recipe = await Recipe.findById(req.params.id);
         let images
         if (req.files) {
@@ -82,7 +82,7 @@ router.post("/edit/:id", Upload.array("images"), async (req, res, next) => {
         recipe.servings = servings;
         recipe.mealType = mealType;
         recipe.images = images;
-        recipe.countryOfOrigin = countryOfOrigin;
+        recipe.cuisineType = cuisineType;
         recipe.tags = tags;
         await recipe.save();
         res.redirect(`/recipe/${req.params.id}`);
@@ -134,7 +134,7 @@ router.post("/search", async (req, res, next) => {
                 { name: { $regex: search, $options: "i" } },
                 { ingredients: { $regex: search, $options: "i" } },
                 { mealType: { $regex: search, $options: "i" } },
-                { countryOfOrigin: { $regex: search, $options: "i" } },
+                { cuisineType: { $regex: search, $options: "i" } },
             ],
         });
         res.render("recipe/recipe-list", { user, recipes });
@@ -152,7 +152,7 @@ router.get("/search/:query", async (req, res, next) => {
                 { name: { $regex: req.params.query, $options: "i" } },
                 { ingredients: { $regex: req.params.query, $options: "i" } },
                 { mealType: { $regex: req.params.query, $options: "i" } },
-                { countryOfOrigin: { $regex: req.params.query, $options: "i" } },
+                { cuisineType: { $regex: req.params.query, $options: "i" } },
             ],
         });
         const reviews = await Review.find({});

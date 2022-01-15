@@ -15,7 +15,7 @@
         <p>Firstname:{{user.firstName}}</p>
         <p>Lastname:{{user.lastName}}</p>
         <p>Bio: {{user.bio}}</p>
-        <p>Recipes: <a href="/recipe/user/{{user._id}}">{{user._recipes.length}}</a></p>
+        <p>Recipes: {{user._recipes.length}}</p>
     </div>
         {{#if isOwner}}
         <div>
@@ -23,3 +23,22 @@
         </div>
          {{/if}}
 </div>
+{{#each user._recipes}}
+<div class="uk-card uk-card-default uk-align-center uk-width-1-2@m">
+    <div class="uk-card-header">
+        <div class="uk-grid-small uk-flex-middle" uk-grid>
+            <div class="uk-width-auto">
+                <img class="uk-border-circle" width="40" height="40" src="{{images.[0]}}">
+            </div>
+            <div class="uk-width-expand">
+                <h3 class="uk-card-title uk-margin-remove-bottom">{{name}}</h3>
+                        <span class="uk-text-middle uk-text-warning" uk-icon="star"> Rating: {{averageRating}}</span>
+                        <span class="uk-text-middle uk-text-muted" uk-icon="comments"> Reviews: {{_reviews.length}} </span>
+            </div>
+        </div>
+    </div>
+    <div class="uk-card-footer">
+        <a href="/recipe/{{_id}}" class="uk-button uk-button-text">View</a>
+    </div>
+</div>
+{{/each}}
