@@ -25,7 +25,7 @@
                         <th class="uk-text-bold uk-text-danger">Total Time:</th>
                         <th class="uk-text-bold uk-text-danger">Servings:</th>
                         {{#if recipe.cuisineType}}
-                        <th class="uk-text-bold uk-text-danger">Country of Origin:</th>
+                        <th class="uk-text-bold uk-text-danger">Cuisine:</th>
                         {{/if}}
                         <th class="uk-text-bold uk-text-danger">Meal Type:</th>
                     </tr>
@@ -51,8 +51,28 @@
                 <p class="uk-text-bold uk-text-danger">Instructions:</p>
                 <p>{{recipe.instructions}}</p>
     </div>
+    {{#if recipe.images}}
+    <hr>
+    <div>
+        <h4 class="uk-text-danger">Recipe Images:</h4>
+    </div>
+    <div class="uk-margin-medium-bottom">
+        <div class="uk-position-relative uk-visible-toggle uk-light" tabindex="-1" uk-slideshow="autoplay: true; autoplay-interval: 4000; min-height: 300; max-height: 400; ratio: 7:3" uk-slideshow>
+            <ul class="uk-slideshow-items">
+                {{#each recipe.images}}
+                <li>
+                    <img src="{{this}}" uk-cover>
+                </li>
+                {{/each}}
+            </ul>
+            <a class="uk-position-center-left uk-position-small uk-hidden-hover" href="#" uk-slidenav-previous uk-slideshow-item="previous"></a>
+            <a class="uk-position-center-right uk-position-small uk-hidden-hover" href="#" uk-slidenav-next uk-slideshow-item="next"></a>
+        </div>
+    </div>
+    {{/if}}
 
     <div class="uk-margin-small">
+        <hr>
         <h3 class="uk-margin-remove-bottom">Reviews</h3>
             <div class="uk-margin-medium uk-margin-remove-top">
                 <a class="uk-text-decoration-none" href="/review/create/{{recipe._id}}" uk-icon="icon: file-edit">Make a Review</a>

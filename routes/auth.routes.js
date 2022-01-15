@@ -132,14 +132,4 @@ router.get("/logout", async (req, res, next) => {
     }
 });
 
-router.post("/logout", async (req, res, next) => {
-    try {
-        req.session.destroy();
-        req.session = null;
-        res.redirect("/login");
-    } catch (error) {
-        next(error);
-    }
-});
-
 module.exports = router;

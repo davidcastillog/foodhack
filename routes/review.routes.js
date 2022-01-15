@@ -18,6 +18,7 @@ router.get("/create/:id", isLoggedOut, async (req, res, next) => {
     }
 });
 
+
 router.post("/create/:id/", async (req, res, next) => {
     try {
         const { title, comment, rating, ...rest  } = req.body;
@@ -59,10 +60,10 @@ router.get("/delete/:id", isLoggedOut, async (req, res, next) => {
         if (review._user._id.toString() !== user._id.toString()) {
             res.redirect("/");
         }
-        // Remove review from recipe's reviews (splice)
+        // Remove review from recipe's reviews
         recipe._reviews.splice(recipe._reviews.indexOf(review._id), 1);
         await recipe.save();
-        // Remove review from user's reviews (splice)
+        // Remove review from user's reviews
         user._reviews.splice(user._reviews.indexOf(review._id), 1);
         await user.save();
         // Remove review from database

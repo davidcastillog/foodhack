@@ -113,12 +113,12 @@ router.get("/delete/:id", isLoggedOut, async (req, res, next) => {
 });
 
 // View all recipes and its reviews
-router.get("/recipe-list", async (req, res, next) => {
+router.get("/recipe-list", isLoggedOut, async (req, res, next) => {
     try {
-        const user = await User.findById(req.session.user._id);
         const recipes = await Recipe.find({});
         const reviews = await Review.find({});
-        res.render("recipe/recipe-list", { user, recipes, reviews });
+        const user = await User.findById(req.session.user._id);
+        res.render("recipe/recipe-list", { recipes, reviews, user });
     } catch (error) {
         next(error);
     }
@@ -188,7 +188,7 @@ router.get("/random", async (req, res, next) => {
 });
 
 // View top 10 best averageRating recipes
-router.get("/top10", async (req, res, next) => {
+router.get("/top10", isLoggedOut, async (req, res, next) => {
     try {
         const recipes = await Recipe.find({});
         const reviews = await Review.find({});
@@ -201,7 +201,7 @@ router.get("/top10", async (req, res, next) => {
 });
 
 // View a recipe its reviews and its author
-router.get("/:id", async (req, res, next) => {
+router.get("/:id", isLoggedOut, async (req, res, next) => {
     try {
         const recipe = await Recipe.findById(req.params.id).populate("_user");
         const reviews = await Review.find({ _recipe: req.params.id }).populate("_user");
