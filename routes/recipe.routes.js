@@ -68,7 +68,7 @@ router.post("/edit/:id", Upload.array("images"), async (req, res, next) => {
         const { name, ingredients, instructions, cookTime, prepTime, totalTime, servings, mealType, cuisineType, tags,...rest } = req.body;
         const recipe = await Recipe.findById(req.params.id);
         let images
-        if (req.files) {
+        if (req.files.length) {
             images = req.files.map(file => file.path);
         } else {
             images = recipe.images
