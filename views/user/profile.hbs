@@ -15,6 +15,7 @@
         <p>Firstname:{{user.firstName}}</p>
         <p>Lastname:{{user.lastName}}</p>
         <p>Bio: {{user.bio}}</p>
+        <p>Recipes: <a href="/recipe/user/{{user._id}}">{{user._recipes.length}}</a></p>
     </div>
         {{#if isOwner}}
         <div>

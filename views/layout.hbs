@@ -43,11 +43,12 @@
                         <li><a class="uk-text-bold uk-text-danger" href="/user/{{user.username}}">{{user.username}}</a></li>
                               <div class="uk-navbar-dropdown">
                               <ul class="uk-nav uk-navbar-dropdown-nav">
-                                    <li><a href="/user/{{user.username}}">My Profile</a></li>
-                                    <li><a href="/user/edit/">Edit Profile</a></li>
-                                    <li><a href="/user/change-password">Change Password</a></li>
-                                    <li><a href="/recipe/user/{{user._id}}">My Recipes</a></li>
-                                    <li><a href="/review/user/{{user._id}}">My Reviews</a></li>
+                                    <li><a uk-icon="user" href="/user/{{user.username}}">My Profile</a></li>
+                                    <li><a uk-icon="pencil" href="/user/edit/">Edit Profile</a></li>
+                                    <li><a uk-icon="lock" href="/user/change-password">Change Password</a></li>
+                                    <li><a uk-icon="file-text" href="/recipe/user/{{user._id}}">My Recipes</a></li>
+                                    <li><a uk-icon="heart" href="/user/{{user.username}}/favorites">My Favorites</a></li>
+                                    <li><a uk-icon="file-edit" href="/review/user/{{user._id}}">My Reviews</a></li>
                               </ul>
                            </div>
                         <li><a href="/logout">Logout</a></li>
