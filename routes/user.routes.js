@@ -1,15 +1,14 @@
 const router = require("express").Router();
 const User = require("../models/User.model");
 const Upload = require("../helpers/multer");
+const Review = require("../models/Review.model");
+const Recipe = require("../models/Recipe.model");
 const bcrypt = require("bcryptjs");
 
 // GET profile page from user if logged in and redirect to login if not logged in
 router.get("/profile", async (req, res, next) => {
     try {
         const user = await User.findById(req.session.user._id);
-        if (!user) {
-            res.redirect("/login");
-        }
         res.render("user/profile", { user });
     } catch (error) {
         next(error);
@@ -37,8 +36,8 @@ router.post("/edit", Upload.single("profilePic"), async (req, res, next) => {
         const { username, email, firstName, lastName, bio,...rest } = req.body;
         const user = await User.findById(req.session.user._id);
         let profilePic
-        if (req.files) {
-            profilePic = req.files.profilePic.path;
+        if (req.file) {
+            profilePic = req.file.path;
         } else {
             profilePic = user.profilePic
         }
@@ -49,7 +48,7 @@ router.post("/edit", Upload.single("profilePic"), async (req, res, next) => {
         user.bio = bio;
         user.profilePic = profilePic;
         await user.save();
-        res.redirect('/user/profile');
+        res.redirect(`/user/${user.username}`);
     } catch (error) {
         next(error);
     }
@@ -105,6 +104,72 @@ router.post("/change-password", async (req, res, next) => {
                 res.redirect("/user/profile");
             }
         }
+    } catch (error) {
+        next(error);
+    }
+});
+
+// List all favorite recipes of a user
+router.get("/:username/favorites", async (req, res, next) => {
+    try {
+        const user = await User.findOne({ username: req.params.username }).populate("_favorites");
+        if (!user) {
+            res.redirect("/login");
+        }
+        res.render("user/favorites", { user });
+    } catch (error) {
+        next(error);
+    }
+});
+
+// Save a recipe to user's favorites
+router.get("/:username/favorites/:recipeId", async (req, res, next) => {
+    try {
+        const user = await User.findOne({ username: req.params.username });
+        const recipe = await Recipe.findById(req.params.recipeId);
+        if (!user) {
+            res.redirect("/login");
+        }
+        if (user._id.toString() !== req.session.user._id.toString()) {
+            res.redirect("/");
+        }
+        // if is already favorite redirect to favorites page
+        if (user._favorites.includes(recipe._id)) {
+            res.redirect(`/user/${user.username}/favorites`);
+        } else {
+        user._favorites.push(recipe);
+        await user.save();
+        res.redirect(`/user/${user.username}/favorites`);
+        }
+    } catch (error) {
+        next(error);
+    }
+});
+
+// Remove a recipe from user's favorites
+router.get("/favorites/:recipeId/remove", async (req, res, next) => {
+    try {
+        const user = await User.findOne({ username: req.session.user.username });
+        const recipe = await Recipe.findById(req.params.recipeId);
+        if (!user) {
+            res.redirect("/login");
+        }
+        if (user._id.toString() !== req.session.user._id.toString()) {
+            res.redirect("/");
+        }
+        user._favorites.pull(recipe);
+        await user.save();
+        res.redirect(`/user/${user.username}/favorites`);
+    } catch (error) {
+        next(error);
+    }
+});
+
+// Get Profile page by username and populate user's recipes
+router.get("/:username", async (req, res, next) => {
+    try {
+        const user = await User.findOne({ username: req.params.username }).populate("_recipes");
+        res.render("user/profile", { user });
     } catch (error) {
         next(error);
     }

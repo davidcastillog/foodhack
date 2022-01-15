@@ -5,8 +5,7 @@ const Review = require("../models/Review.model");
 const Upload = require("../helpers/multer")
 const {isLoggedOut} = require("../utils/auth")
 
-
-// Check user is logged in and Create a new recipe and save it to user's recipes
+// Create a new recipe
 router.get("/create", isLoggedOut, async (req, res,next) => {
     try {
         const user = await User.findById(req.session.user._id);
@@ -19,7 +18,7 @@ router.get("/create", isLoggedOut, async (req, res,next) => {
 router.post("/create", Upload.array("images"), async (req, res, next) => {
     try {
         const { name, ingredients, instructions, cookTime, prepTime, totalTime, servings, mealType, countryOfOrigin, tags,...rest } = req.body;
-        const user = await req.session.user._id
+        const user = await User.findById(req.session.user._id);
         const images = req.files.map(file=> file.path)
         if(!user) {
             res.redirect("/login");
@@ -38,7 +37,10 @@ router.post("/create", Upload.array("images"), async (req, res, next) => {
             tags,
             _user: user,
         });
-        res.redirect("/");
+        // Push recipe to user's recipes
+        user._recipes.push(recipe);
+        await user.save();
+        res.redirect("/recipe/" + recipe._id);
     } catch (error) {
         next(error);
     }
@@ -48,13 +50,14 @@ router.post("/create", Upload.array("images"), async (req, res, next) => {
 router.get("/edit/:id", isLoggedOut, async (req, res, next) => {
     try {
         const recipe = await Recipe.findById(req.params.id);
+        const user = await User.findById(req.session.user._id);
         if (!recipe) {
             res.redirect("/");
         }
         if (recipe._user.toString() !== req.session.user._id.toString()) {
             res.redirect("/");
         }
-        res.render("recipe/edit-recipe", { recipe });
+        res.render("recipe/edit-recipe", { recipe, user });
     } catch (error) {
         next(error);
     }
@@ -92,54 +95,118 @@ router.post("/edit/:id", Upload.array("images"), async (req, res, next) => {
 router.get("/delete/:id", isLoggedOut, async (req, res, next) => {
     try {
         const recipe = await Recipe.findById(req.params.id);
-        if (recipe.user.toString() === req.user._id.toString()) {
-            await recipe.remove();
+        if (!recipe) {
+            res.redirect("/");
         }
-        res.redirect("recipe/recipe-list");
+        if (recipe._user.toString() !== req.session.user._id.toString()) {
+            res.redirect("/");
+        }
+        await recipe.remove();
+        // Remove recipe from user's recipes
+        const user = await User.findById(req.session.user._id);
+        user._recipes.pull(recipe);
+        await user.save();
+        res.redirect(`/recipe/user/${req.session.user._id}`);
     } catch (error) {
         next(error);
     }
 });
 
-// View all recipes
+// View all recipes and its reviews
 router.get("/recipe-list", async (req, res, next) => {
     try {
+        const user = await User.findById(req.session.user._id);
         const recipes = await Recipe.find({});
-        res.render("recipe/recipe-list", { recipes });
+        const reviews = await Review.find({});
+        res.render("recipe/recipe-list", { user, recipes, reviews });
     } catch (error) {
         next(error);
     }
 });
 
-// View a recipe and its reviews
-router.get("/:id", async (req, res, next) => {
+// Search recipes by name, ingredients, meal type and country of origin
+router.post("/search", async (req, res, next) => {
     try {
-        const recipe = await Recipe.findById(req.params.id);
-        const reviews = await Review.find({ recipe: req.params.id });
-        res.render("recipe/recipe", { recipe, reviews });
+        const { search } = req.body;
+        const user = await User.findById(req.session.user._id);
+        const recipes = await Recipe.find({
+            $or: [
+                { name: { $regex: search, $options: "i" } },
+                { ingredients: { $regex: search, $options: "i" } },
+                { mealType: { $regex: search, $options: "i" } },
+                { countryOfOrigin: { $regex: search, $options: "i" } },
+            ],
+        });
+        res.render("recipe/recipe-list", { user, recipes });
     } catch (error) {
         next(error);
     }
 });
 
-// View all recipes from a user and its reviews
-router.get("/user/:id", async (req, res, next) => {
+// View all recipes filtered by name, ingredients, meal type and country of origin
+router.get("/search/:query", async (req, res, next) => {
+    try {
+        const user = await User.findById(req.session.user._id);
+        const recipes = await Recipe.find({
+            $or: [
+                { name: { $regex: req.params.query, $options: "i" } },
+                { ingredients: { $regex: req.params.query, $options: "i" } },
+                { mealType: { $regex: req.params.query, $options: "i" } },
+                { countryOfOrigin: { $regex: req.params.query, $options: "i" } },
+            ],
+        });
+        const reviews = await Review.find({});
+        res.render("recipe/recipe-list", { user, recipes, reviews });
+    } catch (error) {
+        next(error);
+    }
+});
+
+// View all recipes a user is author of and is logged in and its reviews
+router.get("/user/:id", isLoggedOut, async (req, res, next) => {
     try {
         const user = await User.findById(req.params.id);
-        const recipes = await Recipe.find({ _user: req.params.id });
+        const recipes = await Recipe.find({ _user: req.params.id })
         const reviews = await Review.find({ _user: req.params.id });
-        res.render("recipe/user-recipes", { user, recipes, reviews });
+        res.render("user/recipe-list", { user, recipes, reviews });
     } catch (error) {
         next(error);
     }
 });
+
+// Layout Menu items
 
 // Get a random recipe
 router.get("/random", async (req, res, next) => {
     try {
-        const recipes = await Recipe.find({});
+        const recipes = await Recipe.find();
         const randomRecipe = recipes[Math.floor(Math.random() * recipes.length)];
-        res.redirect(`/recipe/${randomRecipe._id}`);
+       res.redirect(`/recipe/${randomRecipe._id}`);
+    } catch (error) {
+        next(error);
+    }
+});
+
+// View top 10 best averageRating recipes
+router.get("/top10", async (req, res, next) => {
+    try {
+        const recipes = await Recipe.find({});
+        const reviews = await Review.find({});
+        const user = await User.findById(req.session.user._id);
+        const top10 = recipes.sort((a, b) => b.averageRating - a.averageRating).slice(0, 10);
+        res.render("recipe/recipe-list", { recipes: top10, reviews, user });
+    } catch (error) {
+        next(error);
+    }
+});
+
+// View a recipe its reviews and its author
+router.get("/:id", async (req, res, next) => {
+    try {
+        const recipe = await Recipe.findById(req.params.id).populate("_user");
+        const reviews = await Review.find({ _recipe: req.params.id }).populate("_user");
+        const user = await User.findById(req.session.user._id);
+        res.render("recipe/recipe", { recipe, reviews, user });
     } catch (error) {
         next(error);
     }

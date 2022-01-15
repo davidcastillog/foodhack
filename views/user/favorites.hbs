@@ -1,8 +1,8 @@
 <div class="uk-container uk-container-xsmall uk-align-center">
     <div class="uk-align-center">
-    <h3 class="uk-text-danger">{{user.username}}'s Recipes</h3>
+    <h3 class="uk-text-danger">My Favorites</h3>
     </div>
-    {{#each recipes}}
+    {{#each user._favorites}}
     <div class="uk-grid-small uk-child-width-expand@s uk-text-center" uk-grid>
         <div>
             <div class="uk-card uk-card-default uk-card-body">
@@ -23,14 +23,10 @@
                                     <label class="uk-form-label" for="form-horizontal-text"><span class="uk-text-bold">Reviews: </span>{{_reviews.length}}</label>
                                 </div>
                                 <div class="uk-margin-small-top">
-                                    <a class="uk-button uk-button-danger" href="/recipe/edit/{{_id}}">Edit</a>
-                                    <a class="uk-button uk-button-danger" href="/recipe/delete/{{_id}}">Delete</a>
+                                    <a class="uk-button uk-button-danger" href="/user/favorites/{{_id}}/remove">Delete</a>
                                 </div>
                             </li>
                         </ul>
-    {{#if errorMessage}}
-    <p uk-alert>{{errorMessage}}</p>
-    {{/if}}
                     </div>
                 </div>
             </div>

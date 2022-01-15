@@ -1,4 +1,4 @@
-<h3 class="uk-padding-small">Create Recipe</h3>
+<h3 class="uk-padding-small">Edit Recipe</h3>
 <form class="uk-form-horizontal uk-margin-small uk-padding-small" enctype="multipart/form-data" action="/recipe/edit/{{recipe.id}}" method="POST">
     <div class="uk-margin">
         <label class="uk-form-label" for="form-horizontal-text">Name</label>
@@ -307,6 +307,7 @@
     </div>
 
     {{#each recipe.images}}
+    <label class="uk-form-label" for="form-horizontal-select">Actual images:</label>
     <div class="uk-child-width-1-4@m uk-text-center uk-grid-small" uk-grid>
     <div>
         <div class="uk-card uk-card-default uk-card-body">
@@ -317,7 +318,7 @@
     {{/each}}
 
     <div class="uk-margin">
-        <label class="uk-form-label" for="form-horizontal-select">Images:</label>
+        <label class="uk-form-label" for="form-horizontal-select">Replace with new images:</label>
         <div uk-form-custom>
             <input type="file" name="images" multiple>
             <button class="uk-button uk-button-default" type="button" tabindex="-1">Select</button>

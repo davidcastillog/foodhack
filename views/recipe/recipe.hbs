@@ -1,78 +1,55 @@
-  <form action="uk-form-horizontal uk-margin-small uk-padding-small" enctype="multipart/form-data" action="/recipe/{{recipe.id}}" method="POST">
-   <div class="uk-container-large uk-padding-large"> 
-       {{!-- Recipe name --}}
-       <h3>{{recipe.name}}</h3>      
-       {{!-- Star rating --}}
-       <div class="uk-container-large">
-           {{recipe.averageRating}} 
-           <span uk-icon="star"></span>
-           <span uk-icon="star"></span>
-           <span uk-icon="star"></span>
-           <span uk-icon="star"></span>
-           <span uk-icon="star"></span>    
-       </div>
-        {{!-- Images --}}
-        <div class="uk-container-small uk-padding-small"> 
-            <div class="uk-position-relative uk-visible-toggle uk-light" tabindex="-1" uk-slideshow>
-
-            <ul class="uk-slideshow-items">
-                {{#each recipe.images}}
-                        <li>
-                            <img src= {{this}} alt="" uk-cover>
-                        </li>
-                {{/each}}    
-            </ul>
-            <a class="uk-position-center-left uk-position-small uk-hidden-hover" href="#" uk-slidenav-previous uk-slideshow-item="previous"></a>
-            <a class="uk-position-center-right uk-position-small uk-hidden-hover" href="#" uk-slidenav-next uk-slideshow-item="next"></a>
+<div class="uk-container uk-margin-medium">
+    <div>
+        <h1>{{recipe.name}}</h1>
+        <div>
+            <span class="uk-text-middle uk-text-warning" uk-icon="star"> Rating: {{recipe.averageRating}}</span>
+            <span class="uk-text-middle uk-text-muted" uk-icon="comments"> Reviews: {{recipe._reviews.length}} </span>
+            <span class="uk-text-decoration-none uk-text-middle uk-text-danger" uk-icon="heart"><a class="uk-text-decoration-none uk-text-danger" href="/user/{{user.username}}/favorites/{{recipe._id}}"> Save to favorites</a></span>
+            <p><span>Author: <a class="uk-text-decoration-none uk-text-muted" href="/user/{{recipe._user.username}}">{{recipe._user.username}}</a></span></p>
+        </div>
+            <div class="uk-overflow-hidden">
+                <img src="{{recipe.images.[0]}}" width="300" height="300" uk-scrollspy="cls: uk-animation-kenburns; repeat: true">
             </div>
-        </div>
-          {{!-- Recipe stuff --}}
-        <div class="uk-container-large">
-            <h4>Ingredients : {{recipe.ingredients}}</h4>
-            </div>
-        
-        <div class="uk-container-large">
-         <h4>Instructions : {{recipe.instructions}}</h4>
-        </div>
-        
-        <div class="uk-container-large">
-          <h4>Cook time : {{recipe.cookTime}}</h4> 
-        </div>
-        
-        <div class="uk-container-large">
-          <h4>Prep time : {{recipe.cookTime}}</h4>
-        </div>
-
-        <div class="uk-container-large">
-          <h4>Total time : {{recipe.totalTime}}</h4> 
-        </div>
-
-        <div class="uk-container-large">
-          <h4>Servings : {{recipe.servings}}</h4>
-        </div>
-
-        <div class="uk-container-large">
-          <h4>Meal type : {{recipe.mealType}}</h4>
-        </div>
-
-        <div class="uk-container-large">
-          <h4>Country of Origin : {{recipe.countryOfOrigin}}</h4>
-        </div>
-
-        <div class="uk-container-large">
-          <h4>Tags : {{recipe.tags}}</h5>
-        </div>
+                <p>Ingredients: {{recipe.ingredients}}</p>
+                <p>Instructions: {{recipe.instructions}}</p>
+                {{#if recipe.cookTime}}
+                <p>Cook Time: {{recipe.cookTime}}</p>
+                {{/if}}
+                <p>Preparation Time: {{recipe.prepTime}}</p>
+                <p>Total Time: {{recipe.totalTime}}</p>
+                <p>Servings: {{recipe.servings}}</p>
+            {{#if recipe.countryOfOrigin}}
+                <p>Country of Origin: {{recipe.countryOfOrigin}}</p>
+            {{/if}}
+                <p>Meal Type: {{recipe.mealType}} </p>
     </div>
-    </form>
 
-
-
-
-
-
-
-
-
-
-
-
+    <div class="uk-margin-small">
+        <h3 class="uk-margin-remove-bottom">Reviews</h3>
+            <div class="uk-margin-medium uk-margin-remove-top">
+                <a class="uk-text-decoration-none" href="/review/create/{{recipe._id}}" uk-icon="icon: file-edit">Make a Review</a>
+            </div>
+        {{#each reviews}}
+        <article class="uk-comment uk-margin-small-bottom">
+            <header class="uk-comment-header">
+                <div class="uk-grid-medium uk-flex-middle" uk-grid>
+                    <div class="uk-width-auto">
+                        <a href="/user/{{_user.username}}"><img class="uk-border-circle" src="{{_user.profilePic}}" width="30" height="30" alt=""></a>
+                    </div>
+                    <div class="uk-width-expand">
+                        <h4 class="uk-comment-title uk-margin-remove"><a class="uk-text-decoration-none uk-text-muted uk-text-emphasis">{{title}}</a></h4>
+                            <ul class="uk-comment-meta uk-subnav uk-subnav-divider uk-margin-remove-top">
+                            <li><a href="/user/{{_user.username}}">{{_user.username}}</a></li>
+                            <li><a class="uk-text-warning uk-text-small uk-link-muted" uk-icon="star"> Rating: {{rating}}</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </header>
+                <div class="uk-comment-body">
+                    <p>{{comment}}</p>
+                </div>
+            <hr>
+        </article>
+        {{/each}}
+    </div>
+</div>

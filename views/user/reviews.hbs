@@ -1,0 +1,25 @@
+<div class="uk-container uk-container-xsmall uk-align-center">
+    <div class="uk-align-center">
+    <h3 class="uk-text-danger">My Reviews</h3>
+    </div>
+    {{#each reviews}}
+    <div class="uk-grid-small uk-child-width-expand@s uk-text-center" uk-grid>
+        <div>
+            <div class="uk-card uk-card-default uk-card-body">
+                <div class="uk-align-center">
+                <ul class="uk-list">
+                    <label><p class="uk-text-danger uk-text-bold">Recipe:</p>{{_recipe.name}}</label>
+                    <label class="uk-text-danger uk-text-bold">My Review:</label>
+                    <label>Title: {{title}}</label>
+                    <label>Comment: {{comment}}</label>
+                    <label>Rating: {{rating}} stars</label>
+                    <div>
+                    <a class="uk-button uk-button-danger" href="/review/delete/{{_id}}">Delete</a>
+                    </div>
+                </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{/each}}
+</div>

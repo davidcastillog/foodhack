@@ -1,4 +1,4 @@
-<div class="uk-card uk-card-default uk-width-1-2@m">
+<div class="uk-card uk-card-default uk-width-1-2@m uk-align-center">
     <div class="uk-card-header">
         <div class="uk-grid-small uk-flex-middle" uk-grid>
             <div class="uk-width-auto">
@@ -15,5 +15,11 @@
         <p>Firstname:{{user.firstName}}</p>
         <p>Lastname:{{user.lastName}}</p>
         <p>Bio: {{user.bio}}</p>
+        <p>Recipes: <a href="/recipe/user/{{user._id}}">{{user._recipes.length}}</a></p>
     </div>
+        {{#if isOwner}}
+        <div>
+            <a class="uk-button uk-button-danger uk-align-center" href="/user/edit">Edit Profile</a>
+        </div>
+         {{/if}}
 </div>
