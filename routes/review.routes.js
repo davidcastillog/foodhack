@@ -33,10 +33,10 @@ router.post("/create/:id/", async (req, res, next) => {
             _recipe: recipe,
             _user: user,
         });
+        // Update average rating
+        recipe.averageRating = ((recipe.averageRating * recipe._reviews.length + review.rating) / (recipe._reviews.length + 1)).toFixed(2);
         // Push review to recipe's reviews
         recipe._reviews.push(review);
-        // Update average rating
-        recipe.averageRating = ((recipe.averageRating + review.rating) / (recipe._reviews.length)).toFixed(2);
         await recipe.save();
         // Push review to user's reviews
         user._reviews.push(review);

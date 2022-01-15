@@ -169,8 +169,7 @@ router.get("/favorites/:recipeId/remove", async (req, res, next) => {
 router.get("/:username", async (req, res, next) => {
     try {
         const user = await User.findOne({ username: req.params.username }).populate("_recipes");
-        let isOwner = req.session.user.username === user.username ? true : false
-        res.render("user/profile", { user, isOwner });
+        res.render("user/profile", { user });
     } catch (error) {
         next(error);
     }
