@@ -1,2 +1,27 @@
-<h1 class="uk-padding-small">Welcome to {{title}} 🌮🍔🍕🍟</h1>
-<p class="uk-padding-small">A place to share your recipes!</p>
+<div class="uk-margin uk-position-center">
+
+<h1 class="uk-padding-small uk-text-center">Welcome to {{title}} 🌮🍔🍕🍟</h1>
+<p class="uk-padding-small uk-text-center">A place to share your recipes!</p>
+<br>
+<br>
+<br>
+<br>
+
+
+    <div class="search-box uk-position-center">
+    
+        <form class="uk-search uk-search-default" action="/recipe/search/" method="POST">  
+            <span uk-search-icon></span>
+            <input class="search-box uk-search-input" type="search" placeholder="Find recipes" name="search" autofocus>
+        </form>
+    
+    </div> 
+
+    <div class="favorites">
+   
+    <p class="uk-text-center uk-pading-small">>>Personalize your experience<<</p>
+    <h4 class="uk-text-center">What are your favourite cuisines?</h4>
+   
+    </div>
+</div>
+
