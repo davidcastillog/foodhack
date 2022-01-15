@@ -47,28 +47,34 @@ router.post("/create/:id/", async (req, res, next) => {
     }
 });
 
-// Delete a review a user is author of and is logged in and Update Average Rating
+// Delete a review a user is author of and is logged in.
 router.get("/delete/:id", isLoggedOut, async (req, res, next) => {
     try {
         const review = await Review.findById(req.params.id);
+        const recipe = await Recipe.findById(review._recipe);
+        const user = await User.findById(req.session.user._id);
         if (!review) {
             res.redirect("/");
         }
-        if (review._user._id.toString() !== req.session.user._id.toString()) {
+        if (review._user._id.toString() !== user._id.toString()) {
             res.redirect("/");
         }
-        const recipe = await Recipe.findById(review._recipe._id);
-
-        // Update Average Rating of recipe after deleting review
-        if (recipe.averageRating > 0) {
-            recipe.averageRating = (((recipe.averageRating * recipe._reviews.length) - review.rating)).toFixed(2);
-        } else {
-            recipe.averageRating = 0;
-        }
-        // Delete the review from the recipe array
+        // Remove review from recipe's reviews (splice)
         recipe._reviews.splice(recipe._reviews.indexOf(review._id), 1);
         await recipe.save();
+        // Remove review from user's reviews (splice)
+        user._reviews.splice(user._reviews.indexOf(review._id), 1);
+        await user.save();
+        // Remove review from database
         await review.remove();
+        // Access the recipe's reviews array and sum all the ratings to get the average rating
+        const reviews = await Review.find({ _recipe: recipe._id });
+        let sum = 0;
+        reviews.forEach(review => {
+            sum += review.rating;
+        });
+        recipe.averageRating = (sum / reviews.length).toFixed(2);
+        await recipe.save();
         res.redirect(`/recipe/${recipe._id}`);
     } catch (error) {
         next(error);

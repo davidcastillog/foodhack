@@ -61,11 +61,10 @@ const RecipeSchema = new Schema(
                 message: "Servings must be an integer number (Ex. 1, 2, 3, etc.)"
             }
         },
-        countryOfOrigin: {
+        cuisineType: {
             type: String,
-            min: [3, "Country of origin must be at least 3 characters"],
-            max: [50, "Country of origin must be at most 50 characters"],
-            default: "",
+            min: [3, "Cuisine type must be at least 3 characters"],
+            max: [50, "Cuisine type must be at most 50 characters"],
         },
         mealType: {
             type: String,
