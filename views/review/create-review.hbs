@@ -1,0 +1,38 @@
+<div class="uk-container uk-margin-medium">
+    <h3 class="uk-padding-small">Make a Review</h3>
+    <div class="uk-padding-small">
+        <p>Recipe: {{recipe.name}}</p>
+        <p>Recipe Creator: {{user.username}}</p>
+        <span class="uk-text-middle uk-text-warning uk-text-small" uk-icon="star"> Recipe Rating: {{recipe.averageRating}} </span>
+    </div>
+    <form class="uk-form-horizontal uk-padding-small" action="/review/create/{{recipe._id}}/" method="POST">
+        <div class="uk-margin uk-width-1-2@s">
+            <label class="uk-form-label" for="form-horizontal-text">Title</label>
+            <div class="uk-form-controls">
+                <input class="uk-input" name="title" type="text" placeholder="Title">
+            </div>
+        </div>
+
+        <div class="uk-margin uk-width-1-2@s">
+            <label class="uk-form-label" for="form-horizontal-text">Comment:</label>
+            <div class="uk-form-controls">
+            <textarea class="uk-textarea" name="comment" rows="4" placeholder="Comment"></textarea>
+            </div>
+        </div>
+
+        <div class="uk-margin uk-width-1-4@s">
+            <label class="uk-form-label" for="form-horizontal-select">Rating:</label>
+            <div class="uk-form-controls">
+                <select class="uk-select" name="rating">
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5</option>
+                </select>
+            </div>
+        </div>
+
+        <button class="uk-button uk-button-danger uk-align-center">Send Review</button>
+    </form>
+</div>

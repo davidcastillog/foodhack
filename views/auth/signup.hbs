@@ -1,0 +1,32 @@
+<form class="uk-position-center" action="/signup" method="post">
+
+    <div class="uk-margin">
+        <div class="uk-inline">
+            <span class="uk-form-icon" uk-icon="icon: mail"></span>
+            <input class="uk-input" type="text" name="email" placeholder="Email" required>
+        </div>
+    </div>
+    
+    <div class="uk-margin">
+        <div class="uk-inline">
+            <span class="uk-form-icon" uk-icon="icon: user"></span>
+            <input class="uk-input" type="text" name="username" placeholder="Username" required>
+        </div>
+    </div>
+
+    <div class="uk-margin">
+        <div class="uk-inline">
+            <span class="uk-form-icon" uk-icon="icon: lock"></span>
+            <input class="uk-input" type="password" name="password" placeholder="******" required>
+        </div>
+    </div>
+
+    <div class="uk-margin">
+          <button class="uk-button uk-button-danger uk-align-center">Sign Up</button>
+    </div>
+    <div class="uk-alert-danger">
+    {{#if errorMessage}}
+    <p class="uk-width-medium uk-text-center" uk-alert>{{errorMessage}}</p>
+    {{/if}}
+    </div>
+</form>
