@@ -1,110 +1,113 @@
-<div class="uk-margin uk-position-center">
+<div class="uk-margin">
 
     <h2 class="uk-padding-small uk-text-center">Welcome to {{title}} 🌮🍔🍕🍟</h2>
     <p class="uk-padding-small uk-text-center">A place to share your recipes!</p>
-<br>
-<br>
-<br>
-<br>
+
 
     <div class="search-box uk-position-center">
     
         <form class="uk-search uk-search-default" action="/recipe/search/" method="POST">  
-            <span uk-search-icon></span>
+          
             <input class="search-box uk-search-input" type="search" placeholder="Find recipes" name="search" autofocus>
         </form>
     
     </div> 
+<br>
+<br>
+<br>
+<br>
+<br>
 
     <div class="favorites">
     <p class="uk-text-center uk-text-small uk-text-light uk-text-italic uk-text-danger uk-text-capitalize">Personalize your experience</p>
     <h4 class="uk-text-center">What are your favourite cuisines?</h4>
-    <div class="uk-position-relative uk-visible-toggle uk-light" tabindex="-1" uk-slider>
+    </div>
+    <div class="circles uk-position-relative uk-visible-toggle uk-light" tabindex="-1" uk-slider>
 
-    <ul class="uk-slider-items uk-child-width-1-2 uk-child-width-1-3@m uk-grid">
+    <ul class="uk-slider-items uk-grid-small">
         <li>
             <div class="uk-panel">
                 
-                <img src={{recipe.images}} alt="">
-                <div class="uk-position-center uk-panel"><h1>Italian</h1></div>
+                <img class="uk-border-circle" src="/images/countries/Italian.jpeg" alt="" style="height:150px; width:150px">
+                <div class="uk-position-center uk-panel"><h3><a href="recipe/{{recipe.cuisineType.Mexican}}">Italian</a></h3></div>
             </div>
         </li>
         <li>
             <div class="uk-panel">
-                <img src="images/slider2.jpg" alt="">
-                <div class="uk-position-center uk-panel"><h1>Venezuelan</h1></div>
+                <img class="uk-border-circle" src="/images/countries/Venezuelan.jpeg" alt=""style="height:150px; width:150px">
+                <div class="uk-position-center uk-panel"><h3><a href="recipe/{{recipe.cuisineType.Mexican}}">Venezuelan</a></h3></div>
             </div>
         </li>
         <li>
             <div class="uk-panel">
-                <img src="images/slider3.jpg" alt="">
-                <div class="uk-position-center uk-panel"><h1>French</h1></div>
+                <img class="uk-border-circle" src="/images/countries/Mexican.jpeg" alt=""style="height:150px; width:150px">
+                <div class="uk-position-center uk-panel"><h3><a href="recipe/{{recipe.cuisineType.Mexican}}">French</a></h3></div>
             </div>
         </li>
         <li>
             <div class="uk-panel">
-                <img src="images/slider4.jpg" alt="">
-                <div class="uk-position-center uk-panel"><h1>German</h1></div>
+                <img class="uk-border-circle" src="/images/countries/Colombian.jpeg" alt=""style="height:150px; width:150px">
+                <div class="uk-position-center uk-panel"><h3><a href="recipe/{{recipe.cuisineType.Mexican}}">German</a></h3></div>
             </div>
         </li>
         <li>
             <div class="uk-panel">
-                <img src="images/slider5.jpg" alt="">
-                <div class="uk-position-center uk-panel"><h1>Southern</h1></div>
+                <img class="uk-border-circle" src="/images/countries/Mexican.jpeg" alt=""style="height:150px; width:150px">
+                <div class="uk-position-center uk-panel"><h3><a href="recipe/{{recipe.cuisineType.Mexican}}">Southern</a></h3></div>
             </div>
         </li>
         <li>
             <div class="uk-panel">
-                <img src="images/slider1.jpg" alt="">
-                <div class="uk-position-center uk-panel"><h1>Mexican</h1></div>
+                <img class="uk-border-circle" src="/images/countries/Mexican.jpeg" alt=""style="height:150px; width:150px">
+                <div class="uk-position-center uk-panel"><h3><a href="recipe/{{recipe.cuisineType.Mexican}}">Mexican</a></h3></div>
             </div>
         </li>
         <li>
             <div class="uk-panel">
-                <img src="images/slider2.jpg" alt="">
-                <div class="uk-position-center uk-panel"><h1>Thai</h1></div>
+                <img class="uk-border-circle" src="/images/countries/Mexican.jpeg" alt=""style="height:150px; width:150px">
+                <div class="uk-position-center uk-panel"><h3><a href="recipe/{{recipe.cuisineType.Mexican}}">Thai</a></h3></div>
             </div>
         </li>
         <li>
             <div class="uk-panel">
-                <img src="images/slider3.jpg" alt="">
-                <div class="uk-position-center uk-panel"><h1>Asian</h1></div>
+                <img class="uk-border-circle" src="/images/countries/Asian.jpeg" alt=""style="height:150px; width:150px">
+                <div class="uk-position-center uk-panel"><h3><a href="recipe/{{recipe.cuisineType.Mexican}}">Asian</a></h3></div>
             </div>
         </li>
         <li>
             <div class="uk-panel">
-                <img src="images/slider4.jpg" alt="">
-                <div class="uk-position-center uk-panel"><h1>American</h1></div>
+                <img class="uk-border-circle" src="/images/countries/Mexican.jpeg" alt=""style="height:150px; width:150px">
+                <div class="uk-position-center uk-panel"><h3><a href="recipe/{{recipe.cuisineType.Mexican}}">American</a></h3></div>
             </div>
         </li>
         <li>
             <div class="uk-panel">
-                <img src="images/slider5.jpg" alt="">
-                <div class="uk-position-center uk-panel"><h1>Indian</h1></div>
+                <img class="uk-border-circle" src="/images/countries/Indian.jpeg" alt=""style="height:150px; width:150px">
+                <div class="uk-position-center uk-panel"><h3><a href="recipe/{{recipe.cuisineType.Mexican}}">Indian</a></h3></div>
             </div>
         </li>
          <li>
             <div class="uk-panel">
-                <img src="images/slider5.jpg" alt="">
-                <div class="uk-position-center uk-panel"><h1>Medterranean</h1></div>
+                <img class="uk-border-circle" src="/images/countries/Colombian.jpeg" alt=""style="height:150px; width:150px">
+                <div class="uk-position-center uk-panel"><h3><a href="recipe/{{recipe.cuisineType.Mexican}}">Mediterranean</a></h3></div>
             </div>
         </li>
          <li>
             <div class="uk-panel">
-                <img src="images/slider5.jpg" alt="">
-                <div class="uk-position-center uk-panel"><h1>Spanish</h1></div>
+                <img class="uk-border-circle" src="/images/countries/Mexican.jpeg" alt=""style="height:150px; width:150px">
+                <div class="uk-position-center uk-panel"><h3><a href="recipe/{{recipe.cuisineType.Mexican}}">Spanish</a></h3></div>
             </div>
         </li>
          <li>
             <div class="uk-panel">
-                <img src="images/slider5.jpg" alt="">
-                <div class="uk-position-center uk-panel"><h1>Moroccan</h1></div>
+                <img class="uk-border-circle" src="/images/countries/Colombian.jpeg" alt=""style="height:150px; width:150px">
+                <div class="uk-position-center uk-panel"><h3><a href="recipe/{{recipe.cuisineType.Mexican}}">Moroccan</a></h3></div>
             </div>
         </li>
          <li>
             <div class="uk-panel">
-                <img src="images/slider5.jpg" alt="">
-                <div class="uk-position-center uk-panel"><h1>Croatian</h1></div>
+                <img class="uk-border-circle" src="/images/countries/Mexican.jpeg" alt=""style="height:150px; width:150px">
+                <div class="uk-position-center uk-panel"><h3><a href="recipe/{{recipe.cuisineType.Mexican}}">Croatian</a></h3></div>
             </div>
         </li>
     </ul>
