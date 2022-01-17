@@ -17,4 +17,8 @@
     </div>
 </div>
 {{/each}}
+{{#if errorMessage}}
+<div class="uk-alert-danger" uk-alert>
+    {{errorMessage}}
+{{/if}}
 </div>
