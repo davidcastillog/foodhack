@@ -1,13 +1,21 @@
 <div class="uk-card uk-card-default uk-width-1-2@m uk-align-center">
-    <div class="uk-card-header">
+    <div class="uk-card-header uk-margin-remove-bottom">
         <div class="uk-grid-small uk-flex-middle" uk-grid>
             <div class="uk-width-auto">
                 <img class="uk-border-circle" width="40" height="40" src="{{user.profilePic}}">
             </div>
-            <div class="uk-width-expand">
-                <h3 class="uk-card-title uk-text-danger uk-margin-remove-bottom">{{user.username}}</h3>
+            <div class="uk-width-expand uk-margin-remove-bottom">
+                <h3 class="uk-card-title uk-text-danger">{{user.username}}</h3>
             </div>
+            <p uk-margin>
+            <a class="uk-button uk-button-danger" href="/user/{{user.username}}/follow">Follow</a>
+            <a class="uk-button uk-button-secondary" href="/user/{{user.username}}/unfollow">Unfollow</a>
+            </p>
         </div>
+        <p>
+        </p><span class="uk-text-bold uk-text-danger">Followers:</span><span> {{user._followers.length}}</span>
+        <span class="uk-text-bold uk-text-danger"> Following:</span><span> {{user._following.length}}</span>
+        </p>
     </div>
     <div class="uk-card-body">
         <p><span class="uk-text-bold uk-text-danger">email: </span>{{user.email}}</p>
@@ -18,6 +26,7 @@
         <p><span class="uk-text-bold uk-text-danger">Lastname: </span>{{user.lastName}}</p>
         {{/if}}
         {{#if user.bio}}
+        <hr>
         <p><span class="uk-text-bold uk-text-danger">Bio: </span><p>{{user.bio}}</p></p>
         {{/if}}
     </div>
