@@ -1,8 +1,13 @@
 <div class="uk-card uk-card-default uk-width-1-2@m uk-align-center">
     <div class="uk-card-header uk-margin-remove-bottom">
+        {{#if message}}
+        <div class="uk-alert-success" uk-alert>
+            {{message}}
+        </div>
+        {{/if}}
         <div class="uk-grid-small uk-flex-middle" uk-grid>
             <div class="uk-width-auto">
-                <img class="uk-border-circle" width="40" height="40" src="{{user.profilePic}}">
+                <img class="uk-border-circle" width="55" height="55" src="{{user.profilePic}}">
             </div>
             <div class="uk-width-expand uk-margin-remove-bottom">
                 <h3 class="uk-card-title uk-text-danger">{{user.username}}</h3>
@@ -13,8 +18,8 @@
             </p>
         </div>
         <p>
-        </p><span class="uk-text-bold uk-text-danger">Followers:</span><span> {{user._followers.length}}</span>
-        <span class="uk-text-bold uk-text-danger"> Following:</span><span> {{user._following.length}}</span>
+        <span class="uk-text-bold uk-text-danger"> Following: </span><span><a class="uk-text-decoration-none" href="/user/{{user.username}}/following"> {{user._following.length}} </a></span>
+        <span class="uk-text-bold uk-text-danger">Followers: </span><span> <a class="uk-text-decoration-none" href="/user/{{user.username}}/followers">{{user._followers.length}}</a></span>
         </p>
     </div>
     <div class="uk-card-body">

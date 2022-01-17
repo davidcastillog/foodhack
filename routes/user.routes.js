@@ -178,6 +178,9 @@ router.get("/:username", async (req, res, next) => {
 // Follow a user save it to user's following list and save it to user's followers list
 router.get("/:username/follow", async (req, res, next) => {
     try {
+        if(!req.session.user) {
+            res.redirect("/login");
+        }
         const user = await User.findOne({ username: req.params.username });
         const follower = await User.findById(req.session.user._id);
         if (!user) {
@@ -205,6 +208,9 @@ router.get("/:username/follow", async (req, res, next) => {
 // Unfollow a user remove it from user's following list and remove it from user's followers list
 router.get("/:username/unfollow", async (req, res, next) => {
     try {
+        if(!req.session.user) {
+            res.redirect("/login");
+        }
         const user = await User.findOne({ username: req.params.username });
         const follower = await User.findById(req.session.user._id);
         if (!user) {
@@ -230,6 +236,9 @@ router.get("/:username/unfollow", async (req, res, next) => {
 // Get user's followers list
 router.get("/:username/followers", async (req, res, next) => {
     try {
+        if(!req.session.user) {
+            res.redirect("/login");
+        }
         const user = await User.findOne({ username: req.params.username }).populate("_followers");
         if (!user) {
             res.redirect("/login");
@@ -243,6 +252,9 @@ router.get("/:username/followers", async (req, res, next) => {
 // Get user's following list
 router.get("/:username/following", async (req, res, next) => {
     try {
+        if(!req.session.user) {
+            res.redirect("/login");
+        }
         const user = await User.findOne({ username: req.params.username }).populate("_following");
         if (!user) {
             res.redirect("/login");

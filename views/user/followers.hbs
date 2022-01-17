@@ -1,0 +1,24 @@
+<div class="uk-container uk-container-small uk-margin-medium">
+{{#if user._following}}
+<div class="uk-text-center">
+<h2 class="uk-text-danger uk-align-center">{{user.username}}'s Followers</h2>
+</div>
+{{/if}}
+{{#each user._followers}}
+<div class="uk-card uk-card-default uk-align-center uk-width-1-1@m">
+    <div class="uk-card-header">
+        <div class="uk-grid-small uk-flex-middle" uk-grid>
+            <div class="uk-width-auto uk-border-circle" style="background-image: url({{profilePic}}); background-size: cover; width: 50px; height: 50px"></div>
+            <div class="uk-width-expand">
+                <h3 class="uk-card-title uk-margin-remove-bottom">{{username}}</h3>
+                    <span class="uk-text-middle uk-text-danger" uk-icon="forward"> Following: {{_following.length}} </span>
+                    <span class="uk-text-middle uk-text-danger" uk-icon="users"> Followers: {{_followers.length}} </span>
+            </div>
+            <div>
+            <a href="/user/{{username}}" class="uk-button uk-button-text">View</a>
+            </div>
+        </div>
+    </div>
+</div>
+{{/each}}
+</div>
