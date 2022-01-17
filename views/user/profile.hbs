@@ -5,24 +5,28 @@
                 <img class="uk-border-circle" width="40" height="40" src="{{user.profilePic}}">
             </div>
             <div class="uk-width-expand">
-                <h3 class="uk-card-title uk-margin-remove-bottom">{{user.username}}</h3>
+                <h3 class="uk-card-title uk-text-danger uk-margin-remove-bottom">{{user.username}}</h3>
             </div>
         </div>
     </div>
     <div class="uk-card-body">
-        <p>Username: {{user.username}}</p>
-        <p>email: {{user.email}}</p>
-        <p>Firstname:{{user.firstName}}</p>
-        <p>Lastname:{{user.lastName}}</p>
-        <p>Bio: {{user.bio}}</p>
-        <p>Recipes: {{user._recipes.length}}</p>
+        <p><span class="uk-text-bold uk-text-danger">email: </span>{{user.email}}</p>
+        {{#if user.firstName}}
+        <p><span class="uk-text-bold uk-text-danger">Firstname: </span>{{user.firstName}}</p>
+        {{/if}}
+        {{#if user.lastName}}
+        <p><span class="uk-text-bold uk-text-danger">Lastname: </span>{{user.lastName}}</p>
+        {{/if}}
+        {{#if user.bio}}
+        <p><span class="uk-text-bold uk-text-danger">Bio: </span><p>{{user.bio}}</p></p>
+        {{/if}}
     </div>
-        {{#if isOwner}}
-        <div>
-            <a class="uk-button uk-button-danger uk-align-center" href="/user/edit">Edit Profile</a>
-        </div>
-         {{/if}}
 </div>
+{{#if user._recipes}}
+<div class="uk-text-center">
+    <h3 class="uk-text-danger">{{user.username}}' Recipes</h3>
+</div>
+{{/if}}
 {{#each user._recipes}}
 <div class="uk-card uk-card-default uk-align-center uk-width-1-2@m">
     <div class="uk-card-header">
@@ -35,10 +39,10 @@
                         <span class="uk-text-middle uk-text-warning" uk-icon="star"> Rating: {{averageRating}}</span>
                         <span class="uk-text-middle uk-text-muted" uk-icon="comments"> Reviews: {{_reviews.length}} </span>
             </div>
+            <div>
+            <a href="/recipe/{{_id}}" class="uk-button uk-button-text">View</a>
+            </div>
         </div>
-    </div>
-    <div class="uk-card-footer">
-        <a href="/recipe/{{_id}}" class="uk-button uk-button-text">View</a>
     </div>
 </div>
 {{/each}}

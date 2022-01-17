@@ -113,7 +113,7 @@ router.post("/login", async (req, res, next) => {
         // If credentials are correct, store user in session
         req.session.user = user;
 
-        // Redirect to profile page
+        // Redirect to current page
         res.redirect(`/user/${user.username}`);
 
     } catch (error) {
@@ -126,17 +126,7 @@ router.get("/logout", async (req, res, next) => {
     try {
         req.session.destroy();
         req.session = null;
-        res.redirect("/login");
-    } catch (error) {
-        next(error);
-    }
-});
-
-router.post("/logout", async (req, res, next) => {
-    try {
-        req.session.destroy();
-        req.session = null;
-        res.redirect("/login");
+        res.redirect("/");
     } catch (error) {
         next(error);
     }
