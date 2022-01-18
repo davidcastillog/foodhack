@@ -1,0 +1,59 @@
+<div class="uk-card uk-card-default uk-width-1-2@m uk-align-center">
+    <div class="uk-card-header uk-margin-remove-bottom">
+        {{#if message}}
+        <div class="uk-alert-success" uk-alert>
+            {{message}}
+        </div>
+        {{/if}}
+        <div class="uk-grid-small uk-flex-middle" uk-grid>
+            <div class="uk-width-auto">
+                <img class="uk-border-circle" width="55" height="55" src="{{user.profilePic}}">
+            </div>
+            <div class="uk-width-expand uk-margin-remove-bottom">
+                <h3 class="uk-card-title uk-text-danger">{{user.username}}</h3>
+            </div>
+            <p uk-margin>
+            <a class="uk-button uk-button-danger" href="/user/{{user.username}}/follow">Follow</a>
+            <a class="uk-button uk-button-secondary" href="/user/{{user.username}}/unfollow">Unfollow</a>
+            </p>
+        </div>
+        <p>
+        <span class="uk-text-bold uk-text-danger" uk-icon="forward"> Following: </span><span><a class="uk-text-decoration-none" href="/user/{{user.username}}/following"> {{user._following.length}} </a></span>
+        <span class="uk-text-bold uk-text-danger" uk-icon="users">Followers: </span><span> <a class="uk-text-decoration-none" href="/user/{{user.username}}/followers">{{user._followers.length}}</a></span>
+        </p>
+    </div>
+    <div class="uk-card-body">
+        {{#if user.firstName}}
+        <p><span class="uk-text-bold uk-text-danger">Name: </span>{{user.firstName}} {{#if user.lastName}}{{user.lastName}}{{/if}}</p>
+        {{/if}}
+        {{#if user.email}}
+        <p><span class="uk-text-bold uk-text-danger">email: </span>{{user.email}}</p>
+        {{/if}}
+        {{#if user.bio}}
+        <hr>
+        <p><span class="uk-text-bold uk-text-danger">Bio: </span><p>{{user.bio}}</p></p>
+        {{/if}}
+    </div>
+</div>
+{{#if user._recipes}}
+<div class="uk-text-center">
+    <h3 class="uk-text-danger">{{user.username}}' Recipes</h3>
+</div>
+{{/if}}
+{{#each user._recipes}}
+<div class="uk-card uk-card-default uk-align-center uk-width-1-2@m">
+    <div class="uk-card-header">
+        <div class="uk-grid-small uk-flex-middle" uk-grid>
+            <div class="uk-width-auto uk-border-circle" style="background-image: url({{images.[0]}}); background-size: cover; width: 40px; height: 40px"></div>
+            <div class="uk-width-expand">
+                <h4 class="uk-card-title uk-margin-remove-bottom"><a class="uk-text-decoration-none uk-text-emphasis" href="/recipe/{{_id}}">{{name}}</a></h4>
+                        <span class="uk-text-middle uk-text-warning" uk-icon="star"> Rating: {{averageRating}}</span>
+                        <span class="uk-text-middle uk-text-muted" uk-icon="comments"> Reviews: {{_reviews.length}} </span>
+            </div>
+            <div>
+            <a href="/recipe/{{_id}}" class="uk-button uk-button-text">View</a>
+            </div>
+        </div>
+    </div>
+</div>
+{{/each}}

@@ -1,0 +1,44 @@
+<div class="uk-card uk-card-default uk-width-1-2@m uk-align-center">
+<div class="uk-container uk-margin-medium uk-margin-remove-bottom">
+    <h3 class="uk-padding-small uk-text-danger">Make a Review</h3>
+    <div class="uk-padding-small uk-padding-remove-top">
+        <p><span class="uk-text-danger uk-text-bold">Recipe: </span> {{recipe.name}}</p>
+        <p><span class="uk-text-danger uk-text-bold">Recipe Creator: </span>{{user.username}}</p>
+        <p><span class="uk-text-danger uk-text-bold"> Recipe Rating: </span><span class="uk-text-middle uk-text-warning uk-text-small" uk-icon="star"> {{recipe.averageRating}} </span></p>
+    </div>
+    <form class="uk-form-horizontal uk-padding-small uk-padding-remove-top" action="/review/create/{{recipe._id}}/" method="POST">
+        <div class="uk-margin uk-width-1-1@s">
+            <label class="uk-form-label uk-text-bold" for="form-horizontal-text">Title:</label>
+            <div class="uk-form-controls">
+                <input class="uk-input" name="title" type="text" placeholder="Title">
+            </div>
+        </div>
+
+        <div class="uk-margin uk-width-1-1@s">
+            <label class="uk-form-label uk-text-bold" for="form-horizontal-text">Comment:</label>
+            <div class="uk-form-controls">
+            <textarea class="uk-textarea" name="comment" rows="4" placeholder="Comment"></textarea>
+            </div>
+        </div>
+
+        <div class="uk-margin uk-width-1-2@s">
+            <label class="uk-form-label uk-text-bold" for="form-horizontal-select">Rating:</label>
+            <div class="uk-form-controls">
+                <select class="uk-select" name="rating">
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5</option>
+                </select>
+            </div>
+        </div>
+
+        <button class="uk-button uk-button-danger uk-align-center">Send Review</button>
+        {{#if message}}
+        {{message}}
+        {{/if}}
+    </form>
+
+</div>
+</div>
