@@ -168,8 +168,9 @@ router.get("/favorites/:recipeId/remove", async (req, res, next) => {
 // Get Profile page by username and populate user's recipes
 router.get("/:username", async (req, res, next) => {
     try {
-        const user = await User.findOne({ username: req.params.username }).populate("_recipes");
-        res.render("user/profile", { user });
+        const user = req.session.user
+        const userProfile = await User.findOne({ username: req.params.username }).populate("_recipes");
+        res.render("user/profile", { user, userProfile });
     } catch (error) {
         next(error);
     }
@@ -239,11 +240,15 @@ router.get("/:username/followers", async (req, res, next) => {
         if(!req.session.user) {
             res.redirect("/login");
         }
-        const user = await User.findOne({ username: req.params.username }).populate("_followers");
+        const user = req.session.user
+        const userProfile =  await User.findOne({ username: req.params.username }).populate("_followers");
         if (!user) {
             res.redirect("/login");
         }
-        res.render("user/followers", { user });
+        if (!user._followers.length) {
+            res.render("user/followers", { user, errorMessage: "No followers" });
+        }
+        res.render("user/followers", { user, userProfile });
     } catch (error) {
         next(error);
     }
@@ -255,11 +260,15 @@ router.get("/:username/following", async (req, res, next) => {
         if(!req.session.user) {
             res.redirect("/login");
         }
-        const user = await User.findOne({ username: req.params.username }).populate("_following");
+        const user = req.session.user
+        const userProfile = await User.findOne({ username: req.params.username }).populate("_following");
         if (!user) {
             res.redirect("/login");
         }
-        res.render("user/following", { user });
+        if (!user._following.length) {
+            res.render("user/following", { user, errorMessage: "No following anyone" });
+        }
+        res.render("user/following", { user, userProfile });
     } catch (error) {
         next(error);
     }

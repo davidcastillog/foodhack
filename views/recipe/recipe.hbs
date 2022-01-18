@@ -2,9 +2,9 @@
     <div>
         <h1 class="uk-text-danger">{{recipe.name}}</h1>
         <div>
-            <span class="uk-text-middle uk-text-warning" uk-icon="star"> Rating: {{recipe.averageRating}}</span>
+            <span class="uk-text-middle uk-text-warning" uk-icon="star"> Rating: {{recipe.averageRating}} </span>
             <span class="uk-text-middle uk-text-muted" uk-icon="comments"> Reviews: {{recipe._reviews.length}} </span>
-            <span class="uk-text-decoration-none uk-text-middle uk-text-danger" uk-icon="heart"><a class="uk-text-decoration-none uk-text-danger" href="/user/{{user.username}}/favorites/{{recipe._id}}"> Save to favorites</a></span>
+            <span class="uk-text-decoration-none uk-text-middle uk-text-danger" uk-icon="heart"><a class="uk-text-decoration-none uk-text-danger" href="/user/{{user.username}}/favorites/{{recipe._id}}"> Save to favorites</a> </span>
             <p>
                 <span class="uk-text-bold uk-text-danger">Author:</span>
                 <a class="uk-text-decoration-none uk-text-muted" href="/user/{{recipe._user.username}}">{{recipe._user.username}}</a>
