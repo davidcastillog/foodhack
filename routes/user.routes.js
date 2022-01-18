@@ -54,7 +54,7 @@ router.post("/edit", Upload.single("profilePic"), async (req, res, next) => {
     }
 });
 
-// Change user password if is the user's profile and is logged in and redirect to login if not logged in
+// Change user password if is logged in and is the user's profile
 router.get("/change-password", async (req, res, next) => {
     try {
         const user = await User.findById(req.session.user._id);
@@ -95,7 +95,7 @@ router.post("/change-password", async (req, res, next) => {
             if (!passwordMatch) {
                 res.render("user/change-password", {
                     user,
-                    error: "Incorrect password"
+                    error: "Current password incorrect"
                 });
             } else {
                 const salt = await bcrypt.genSalt(10);
@@ -170,6 +170,96 @@ router.get("/:username", async (req, res, next) => {
     try {
         const user = await User.findOne({ username: req.params.username }).populate("_recipes");
         res.render("user/profile", { user });
+    } catch (error) {
+        next(error);
+    }
+});
+
+// Follow a user save it to user's following list and save it to user's followers list
+router.get("/:username/follow", async (req, res, next) => {
+    try {
+        if(!req.session.user) {
+            res.redirect("/login");
+        }
+        const user = await User.findOne({ username: req.params.username });
+        const follower = await User.findById(req.session.user._id);
+        if (!user) {
+            res.redirect("/login");
+        }
+        // If user profile is the same as logged in user not allow to follow
+        if (user.toString() === follower.username.toString()) {
+            res.redirect(`/user/${user.username}`);
+        }
+        // If user is already following redirect to profile page
+        if (follower._following.includes(user._id)) {
+            res.redirect(`/user/${user.username}`);
+        } else {
+            follower._following.push(user._id);
+            user._followers.push(follower._id);
+            await user.save();
+            await follower.save();
+            res.redirect(`/user/${user.username}`);
+        }
+    } catch (error) {
+        next(error);
+    }
+});
+
+// Unfollow a user remove it from user's following list and remove it from user's followers list
+router.get("/:username/unfollow", async (req, res, next) => {
+    try {
+        if(!req.session.user) {
+            res.redirect("/login");
+        }
+        const user = await User.findOne({ username: req.params.username });
+        const follower = await User.findById(req.session.user._id);
+        if (!user) {
+            res.redirect("/login");
+        }
+        // if is not following redirect to profile page
+        if (!user._followers.includes(follower._id)) {
+            res.redirect(`/user/${user.username}`);
+        } else {
+            // Remove user from user's followers list
+            user._followers.pull(follower);
+            await user.save();
+            // Remove user from user's following list
+            follower._following.pull(user);
+            await follower.save();
+            res.redirect(`/user/${user.username}`);
+        }
+    } catch (error) {
+        next(error);
+    }
+});
+
+// Get user's followers list
+router.get("/:username/followers", async (req, res, next) => {
+    try {
+        if(!req.session.user) {
+            res.redirect("/login");
+        }
+        const user = await User.findOne({ username: req.params.username }).populate("_followers");
+        if (!user) {
+            res.redirect("/login");
+        }
+        res.render("user/followers", { user });
+    } catch (error) {
+        next(error);
+    }
+});
+
+// Get user's following list
+router.get("/:username/following", async (req, res, next) => {
+    try {
+        if(!req.session.user) {
+            res.redirect("/login");
+        }
+        const user = await User.findOne({ username: req.params.username }).populate("_following");
+        if (!user) {
+            res.redirect("/login");
+        }
+        res.render("user/following", { user });
     } catch (error) {
         next(error);
     }
