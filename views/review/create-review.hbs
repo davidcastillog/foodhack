@@ -1,27 +1,28 @@
-<div class="uk-container uk-margin-medium">
-    <h3 class="uk-padding-small">Make a Review</h3>
-    <div class="uk-padding-small">
-        <p>Recipe: {{recipe.name}}</p>
-        <p>Recipe Creator: {{user.username}}</p>
-        <span class="uk-text-middle uk-text-warning uk-text-small" uk-icon="star"> Recipe Rating: {{recipe.averageRating}} </span>
+<div class="uk-card uk-card-default uk-width-1-2@m uk-align-center">
+<div class="uk-container uk-margin-medium uk-margin-remove-bottom">
+    <h3 class="uk-padding-small uk-text-danger">Make a Review</h3>
+    <div class="uk-padding-small uk-padding-remove-top">
+        <p><span class="uk-text-danger uk-text-bold">Recipe: </span> {{recipe.name}}</p>
+        <p><span class="uk-text-danger uk-text-bold">Recipe Creator: </span>{{user.username}}</p>
+        <p><span class="uk-text-danger uk-text-bold"> Recipe Rating: </span><span class="uk-text-middle uk-text-warning uk-text-small" uk-icon="star"> {{recipe.averageRating}} </span></p>
     </div>
-    <form class="uk-form-horizontal uk-padding-small" action="/review/create/{{recipe._id}}/" method="POST">
-        <div class="uk-margin uk-width-1-2@s">
-            <label class="uk-form-label" for="form-horizontal-text">Title</label>
+    <form class="uk-form-horizontal uk-padding-small uk-padding-remove-top" action="/review/create/{{recipe._id}}/" method="POST">
+        <div class="uk-margin uk-width-1-1@s">
+            <label class="uk-form-label uk-text-bold" for="form-horizontal-text">Title:</label>
             <div class="uk-form-controls">
                 <input class="uk-input" name="title" type="text" placeholder="Title">
             </div>
         </div>
 
-        <div class="uk-margin uk-width-1-2@s">
-            <label class="uk-form-label" for="form-horizontal-text">Comment:</label>
+        <div class="uk-margin uk-width-1-1@s">
+            <label class="uk-form-label uk-text-bold" for="form-horizontal-text">Comment:</label>
             <div class="uk-form-controls">
             <textarea class="uk-textarea" name="comment" rows="4" placeholder="Comment"></textarea>
             </div>
         </div>
 
-        <div class="uk-margin uk-width-1-4@s">
-            <label class="uk-form-label" for="form-horizontal-select">Rating:</label>
+        <div class="uk-margin uk-width-1-2@s">
+            <label class="uk-form-label uk-text-bold" for="form-horizontal-select">Rating:</label>
             <div class="uk-form-controls">
                 <select class="uk-select" name="rating">
                     <option>1</option>
@@ -39,4 +40,5 @@
         {{/if}}
     </form>
 
+</div>
 </div>

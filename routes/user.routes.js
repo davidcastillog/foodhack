@@ -54,7 +54,7 @@ router.post("/edit", Upload.single("profilePic"), async (req, res, next) => {
     }
 });
 
-// Change user password if is the user's profile and is logged in and redirect to login if not logged in
+// Change user password if is logged in and is the user's profile
 router.get("/change-password", async (req, res, next) => {
     try {
         const user = await User.findById(req.session.user._id);
@@ -95,7 +95,7 @@ router.post("/change-password", async (req, res, next) => {
             if (!passwordMatch) {
                 res.render("user/change-password", {
                     user,
-                    error: "Incorrect password"
+                    error: "Current password incorrect"
                 });
             } else {
                 const salt = await bcrypt.genSalt(10);

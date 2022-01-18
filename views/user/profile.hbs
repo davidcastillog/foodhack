@@ -18,17 +18,16 @@
             </p>
         </div>
         <p>
-        <span class="uk-text-bold uk-text-danger"> Following: </span><span><a class="uk-text-decoration-none" href="/user/{{user.username}}/following"> {{user._following.length}} </a></span>
-        <span class="uk-text-bold uk-text-danger">Followers: </span><span> <a class="uk-text-decoration-none" href="/user/{{user.username}}/followers">{{user._followers.length}}</a></span>
+        <span class="uk-text-bold uk-text-danger" uk-icon="forward"> Following: </span><span><a class="uk-text-decoration-none" href="/user/{{user.username}}/following"> {{user._following.length}} </a></span>
+        <span class="uk-text-bold uk-text-danger" uk-icon="users">Followers: </span><span> <a class="uk-text-decoration-none" href="/user/{{user.username}}/followers">{{user._followers.length}}</a></span>
         </p>
     </div>
     <div class="uk-card-body">
-        <p><span class="uk-text-bold uk-text-danger">email: </span>{{user.email}}</p>
         {{#if user.firstName}}
-        <p><span class="uk-text-bold uk-text-danger">Firstname: </span>{{user.firstName}}</p>
+        <p><span class="uk-text-bold uk-text-danger">Name: </span>{{user.firstName}} {{#if user.lastName}}{{user.lastName}}{{/if}}</p>
         {{/if}}
-        {{#if user.lastName}}
-        <p><span class="uk-text-bold uk-text-danger">Lastname: </span>{{user.lastName}}</p>
+        {{#if user.email}}
+        <p><span class="uk-text-bold uk-text-danger">email: </span>{{user.email}}</p>
         {{/if}}
         {{#if user.bio}}
         <hr>
@@ -45,11 +44,9 @@
 <div class="uk-card uk-card-default uk-align-center uk-width-1-2@m">
     <div class="uk-card-header">
         <div class="uk-grid-small uk-flex-middle" uk-grid>
-            <div class="uk-width-auto">
-                <img class="uk-border-circle" width="40" height="40" src="{{images.[0]}}">
-            </div>
+            <div class="uk-width-auto uk-border-circle" style="background-image: url({{images.[0]}}); background-size: cover; width: 40px; height: 40px"></div>
             <div class="uk-width-expand">
-                <h3 class="uk-card-title uk-margin-remove-bottom">{{name}}</h3>
+                <h4 class="uk-card-title uk-margin-remove-bottom"><a class="uk-text-decoration-none uk-text-emphasis" href="/recipe/{{_id}}">{{name}}</a></h4>
                         <span class="uk-text-middle uk-text-warning" uk-icon="star"> Rating: {{averageRating}}</span>
                         <span class="uk-text-middle uk-text-muted" uk-icon="comments"> Reviews: {{_reviews.length}} </span>
             </div>
