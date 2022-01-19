@@ -6,9 +6,7 @@
     <form class="uk-form-horizontal uk-margin-small uk-padding-small" enctype="multipart/form-data" action="/recipe/edit/{{recipe.id}}" method="POST">
         <div class="uk-margin">
             <label class="uk-form-label" for="form-horizontal-text">Name:</label>
-            <div class="uk-form-controls">
                 <input class="uk-input uk-form-width-large" name="name" type="text" placeholder="Name" minlength="3" maxlength="50" value="{{recipe.name}}">
-            </div>
         </div>
 
         <div class="uk-margin">
@@ -43,8 +41,7 @@
 
         <div class="uk-margin">
             <label class="uk-form-label" for="form-horizontal-select">Cuisine Type:</label>
-            <div class="uk-form-controls">
-                <select class="uk-select" name="cuisineType">
+                <select class="uk-select uk-form-width-medium" name="cuisineType">
                     <option value="{{recipe.cuisineType}}">{{recipe.cuisineType}}</option>
                     <option value="French">French</option>
                     <option value="Chinese">Chinese</option>
@@ -69,12 +66,10 @@
                     <option value="Seafood">Seafood</option>
                     <option value="Other">Other</option>
                 </select>
-            </div>
         </div>
 
         <div class="uk-margin">
             <label class="uk-form-label" for="form-horizontal-select">Meal Type:</label>
-            <div class="uk-form-controls">
                 <select class="uk-select uk-form-width-medium" name="mealType">
                     <option>{{recipe.mealType}}</option>
                     <option>Breakfast</option>
@@ -83,7 +78,6 @@
                     <option>Dessert</option>
                     <option>Salad</option>
                 </select>
-            </div>
         </div>
 
         {{#each recipe.images}}
@@ -96,15 +90,13 @@
         </div>
         </div>
         {{/each}}
-
-        <div class="uk-margin">
-            <label class="uk-form-label" for="form-horizontal-select">Replace with new images:</label>
-            <div uk-form-custom>
-                <input type="file" name="images" multiple>
-                <button class="uk-button uk-button-default" type="button" tabindex="-1">Select</button>
+            <div class="uk-margin">
+                <label class="uk-form-label" for="form-horizontal-select">Replace Images:</label>
+                <div uk-form-custom="target: true">
+                    <input type="file" name="images" multiple>
+                    <input class="uk-input uk-form-width-medium" type="text" placeholder="Click to add" disabled>
+                </div>
             </div>
-        </div>
-
         <button class="uk-button uk-button-danger uk-align-center">Save Changes</button>
     </form>
     </div>

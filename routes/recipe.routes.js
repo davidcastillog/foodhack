@@ -115,7 +115,7 @@ router.get("/delete/:id", isLoggedOut, async (req, res, next) => {
 // View all recipes and its reviews
 router.get("/recipe-list", async (req, res, next) => {
     try {
-        if (!req.params.user) {
+        if (!req.session.user) {
         const recipes = await Recipe.find({});
         const reviews = await Review.find({});
         res.render("recipe/recipe-list", { recipes, reviews });
@@ -133,7 +133,7 @@ router.get("/recipe-list", async (req, res, next) => {
 // Search recipes by name, ingredients, meal type and country of origin
 router.post("/search", async (req, res, next) => {
     try {
-        if (!req.params.user) {
+        if (!req.session.user) {
         const { search } = req.body;
         const recipes = await Recipe.find({
             $or: [
@@ -150,6 +150,7 @@ router.post("/search", async (req, res, next) => {
         }
     } else {
         const { search } = req.body;
+        const user = await User.findById(req.session.user._id);
         const recipes = await Recipe.find({
             $or: [
                 { name: { $regex: search, $options: "i" } },
@@ -158,8 +159,11 @@ router.post("/search", async (req, res, next) => {
                 { cuisineType: { $regex: search, $options: "i" } },
             ],
         });
-        const user = await User.findById(req.session.user._id);
-        res.render("recipe/recipe-list", { user, recipes });
+        if (recipes.length) {
+            res.render("recipe/recipe-list", { recipes, user });
+        } else {
+            res.render("recipe/recipe-list", { recipes, user, errorMessage: "No results found! But you can create one! :D" });
+        }
     }
     } catch (error) {
         next(error);
@@ -169,7 +173,7 @@ router.post("/search", async (req, res, next) => {
 // View all recipes filtered by name, ingredients, meal type and country of origin
 router.get("/search/:query", async (req, res, next) => {
     try {
-        if (!req.params.user) {
+        if (!req.session.user) {
         const recipes = await Recipe.find({
             $or: [
                 { name: { $regex: req.params.query, $options: "i" } },
@@ -235,6 +239,34 @@ router.get("/top10", async (req, res, next) => {
             const reviews = await Review.find({});
             const user = await User.findById(req.session.user._id);
             res.render("recipe/recipe-list", { recipes, reviews, user });
+        }
+    } catch (error) {
+        next(error);
+    }
+});
+
+// View 20 random recipes
+router.get("/random20", async (req, res, next) => {
+    try {
+        if (!req.session.user) {
+            const recipes = await Recipe.find({})
+            const randomRecipes = [];
+            for (let i = 0; i < 20; i++) {
+                const randomRecipe = recipes[Math.floor(Math.random() * recipes.length)];
+                randomRecipes.push(randomRecipe);
+            }
+            const reviews = await Review.find({});
+            res.render("recipe/recipe-list", { recipes: randomRecipes, reviews });
+        } else {
+            const recipes = await Recipe.find({})
+            const randomRecipes = [];
+            for (let i = 0; i < 20; i++) {
+                const randomRecipe = recipes[Math.floor(Math.random() * recipes.length)];
+                randomRecipes.push(randomRecipe);
+            }
+            const reviews = await Review.find({});
+            const user = await User.findById(req.session.user._id);
+            res.render("recipe/recipe-list", { recipes: randomRecipes, reviews, user });
         }
     } catch (error) {
         next(error);

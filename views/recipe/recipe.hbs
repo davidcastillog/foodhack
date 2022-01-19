@@ -2,18 +2,23 @@
     <div>
         <h1 class="uk-text-danger">{{recipe.name}}</h1>
         <div>
-            <span class="uk-text-middle uk-text-warning" uk-icon="star"> Rating: {{recipe.averageRating}}</span>
-            <span class="uk-text-middle uk-text-muted" uk-icon="comments"> Reviews: {{recipe._reviews.length}} </span>
-            <span class="uk-text-decoration-none uk-text-middle uk-text-danger" uk-icon="heart"><a class="uk-text-decoration-none uk-text-danger" href="/user/{{user.username}}/favorites/{{recipe._id}}"> Save to favorites</a></span>
+            <span class="uk-text-middle uk-text-warning" uk-icon="star"> Rating: {{recipe.averageRating}} </span>
+            <span class="uk-text-middle uk-text-muted" uk-icon="comments"><a class="uk-text-decoration-none" href="#reviews">Reviews:</a> {{recipe._reviews.length}} </span>
+            <span class="uk-text-decoration-none uk-text-middle uk-text-danger" uk-icon="heart"><a class="uk-text-decoration-none uk-text-danger" href="/user/{{user.username}}/favorites/{{recipe._id}}"> Save to favorites</a> </span>
+            <div class="uk-margin-medium uk-margin-remove-top uk-align-right">
+                <a class="uk-text-decoration-none" href="/recipe/create" uk-icon="icon: file-edit">Create a Recipe </a>
+            </div>
             <p>
-                <span class="uk-text-bold uk-text-danger">Author:</span>
-                <a class="uk-text-decoration-none uk-text-muted" href="/user/{{recipe._user.username}}">{{recipe._user.username}}</a>
-                <a href="/user/{{recipe._user.username}}"><img class="uk-border-circle" src="{{recipe._user.profilePic}}" width="30" height="30" alt=""></a>
+                <div class="uk-flex uk-flex-inline uk-flex-middle">
+                    <div class="uk-text-bold uk-text-danger">Author:</div>
+                    <a class="uk-text-decoration-none uk-text-muted uk-margin-small-left" href="/user/{{recipe._user.username}}">{{recipe._user.username}}</a>
+                    <a href="/user/{{recipe._user.username}}"><div class="uk-border-circle uk-margin-small-left" style="background-image: url({{recipe._user.profilePic}}); background-size: cover; width: 40px; height: 40px"></div></a>
+                </div>
             </p>
         </div>
-            <div class="uk-overflow-hidden">
-                <img src="{{recipe.images.[0]}}" width="300" height="300" uk-scrollspy="cls: uk-animation-kenburns; repeat: true">
-            </div>
+        <div class="uk-overflow-hidden">
+            <img src="{{recipe.images.[0]}}" width="300" height="300" uk-scrollspy="cls: uk-animation-kenburns; repeat: true">
+        </div>
         <div>
             <table class="uk-table uk-table-responsive uk-table-divider uk-margin-medium-top">
                 <thead>
@@ -73,17 +78,15 @@
 
     <div class="uk-margin-small">
         <hr>
-        <h3 class="uk-margin-remove-bottom">Reviews</h3>
+        <h3 id="reviews" class="uk-margin-remove-bottom">Reviews</h3>
             <div class="uk-margin-medium uk-margin-remove-top">
-                <a class="uk-text-decoration-none" href="/review/create/{{recipe._id}}" uk-icon="icon: file-edit">Make a Review</a>
+                <a class="uk-text-decoration-none" href="/review/create/{{recipe._id}}" uk-icon="icon: comments">Make a Review </a>
             </div>
         {{#each reviews}}
         <article class="uk-comment uk-margin-small-bottom">
             <header class="uk-comment-header">
                 <div class="uk-grid-medium uk-flex-middle" uk-grid>
-                    <div class="uk-width-auto">
-                        <a href="/user/{{_user.username}}"><img class="uk-border-circle" src="{{_user.profilePic}}" width="30" height="30" alt=""></a>
-                    </div>
+                    <div class="uk-width-auto uk-border-circle" style="background-image: url({{_user.profilePic}}); background-size: cover; width: 40px; height: 40px"></div>
                     <div class="uk-width-expand">
                         <h4 class="uk-comment-title uk-margin-remove"><a class="uk-text-decoration-none uk-text-muted uk-text-emphasis">{{title}}</a></h4>
                             <ul class="uk-comment-meta uk-subnav uk-subnav-divider uk-margin-remove-top">

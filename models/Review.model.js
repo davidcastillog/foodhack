@@ -17,12 +17,6 @@ const reviewSchema = new Schema(
             required: [true, "Title is required"],
             min: [3, "Title must be at least 3 characters"],
             max: [50, "Title must be at most 50 characters"],
-            validate: {
-                validator: (title) => {
-                    return /^[a-zA-Z0-9 ]+$/.test(title);
-                },
-                message: "Title must contain only letters, numbers, and spaces"
-            }
         },
         comment: {
             type: String,
