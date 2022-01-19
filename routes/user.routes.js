@@ -33,7 +33,7 @@ router.get("/edit", async (req, res, next) => {
 
 router.post("/edit", Upload.single("profilePic"), async (req, res, next) => {
     try {
-        const { username, email, firstName, lastName, bio,...rest } = req.body;
+        const { username, email, firstName, lastName, bio, securityQuestion, securityAnswer,...rest } = req.body;
         const user = await User.findById(req.session.user._id);
         let profilePic
         if (req.file) {
@@ -45,6 +45,8 @@ router.post("/edit", Upload.single("profilePic"), async (req, res, next) => {
         user.email = email;
         user.firstName = firstName;
         user.lastName = lastName;
+        user.securityQuestion = securityQuestion;
+        user.securityAnswer = securityAnswer;
         user.bio = bio;
         user.profilePic = profilePic;
         await user.save();
@@ -245,7 +247,7 @@ router.get("/:username/followers", async (req, res, next) => {
         if (!user) {
             res.redirect("/login");
         }
-        if (!user._followers.length) {
+        if (!userProfile._followers.length) {
             res.render("user/followers", { user, errorMessage: "No followers" });
         }
         res.render("user/followers", { user, userProfile });
@@ -265,7 +267,7 @@ router.get("/:username/following", async (req, res, next) => {
         if (!user) {
             res.redirect("/login");
         }
-        if (!user._following.length) {
+        if (!userProfile._following.length) {
             res.render("user/following", { user, errorMessage: "No following anyone" });
         }
         res.render("user/following", { user, userProfile });

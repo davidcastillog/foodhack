@@ -19,7 +19,7 @@ router.get("/signup", async (req, res, next) => {
 // POST signup page
 router.post("/signup", async (req, res, next) => {
     try {
-        const { username, password, email, firstName, lastName,...rest } = req.body;
+        const { username, password, confirmPassword, email,...rest } = req.body;
         const findUsername = await User.findOne({ username });
 
         // Check if user already exists
@@ -33,10 +33,16 @@ router.post("/signup", async (req, res, next) => {
             res.render("auth/signup", { errorMessage: "Please fill out all required fields (username and password)" });
             return;
         }
+
         // Validate password length (min 6 characters)
         const regex = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/;
         if (!regex.test(password)) {
             res.render("auth/signup", { errorMessage: "Password must be at least 6 characters and contain at least one uppercase letter, one lower case letter, one number"});
+            return;
+        }
+
+        if (password !== confirmPassword) {
+            res.render("auth/signup", { errorMessage: "Passwords do not match" });
             return;
         }
 
@@ -49,8 +55,6 @@ router.post("/signup", async (req, res, next) => {
             username,
             password: passHash,
             email,
-            firstName,
-            lastName,
             ...rest
         });
 
@@ -58,7 +62,7 @@ router.post("/signup", async (req, res, next) => {
         req.session.user = user;
 
         // Redirect to profile page
-        res.redirect("/user/profile");
+        res.redirect(`/user/${user.username}`);
 
     } catch (error) {
         if (error instanceof mongoose.Error.ValidationError) {

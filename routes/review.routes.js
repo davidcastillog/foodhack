@@ -7,7 +7,7 @@ const {isLoggedOut} = require("../utils/auth");
 // Create a new review for a recipe and update Average Rating
 router.get("/create/:id", isLoggedOut, async (req, res, next) => {
     try {
-        const recipe = await Recipe.findById(req.params.id);
+        const recipe = await Recipe.findById(req.params.id).populate("_user");
         if (!recipe) {
             res.redirect("/");
         }
@@ -21,7 +21,7 @@ router.get("/create/:id", isLoggedOut, async (req, res, next) => {
 router.post("/create/:id/", async (req, res, next) => {
     try {
         const { title, comment, rating, ...rest  } = req.body;
-        const recipe = await Recipe.findById(req.params.id);
+        const recipe = await Recipe.findById(req.params.id).populate("_user");
         const user = await User.findById(req.session.user._id);
         const review = await Review.create({
             title,

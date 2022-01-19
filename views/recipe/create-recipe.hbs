@@ -39,10 +39,9 @@
             <input class="uk-input uk-form-width-small" type="number" name="servings" placeholder="Ex. 2" min="1" max="20">
             </div>
 
-            <div class="uk-margin uk-width-1-2@s">
+            <div class="uk-margin">
                 <label class="uk-form-label" for="form-horizontal-select">Cuisine Type:</label>
-                <div class="uk-form-controls">
-                    <select class="uk-select" name="cuisineType">
+                    <select class="uk-select uk-form-width-medium" name="cuisineType">
                         <option value="">Select one...</option>
                         <option value="French">French</option>
                         <option value="Chinese">Chinese</option>
@@ -67,7 +66,6 @@
                         <option value="Seafood">Seafood</option>
                         <option value="Other">Other</option>
                     </select>
-                </div>
             </div>
 
             <div class="uk-margin">
@@ -80,19 +78,21 @@
                         <option>Salad</option>
                     </select>
             </div>
-
             <div class="uk-margin">
                 <label class="uk-form-label" for="form-horizontal-select">Images:</label>
-                <div uk-form-custom>
+                <div uk-form-custom="target: true">
                     <input type="file" name="images" multiple>
-                    <button class="uk-button uk-button-default" type="button" tabindex="-1">Select</button>
+                    <input class="uk-input uk-form-width-medium" type="text" placeholder="Click to add" disabled>
                 </div>
             </div>
             <button class="uk-button uk-button-danger uk-align-center">Create Recipe</button>
-
             <div class="uk-alert-danger">
             {{#if errorMessage}}
             <p uk-alert>{{errorMessage}}</p>
+            {{/if}}
+            </div>
+            {{#if error}}
+            <p uk-alert>{{error}}</p>
             {{/if}}
             </div>
         </form>

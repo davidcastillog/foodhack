@@ -6,15 +6,13 @@
         </div>
         {{/if}}
         <div class="uk-grid-small uk-flex-middle" uk-grid>
-            <div class="uk-width-auto">
-                <img class="uk-border-circle" width="55" height="55" src="{{userProfile.profilePic}}">
-            </div>
+                <div class="uk-width-auto uk-border-circle" style="background-image: url({{userProfile.profilePic}}); background-size: cover; width: 70px; height: 70px"></div>
             <div class="uk-width-expand uk-margin-remove-bottom">
                 <h3 class="uk-card-title uk-text-danger">{{userProfile.username}}</h3>
             </div>
             <p uk-margin>
-            <a class="uk-button uk-button-danger" href="/user/{{userProfile.username}}/follow">Follow</a>
-            <a class="uk-button uk-button-secondary" href="/user/{{userProfile.username}}/unfollow">Unfollow</a>
+            <a class="uk-button uk-button-danger" href="/user/{{userProfile.username}}/follow" onclick="UIkit.notification({message: '<span uk-icon=\'icon: check\'></span> User followed'})">Follow</a>
+            <a class="uk-button uk-button-secondary" href="/user/{{userProfile.username}}/unfollow" onclick="UIkit.notification({message: '<span uk-icon=\'icon: close\'></span> User unfollowed'})">Unfollow</a>
             </p>
         </div>
         <p>
@@ -26,11 +24,7 @@
         {{#if userProfile.firstName}}
         <p><span class="uk-text-bold uk-text-danger">Name: </span>{{userProfile.firstName}} {{#if userProfile.lastName}}{{userProfile.lastName}}{{/if}}</p>
         {{/if}}
-        {{#if userProfile.email}}
-        <p><span class="uk-text-bold uk-text-danger">email: </span>{{userProfile.email}}</p>
-        {{/if}}
         {{#if userProfile.bio}}
-        <hr>
         <p><span class="uk-text-bold uk-text-danger">Bio: </span><p>{{userProfile.bio}}</p></p>
         {{/if}}
     </div>

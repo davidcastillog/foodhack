@@ -245,6 +245,34 @@ router.get("/top10", async (req, res, next) => {
     }
 });
 
+// View 20 random recipes
+router.get("/random20", async (req, res, next) => {
+    try {
+        if (!req.session.user) {
+            const recipes = await Recipe.find({})
+            const randomRecipes = [];
+            for (let i = 0; i < 20; i++) {
+                const randomRecipe = recipes[Math.floor(Math.random() * recipes.length)];
+                randomRecipes.push(randomRecipe);
+            }
+            const reviews = await Review.find({});
+            res.render("recipe/recipe-list", { recipes: randomRecipes, reviews });
+        } else {
+            const recipes = await Recipe.find({})
+            const randomRecipes = [];
+            for (let i = 0; i < 20; i++) {
+                const randomRecipe = recipes[Math.floor(Math.random() * recipes.length)];
+                randomRecipes.push(randomRecipe);
+            }
+            const reviews = await Review.find({});
+            const user = await User.findById(req.session.user._id);
+            res.render("recipe/recipe-list", { recipes: randomRecipes, reviews, user });
+        }
+    } catch (error) {
+        next(error);
+    }
+});
+
 // View a recipe its reviews and its author
 router.get("/:id", async (req, res, next) => {
     try {
