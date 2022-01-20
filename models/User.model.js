@@ -56,14 +56,6 @@ const userSchema = new Schema(
       max: [250, "Bio must be at most 250 characters"],
       default: "Love to cook and share my recipes with others!",
     },
-    securityQuestion: {
-      type: String,
-    },
-    securityAnswer: {
-      type: String,
-      min: [2, "Answer must be at least 2 characters"],
-      max: [50, "Answer must be at most 50 characters"],
-    },
     _recipes:
       [
         {

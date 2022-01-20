@@ -36,19 +36,6 @@
             <input class="uk-input uk-form-width-medium" name="lastName" type="text" value="{{user.lastName}}">
         </div>
         <div class="uk-margin">
-            <label class="uk-form-label" for="form-horizontal-text">Security Question:</label>
-            <select class="uk-select uk-form-width-medium" name="securityQuestion">
-                <option value="{{user.securityQuestion}}">{{user.securityQuestion}}</option>
-                <option value="What is your favorite food?">What is your favorite food?</option>
-                <option value="What is your favorite color?">What is your favorite color?</option>
-                <option value="What school did you attend?">What school did you attend?</option>
-            </select>
-        </div>
-        <div class="uk-margin">
-            <label class="uk-form-label" for="form-horizontal-text">Security Answer:</label>
-            <input class="uk-input uk-form-width-medium" name="securityAnswer" placeholder="Security Answer" type="text" value="{{user.securityAnswer}}" min="2" max="50">
-        </div>
-        <div class="uk-margin">
             <label class="uk-form-label" for="form-horizontal-text">Bio:</label>
             <textarea class="uk-textarea uk-form-width-large" name="bio" rows="4" placeholder="Bio">{{user.bio}}</textarea>
         </div>
