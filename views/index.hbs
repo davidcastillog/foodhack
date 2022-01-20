@@ -1,23 +1,167 @@
 <div class="uk-container uk-container-medium uk-margin-medium">
     <div class="uk-margin-medium">
-        <p class="uk-text-bold uk-text-center uk-text-lead uk-text-large uk-text-danger uk-margin-remove">Welcome to Food Hack</p>
+        <h2 class="uk-text-bold uk-text-center uk-text-danger uk-margin-remove">Welcome to Food Hack</h2>
         <p class="uk-text-bold uk-text-center uk-text-emphasis uk-margin-remove">A social place to find and share recipes!</p>
     </div>
-    <div class="uk-grid-small uk-child-width-1-3@m uk-text-center" uk-grid>
-    {{#each recipes}}
-        <div class="uk-card-default uk-align-center uk-card-hover">
-                <a href="/recipe/{{_id}}"><div class="uk-border-circle uk-margin-medium-top uk-align-center" style="background-image: url({{images.[0]}}); background-size: cover; width: 140px; height: 140px"></div></a>
-            <div class="uk-align-center ">
-                <a class="uk-text-decoration-none" href="/recipe/{{_id}}"> <h3 class="uk-card-title uk-margin-remove-top uk-text-break">{{name}}</h3></a>
-            </div>
-            <div class="uk-align-center">
-                <p class="uk-text-meta uk-margin-remove-top">by <a class="uk-text-bold uk-text-danger" href="/user/{{_user.username}}">{{_user.username}}</a></p>
-                <span class="uk-text-bold uk-align-center uk-text-warning uk-text-center uk-text-middle" uk-icon="star"> Rating: {{averageRating}} </span>
-            </div>
-            <div class="uk-card-footer uk-margin-small uk-padding-small uk-align-center">
-                <a href="/recipe/{{_id}}" class="uk-button uk-button-text uk-text-middle">View</a>
-            </div>
+    <div>
+        <h4 class="uk-text-bold">Search by Cuisine type</h4>
+    </div>
+        <div class="circles uk-position-relative uk-visible-toggle uk-light" tabindex="-1" uk-slider="autoplay: true; autoplay-interval: 3000" uk-slider>
+            <ul class="uk-slider-items uk-grid-small">
+                <li>
+                    <div class="uk-panel">
+                        <a href="recipe/search/French"><img class="uk-border-circle" src="/images/cuisines/French.jpeg" alt="" style="height:150px; width:150px"></a>
+                        <div class="uk-position-center uk-panel"><h4><a class="indexslider uk-text-decoration-none" href="recipe/search/French">French</a></h4></div>
+                    </div>
+                </li>
+                <li>
+                    <div class="uk-panel">
+                        <a href="recipe/search/Chinese"><img class="uk-border-circle" src="/images/cuisines/Chinese.jpeg" alt=""style="height:150px; width:150px"></a>
+                        <div class="uk-position-center uk-panel"><h4><a class="indexslider uk-text-decoration-none" href="recipe/search/Chinese">Chinese</a></h4></div>
+                    </div>
+                </li>
+                <li>
+                    <div class="uk-panel">
+                        <a href="recipe/search/American"><img class="uk-border-circle" src="/images/cuisines/American.jpeg" alt=""style="height:150px; width:150px"></a>
+                        <div class="uk-position-center uk-panel"><h4><a class="indexslider uk-text-decoration-none" href="recipe/search/American">American</a></h4></div>
+                    </div>
+                </li>
+                <li>
+                    <div class="uk-panel">
+                        <a href="recipe/search/Japanese"><img class="uk-border-circle" src="/images/cuisines/Japanese.jpeg" alt=""style="height:150px; width:150px"></a>
+                        <div class="uk-position-center uk-panel"><h4><a class="indexslider uk-text-decoration-none" href="recipe/search/Japanese">Japanese</a></h4></div>
+                    </div>
+                </li>
+                <li>
+                    <div class="uk-panel">
+                        <a href="recipe/search/Indian"><img class="uk-border-circle" src="/images/cuisines/Indian.jpeg" alt=""style="height:150px; width:150px"></a>
+                        <div class="uk-position-center uk-panel"><h4><a class="indexslider uk-text-decoration-none" href="recipe/search/Indian">Indian</a></h4></div>
+                    </div>
+                </li>
+                <li>
+                    <div class="uk-panel">
+                        <a href="recipe/search/Italian"><img class="uk-border-circle" src="/images/cuisines/Italian.jpeg" alt=""style="height:150px; width:150px"></a>
+                        <div class="uk-position-center uk-panel"><h4><a class="indexslider uk-text-decoration-none" href="recipe/search/Italian">Italian</a></h4></div>
+                    </div>
+                </li>
+                <li>
+                    <div class="uk-panel">
+                        <a href="recipe/search/Greek"><img class="uk-border-circle" src="/images/cuisines/Greek.jpeg" alt=""style="height:150px; width:150px"></a>
+                        <div class="uk-position-center uk-panel"><h4><a class="indexslider uk-text-decoration-none" href="recipe/search/Greek">Greek</a></h4></div>
+                    </div>
+                </li>
+                <li>
+                    <div class="uk-panel">
+                        <a href="recipe/search/Spanish"><img class="uk-border-circle" src="/images/cuisines/Spanish.jpeg" alt=""style="height:150px; width:150px"></a>
+                        <div class="uk-position-center uk-panel"><h4><a class="indexslider uk-text-decoration-none" href="recipe/search/Spanish">Spanish</a></h4></div>
+                    </div>
+                </li>
+                <li>
+                    <div class="uk-panel">
+                        <a href="recipe/search/Mediterranean"><img class="uk-border-circle" src="/images/cuisines/Mediterranean.jpeg" alt=""style="height:150px; width:150px"></a>
+                        <div class="uk-position-center uk-panel"><h4><a class="indexslider uk-text-decoration-none" href="recipe/search/Mediterranean">Mediterranean</a></h4></div>
+                    </div>
+                </li>
+                <li>
+                    <div class="uk-panel">
+                        <a href="recipe/search/Lebanese"><img class="uk-border-circle" src="/images/cuisines/Lebanese.jpeg" alt=""style="height:150px; width:150px"></a>
+                        <div class="uk-position-center uk-panel"><h4><a class="indexslider uk-text-decoration-none" href="recipe/search/Lebanese">Lebanese</a></h4></div>
+                    </div>
+                </li>
+                <li>
+                    <div class="uk-panel">
+                        <a href="recipe/search/Morrocan"><img class="uk-border-circle" src="/images/cuisines/Morrocan.jpeg" alt=""style="height:150px; width:150px"></a>
+                        <div class="uk-position-center uk-panel"><h4><a class="indexslider uk-text-decoration-none" href="recipe/search/Morrocan">Morrocan</a></h4></div>
+                    </div>
+                </li>
+                <li>
+                    <div class="uk-panel">
+                        <a href="recipe/search/Turkish"><img class="uk-border-circle" src="/images/cuisines/Turkish.jpeg" alt=""style="height:150px; width:150px"></a>
+                        <div class="uk-position-center uk-panel"><h4><a class="indexslider uk-text-decoration-none" href="recipe/search/Turkish">Turkish</a></h4></div>
+                    </div>
+                </li>
+                <li>
+                    <div class="uk-panel">
+                        <a href="recipe/search/Thai"><img class="uk-border-circle" src="/images/cuisines/Thai.jpeg" alt=""style="height:150px; width:150px"></a>
+                        <div class="uk-position-center uk-panel"><h4><a class="indexslider uk-text-decoration-none" href="recipe/search/Thai">Thai</a></h4></div>
+                    </div>
+                </li>
+                <li>
+                    <div class="uk-panel">
+                        <a href="recipe/search/Mexican"><img class="uk-border-circle" src="/images/cuisines/Mexican.jpeg" alt=""style="height:150px; width:150px"></a>
+                        <div class="uk-position-center uk-panel"><h4><a class="indexslider uk-text-decoration-none" href="recipe/search/Mexican">Mexican</a></h4></div>
+                    </div>
+                </li>
+                <li>
+                    <div class="uk-panel">
+                        <a href="recipe/search/Peruvian"><img class="uk-border-circle" src="/images/cuisines/Peruvian.jpeg" alt=""style="height:150px; width:150px"></a>
+                        <div class="uk-position-center uk-panel"><h4><a class="indexslider uk-text-decoration-none" href="recipe/search/Peruvian">Peruvian</a></h4></div>
+                    </div>
+                </li>
+                <li>
+                    <div class="uk-panel">
+                        <a href="recipe/search/Brazilian"><img class="uk-border-circle" src="/images/cuisines/Brazilian.jpeg" alt=""style="height:150px; width:150px"></a>
+                        <div class="uk-position-center uk-panel"><h4><a class="indexslider uk-text-decoration-none" href="recipe/search/Brazilian">Brazilian</a></h4></div>
+                    </div>
+                </li>
+                <li>
+                    <div class="uk-panel">
+                        <a href="recipe/search/Argentinian"><img class="uk-border-circle" src="/images/cuisines/Argentinian.jpeg" alt=""style="height:150px; width:150px"></a>
+                        <div class="uk-position-center uk-panel"><h4><a class="indexslider uk-text-decoration-none" href="recipe/search/Argentinian">Argentinian</a></h4></div>
+                    </div>
+                </li>
+                <li>
+                    <div class="uk-panel">
+                        <a href="recipe/search/Colombian"><img class="uk-border-circle" src="/images/cuisines/Colombian.jpeg" alt=""style="height:150px; width:150px"></a>
+                        <div class="uk-position-center uk-panel"><h4><a class="indexslider uk-text-decoration-none" href="recipe/search/Colombian">Colombian</a></h4></div>
+                    </div>
+                </li>
+                <li>
+                    <div class="uk-panel">
+                        <a href="recipe/search/Vegan"><img class="uk-border-circle" src="/images/cuisines/Vegan.jpeg" alt=""style="height:150px; width:150px"></a>
+                        <div class="uk-position-center uk-panel"><h4><a class="indexslider uk-text-decoration-none" href="recipe/search/Vegan">Vegan</a></h4></div>
+                    </div>
+                </li>
+                <li>
+                    <div class="uk-panel">
+                        <a href="recipe/search/Vegetarian"><img class="uk-border-circle" src="/images/cuisines/Vegetarian.jpeg" alt=""style="height:150px; width:150px"></a>
+                        <div class="uk-position-center uk-panel"><h4><a class="indexslider uk-text-decoration-none" href="recipe/search/Vegetarian">Vegetarian</a></h4></div>
+                    </div>
+                </li>
+                <li>
+                    <div class="uk-panel">
+                        <a href="recipe/search/Seafood"><img class="uk-border-circle" src="/images/cuisines/Seafood.jpeg" alt=""style="height:150px; width:150px"></a>
+                        <div class="uk-position-center uk-panel"><h4><a class="indexslider uk-text-decoration-none" href="recipe/search/Seafood">Seafood</a></h4></div>
+                    </div>
+                </li>
+            </ul>
+            <a class="uk-position-center-left uk-position-small uk-hidden-hover" uk-slidenav-previous uk-slider-item="previous"></a>
+            <a class="uk-position-center-right uk-position-small uk-hidden-hover" uk-slidenav-next uk-slider-item="next"></a>
         </div>
-    {{/each}}
+    </div>
+    <div class="uk-container uk-container-medium uk-margin-medium">
+        <video src="/videos/homevideo.mp4" loop muted playsinline uk-video="autoplay: inview"></video>
+    </div>
+    <div class="uk-container uk-container-medium uk-margin-small">
+        <h3 class="uk-text-bold uk-text-center uk-text-danger">Need some ideas?</h3>
+    </div>
+    <div class="uk-container uk-container-medium">
+        <div class="uk-grid-medium uk-child-width-1-3@m uk-text-center" uk-grid>
+        {{#each recipes}}
+            <div class="uk-card-default uk-align-center uk-card-hover">
+                    <a href="/recipe/{{_id}}"><div class="uk-border-circle uk-margin-medium-top uk-align-center" style="background-image: url({{images.[0]}}); background-size: cover; width: 140px; height: 140px"></div></a>
+                <div class="uk-align-center ">
+                    <a class="uk-text-decoration-none" href="/recipe/{{_id}}"> <h4 class="uk-card-title uk-margin-remove-top uk-text-break">{{name}}</h4></a>
+                </div>
+                <div class="uk-align-center">
+                    <p class="uk-text-meta uk-margin-remove-top">by <a class="uk-text-bold uk-text-danger" href="/user/{{_user.username}}">{{_user.username}}</a></p>
+                    <span class="uk-text-bold uk-align-center uk-text-warning uk-text-center uk-text-middle" uk-icon="star"> Rating: {{averageRating}} </span>
+                </div>
+                <div class="uk-card-footer uk-margin-small uk-padding-small uk-align-center">
+                    <a href="/recipe/{{_id}}" class="uk-button uk-button-text uk-text-middle">View</a>
+                </div>
+            </div>
+        {{/each}}
+        </div>
     </div>
 </div>
