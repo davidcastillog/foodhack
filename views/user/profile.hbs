@@ -10,7 +10,7 @@
             <div class="uk-width-expand uk-margin-remove-bottom">
                 <h3 class="uk-card-title uk-text-danger">{{userProfile.username}}</h3>
             </div>
-            <p uk-margin>
+            <p>
             <a class="uk-button uk-button-danger" href="/user/{{userProfile.username}}/follow" onclick="UIkit.notification({message: '<span uk-icon=\'icon: check\'></span> User followed'})">Follow</a>
             <a class="uk-button uk-button-secondary" href="/user/{{userProfile.username}}/unfollow" onclick="UIkit.notification({message: '<span uk-icon=\'icon: close\'></span> User unfollowed'})">Unfollow</a>
             </p>
