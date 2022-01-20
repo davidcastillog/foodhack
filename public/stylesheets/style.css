@@ -18,3 +18,15 @@ h1 {
 .uk-first-column {
   margin-top: 30px;
 }
+
+.uk-section-secondary {
+  background: #e80f00e0;
+}
+
+footer .uk-first-column {
+  margin-top: 0px
+}
+
+footer .imgfooter {
+  margin-left: 40px !important;
+}
