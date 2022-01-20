@@ -3,7 +3,7 @@
     <h3 class="uk-padding-small uk-text-danger">Make a Review</h3>
     <div class="uk-padding-small uk-padding-remove-top">
         <p><span class="uk-text-danger uk-text-bold">Recipe: </span> {{recipe.name}}</p>
-        <p><span class="uk-text-danger uk-text-bold">Recipe Creator: </span>{{user.username}}</p>
+        <p><span class="uk-text-danger uk-text-bold">Recipe Creator: </span>{{recipe._user.username}}</p>
         <p><span class="uk-text-danger uk-text-bold"> Recipe Rating: </span><span class="uk-text-middle uk-text-warning uk-text-small" uk-icon="star"> {{recipe.averageRating}} </span></p>
     </div>
     <form class="uk-form-horizontal uk-padding-small uk-padding-remove-top" action="/review/create/{{recipe._id}}/" method="POST">
@@ -35,8 +35,8 @@
         </div>
 
         <button class="uk-button uk-button-danger uk-align-center">Send Review</button>
-        {{#if message}}
-        {{message}}
+        {{#if error}}
+        {{error}}
         {{/if}}
     </form>
 

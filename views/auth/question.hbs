@@ -1,0 +1,33 @@
+<div class="uk-card uk-card-default uk-width-1-2@m uk-align-center uk-padding-small">
+    <div class="uk-text-center uk-padding-medium">
+    <h3 class="uk-text-danger">Security Question</h3>
+    </div>
+        <div class="uk-padding-small">
+        <form class="uk-form-horizontal uk-margin-large" action="/forgot-password" method="POST">
+            <div class="uk-margin">
+                <label class="uk-form-label" for="form-stacked-text">Username:</label>
+                <div class="uk-inline">
+                    <span class="uk-form-icon" uk-icon="icon: user"></span>
+                    <input class="uk-input uk-form-width-medium" type="text" name="username" value="{{user.username}}" disabled>
+                </div>
+            </div>
+            <div class="uk-margin">
+                <label class="uk-form-label" for="form-stacked-text">Security Question:</label>
+                <input class="uk-input uk-width-1-2@m" type="text" name="securityQuestion" value="{{user.securityQuestion}}" disabled>
+            </div>
+            <div class="uk-margin">
+                <label class="uk-form-label" for="form-stacked-text">Security Answer:</label>
+                <div class="uk-inline">
+                    <input class="uk-input uk-form-width-medium" type="text" name="securityAnswer">
+                </div>
+            </div>
+            <button class="uk-button uk-button-danger uk-align-center">Submit</button>
+            {{#if errorMessage}}
+            <div class="uk-alert-danger" uk-alert>
+                <a class="uk-alert-close" uk-close></a>
+            {{errorMessage}}
+            </div>
+            {{/if}}
+        </form>
+        </div>
+</div>

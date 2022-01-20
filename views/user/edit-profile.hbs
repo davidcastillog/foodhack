@@ -2,9 +2,7 @@
 <div class="uk-card uk-card-default uk-width-1-2@m uk-align-center">
     <div class="uk-card-header">
         <div class="uk-grid-small uk-flex-middle" uk-grid>
-            <div class="uk-width-auto">
-                <img class="uk-border-circle" width="40" height="40" src="{{user.profilePic}}">
-            </div>
+            <div class="uk-width-auto uk-border-circle" style="background-image: url({{user.profilePic}}); background-size: cover; width: 60px; height: 60px"></div>
             <div class="uk-width-expand">
                 <h3 class="uk-card-title uk-margin-remove-bottom">{{user.username}}</h3>
             </div>
@@ -17,7 +15,6 @@
                 <img class="uk-border-circle" width="40" height="40" src="{{user.profilePic}}">
             <div class="js-upload" uk-form-custom>
                 <input type="file" name="profilePic">
-                <span></span>
                 <button class="uk-button uk-button-default" type="button" tabindex="-1">Select</button>
             </div>
             </div>
@@ -39,8 +36,21 @@
             <input class="uk-input uk-form-width-medium" name="lastName" type="text" value="{{user.lastName}}">
         </div>
         <div class="uk-margin">
+            <label class="uk-form-label" for="form-horizontal-text">Security Question:</label>
+            <select class="uk-select uk-form-width-medium" name="securityQuestion">
+                <option value="{{user.securityQuestion}}">{{user.securityQuestion}}</option>
+                <option value="What is your favorite food?">What is your favorite food?</option>
+                <option value="What is your favorite color?">What is your favorite color?</option>
+                <option value="What school did you attend?">What school did you attend?</option>
+            </select>
+        </div>
+        <div class="uk-margin">
+            <label class="uk-form-label" for="form-horizontal-text">Security Answer:</label>
+            <input class="uk-input uk-form-width-medium" name="securityAnswer" placeholder="Security Answer" type="text" value="{{user.securityAnswer}}" min="2" max="50">
+        </div>
+        <div class="uk-margin">
             <label class="uk-form-label" for="form-horizontal-text">Bio:</label>
-            <textarea class="uk-textarea uk-form-width-large" name="bio" rows="7" placeholder="Bio">{{user.bio}}</textarea>
+            <textarea class="uk-textarea uk-form-width-large" name="bio" rows="4" placeholder="Bio">{{user.bio}}</textarea>
         </div>
     </div>
 </div>
