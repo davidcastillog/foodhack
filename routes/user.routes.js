@@ -290,7 +290,8 @@ router.get("/:username/timeline", async (req, res, next) => {
         if (!userProfile._following.length) {
             res.render("user/following", { user, errorMessage: "No following anyone" });
         }
-        const recipes = await (await Recipe.find({ _user: { $in: userProfile._following } }).sort({ createdAt: -1 }).limit(10))
+        // Find all recipes of users that user is following and populate user's recipes and user's followers list and sort by date created in descending order and populate with _user
+        const recipes = await Recipe.find({ _user: { $in: userProfile._following } }).populate("_user").sort({ createdAt: -1 }).limit(10)
         res.render("user/timeline", { user, userProfile, recipes });
     } catch (error) {
         next(error);
