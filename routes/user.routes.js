@@ -276,4 +276,26 @@ router.get("/:username/following", async (req, res, next) => {
     }
 });
 
+// Show recipes of users that user is following
+router.get("/:username/timeline", async (req, res, next) => {
+    try {
+        if(!req.session.user) {
+            res.redirect("/login");
+        }
+        const user = req.session.user
+        const userProfile = await User.findOne({ username: req.params.username }).populate("_following");
+        if (!user) {
+            res.redirect("/login");
+        }
+        if (!userProfile._following.length) {
+            res.render("user/following", { user, errorMessage: "No following anyone" });
+        }
+        // Find all recipes of users that user is following and populate user's recipes and user's followers list and sort by date created in descending order and populate with _user
+        const recipes = await Recipe.find({ _user: { $in: userProfile._following } }).populate("_user").sort({ createdAt: -1 }).limit(10)
+        res.render("user/timeline", { user, userProfile, recipes });
+    } catch (error) {
+        next(error);
+    }
+});
+
 module.exports = router;
